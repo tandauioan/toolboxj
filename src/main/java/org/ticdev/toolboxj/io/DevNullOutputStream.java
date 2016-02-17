@@ -9,7 +9,7 @@ import java.io.OutputStream;
  * {@link OutputStream#close()} method has no effect on the single instance of
  * this class.
  * 
- * @author Ioan - Ciprian Tandau (tandauioan@gmail.com)
+ * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  * 
  */
 public final class DevNullOutputStream
@@ -45,7 +45,9 @@ public final class DevNullOutputStream
     @Override
     public void write(byte[] b, int off, int len)
         throws IOException {
-        /* do nothing */
+        if(off < 0 || len < 0 || b.length - len < 0 || b.length - len < off) {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     @Override
