@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * This is a concrete implementation of an output stream whose write methods do
- * nothing. This class is implemented with a singleton. The
+ * This is a concrete extension of an output stream whose write methods do
+ * nothing. This class is implemented as a singleton. The
  * {@link OutputStream#close()} method has no effect on the single instance of
  * this class.
  * 
