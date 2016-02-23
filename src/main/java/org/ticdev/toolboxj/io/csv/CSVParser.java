@@ -43,8 +43,10 @@ public interface CSVParser {
      *             occurred
      * @throws IOException
      *             if an IO exception has occurred while reading the record
+     * @throws InterruptedException
+     *             if the thread is interrupted during parsing
      * @throws Exception
-     *             if any other exception occurrred
+     *             if any other exception occurred
      */
     public List<String>
         parseRecord(Reader reader, List<String> destination)
@@ -52,6 +54,7 @@ public interface CSVParser {
             CSVParserLineTooLongException,
             CSVParserTooManyFieldsException,
             IOException,
+            InterruptedException,
             Exception;
 
     /**
