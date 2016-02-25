@@ -9,6 +9,7 @@ import java.util.List;
 import org.ticdev.toolboxj.io.csv.CSVParser;
 import org.ticdev.toolboxj.io.csv.CSVParserBuilder;
 import org.ticdev.toolboxj.io.csv.CSVParserException;
+import org.ticdev.toolboxj.io.csv.CSVParserFieldTooLargeException;
 import org.ticdev.toolboxj.io.csv.CSVParserInputHelper;
 import org.ticdev.toolboxj.io.csv.CSVParserLineTooLongException;
 import org.ticdev.toolboxj.io.csv.CSVParserTooManyFieldsException;
@@ -24,10 +25,10 @@ import org.ticdev.toolboxj.io.csv.CSVParserTooManyFieldsException;
  * </p>
  * 
  * <p>
- * If there are multiple field separators they are considered separately and not
- * merged. Two consecutive separators, with no space between them are guarding
- * an empty field, which will not be skipped. A separator immediately followed
- * by end-of-line signals the start of an empty string field, as well.
+ * If there are multiple field separators they are not merged. Two consecutive
+ * separators, with no space between them are guarding an empty field, which
+ * will not be skipped. A separator immediately followed by end-of-line signals
+ * the start of an empty string field, as well.
  * </p>
  * 
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
@@ -37,20 +38,49 @@ public class CSVParserNonTextDelimiterImpl
     implements
     CSVParser {
 
+    /**
+     * maximum size of a record
+     */
     private final int maxRecordCharSize;
 
+    /**
+     * maximum size of a field
+     */
     private final int maxFieldSize;
 
+    /**
+     * maximum number of fields in a record
+     */
     private final int maxFieldsPerRecord;
 
+    /**
+     * field delimiters
+     */
     private final char[] delimiters;
 
+    /**
+     * if only one delimiter is used
+     */
     private final char singleDelimiter;
 
+    /**
+     * Delimiter predicate function
+     */
     private final DelimiterPredicate delimiterPredicate;
 
+    /**
+     * Reader input helper
+     */
     private final CSVParserInputHelper inputHelper;
 
+    /**
+     * Class constructor
+     * 
+     * @param parserBuilder
+     *            the parser builder
+     * @param inputHelper
+     *            the reader input helper
+     */
     public CSVParserNonTextDelimiterImpl(
         CSVParserBuilder parserBuilder,
         CSVParserInputHelper inputHelper) {
@@ -64,30 +94,43 @@ public class CSVParserNonTextDelimiterImpl
         for (Character c : delimitersList) {
             delimiters[delimitersIndex++] = c;
         }
-        /* optimize isDelimiter a little bit */
-        singleDelimiter = delimiters[0];
 
-        if (delimiters.length == 1) {
-            delimiterPredicate = (c) -> c == singleDelimiter;
+        if (delimiters.length == 0) {
+            singleDelimiter = ' ';
+            delimiterPredicate = (c) -> false;
         } else {
-            delimiterPredicate = (c) -> {
-                for (int i = 0; i < delimiters.length; i++) {
-                    if (delimiters[i] == c) {
-                        return true;
+            /* optimize isDelimiter a little bit */
+            singleDelimiter = delimiters[0];
+
+            if (delimiters.length == 1) {
+                delimiterPredicate = (c) -> c == singleDelimiter;
+            } else {
+                delimiterPredicate = (c) -> {
+                    for (int i = 0; i < delimiters.length; i++) {
+                        if (delimiters[i] == c) {
+                            return true;
+                        }
                     }
-                }
-                return false;
-            };
+                    return false;
+                };
+            }
         }
     }
 
+    /**
+     * Returns true if the character is a field delimiter and false otherwise
+     * 
+     * @param c
+     *            the character
+     * @return true if the character is a field delimiter and false otherwise
+     */
     private boolean is_delimiter_(char c) {
         return delimiterPredicate.isDelimiter(c);
     }
 
     @Override
     public List<String>
-        parseRecord(Reader reader, List<String> destination)
+        parseRecord(Reader reader,List<String> destination)
             throws CSVParserException,
             CSVParserLineTooLongException,
             CSVParserTooManyFieldsException,
@@ -101,6 +144,8 @@ public class CSVParserNonTextDelimiterImpl
             destination = new LinkedList<>();
         }
 
+        int fields = 0;
+
         /* usable character counter */
         int currentCharCount = 0;
 
@@ -110,35 +155,46 @@ public class CSVParserNonTextDelimiterImpl
 
             switch (token) {
                 case CSVParserInputHelper.EOL:
+                    if(fields == maxFieldsPerRecord) {
+                        throw new CSVParserTooManyFieldsException(
+                            maxFieldsPerRecord, inputHelper.lineNumber());
+                    }
                     destination.add(stringBuilder.substring(0));
-                    stringBuilder.delete(0, stringBuilder.length());
                     return destination;
                 case CSVParserInputHelper.EOF:
-                    if (!destination.isEmpty()
+                    if (fields > 0
                         || stringBuilder.length() > 0) {
+                        if(fields == maxFieldsPerRecord) {
+                            throw new CSVParserTooManyFieldsException(
+                                maxFieldsPerRecord, inputHelper.lineNumber());
+                        }
                         destination.add(stringBuilder.substring(0));
-                        stringBuilder.delete(0, stringBuilder.length());
+                        return destination;
                     }
-                    return destination;
+                    return null;
                 default:
                     char c = (char) token;
                     if (is_delimiter_(c)) {
+                        if(fields++ == maxFieldsPerRecord) {
+                            throw new CSVParserTooManyFieldsException(
+                                maxFieldsPerRecord, inputHelper.lineNumber());
+                        }
                         destination.add(stringBuilder.substring(0));
                         stringBuilder.delete(0, stringBuilder.length());
                     } else {
+                        if (stringBuilder.length() == maxFieldSize) {
+                            throw new CSVParserFieldTooLargeException(
+                                maxFieldSize, inputHelper.lineNumber());
+                        }
                         stringBuilder.append(c);
-                        currentCharCount++;
+                        if(currentCharCount++ == maxRecordCharSize) {
+                            throw new CSVParserLineTooLongException(
+                                maxRecordCharSize,
+                                inputHelper.lineNumber());
+                        }
                     }
             }
 
-            if (currentCharCount > maxRecordCharSize) {
-                throw new CSVParserLineTooLongException(maxRecordCharSize,
-                    inputHelper.lineNumber());
-            }
-            if (destination.size() > maxFieldsPerRecord) {
-                throw new CSVParserTooManyFieldsException(
-                    maxFieldsPerRecord, inputHelper.lineNumber());
-            }
             if (Thread.interrupted()) {
                 throw new InterruptedException();
             }
@@ -150,7 +206,7 @@ public class CSVParserNonTextDelimiterImpl
     @Override
     public StringBuilder
         format(List<String> fields, StringBuilder destination) {
-        String delimiter = delimiters.length > 0 ? delimiters[0]+"" : "";
+        String delimiter = delimiters.length > 0 ? delimiters[0] + "" : "";
         Iterator<String> fieldsIterator = fields.iterator();
         if (fieldsIterator.hasNext()) {
             destination.append(fieldsIterator.next());

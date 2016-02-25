@@ -3,8 +3,17 @@ package org.ticdev.toolboxj.io.csv;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.ticdev.toolboxj.io.csv.impl.CSVParserNonTextDelimiterImpl;
+import org.ticdev.toolboxj.io.csv.impl.CSVParserTextDelimiterImpl;
+
 /**
  * Builder class for {@link CSVParser}.
+ * 
+ * <p>
+ * The end-of-line marker that can be set using
+ * {@link #setMultiLineEOL(String)} defaults to %s. Any String or
+ * {@link String#format(String, Object...)} non-argument pattern is accepted.
+ * </p>
  * 
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  *
@@ -20,6 +29,11 @@ public class CSVParserBuilder {
      * Maximum number of characters in one field belonging to a record
      */
     public static final int MAX_FIELD_SIZE = Integer.MAX_VALUE - 1;
+
+    /**
+     * Default end-of-line marker when parsing multi-line records.
+     */
+    public static final String DEFAULT_MULTILINE_EOL = "%s";
 
     /**
      * Maximum number of fields in one record
@@ -43,6 +57,11 @@ public class CSVParserBuilder {
      * Defaults to {@link #MAX_FIELDS_PER_RECORD}.
      */
     private int maxFieldsPerRecord = MAX_FIELDS_PER_RECORD;
+
+    /**
+     * The end-of-line marker when parsing multi-line records
+     */
+    private String multiLineEOL = DEFAULT_MULTILINE_EOL;
 
     /**
      * Field delimiters defined for a parser.
@@ -192,6 +211,86 @@ public class CSVParserBuilder {
         return textDelimiter;
     }
 
-    
-    
+    /**
+     * Returns a parser matching the configuration of this builder.
+     * 
+     * @param inputHelper
+     *            the reader input helper
+     * @return a new parser with this builder's characteristics.
+     */
+    public CSVParser build(CSVParserInputHelper inputHelper) {
+        return getTextDelimiter() == null
+            ? new CSVParserNonTextDelimiterImpl(this, inputHelper)
+            : new CSVParserTextDelimiterImpl(this, inputHelper);
+    }
+
+    /**
+     * Returns a parser matching the configuration of this builder and an
+     * instance of {@link DefaultCSVParserInputHelper}.
+     * 
+     * @return a parser with this builder's characteristics and a default input
+     *         helper instance.
+     */
+    public CSVParser build() {
+        return build(new DefaultCSVParserInputHelper());
+    }
+
+    /**
+     * Quickly create a new {@link CSVParser} using maximal values for character
+     * and field count restrictions.
+     * 
+     * @param delimiter
+     *            the field delimiter
+     * @param textDelimiter
+     *            the text delimiter, or null if a text delimiter should not be
+     *            considered
+     * @param inputHelper
+     *            an input helper
+     * @return a new {@link CSVParser}
+     */
+    public static CSVParser newParser(
+        char delimiter,
+        Character textDelimiter,
+        CSVParserInputHelper inputHelper) {
+        return CSVParserBuilder.newInstance().addDelimiter(delimiter)
+            .setTextDelimiter(textDelimiter).build(inputHelper);
+    }
+
+    /**
+     * Quickly create a new {@link CSVParser} using maximal values for character
+     * and field count restrictions and the default CSV input helper.
+     * 
+     * @param delimiter
+     *            the field delimiter
+     * @param textDelimiter
+     *            the text delimiter, or null if a text delimiter should not be
+     *            considered
+     * @return a new {@link CSVParser}
+     */
+    public static CSVParser
+        newParser(char delimiter, Character textDelimiter) {
+        return newParser(delimiter, textDelimiter,
+            new DefaultCSVParserInputHelper());
+    }
+
+    /**
+     * Sets the end-of-line marker when parsing multi-line records. By
+     * default it is set to {@link #DEFAULT_MULTILINE_EOL}.
+     * 
+     * @param ultiLineEOL
+     *            the marker
+     */
+    public void setMultiLineEOL(String multiLineEOL) {
+        this.multiLineEOL = multiLineEOL;
+    }
+
+    /**
+     * Returns the end-of-line marker when parsing multi-line records.
+     * 
+     * @return the marker
+     */
+    public String getMultiLineEOL() {
+        return multiLineEOL;
+    }
+
 }
