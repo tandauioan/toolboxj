@@ -212,6 +212,26 @@ public class CSVParserBuilder {
     }
 
     /**
+     * Sets the end-of-line marker when parsing multi-line records. By
+     * default it is set to {@link #DEFAULT_MULTILINE_EOL}.
+     * 
+     * @param ultiLineEOL
+     *            the marker
+     */
+    public void setMultiLineEOL(String multiLineEOL) {
+        this.multiLineEOL = multiLineEOL;
+    }
+
+    /**
+     * Returns the end-of-line marker when parsing multi-line records.
+     * 
+     * @return the marker
+     */
+    public String getMultiLineEOL() {
+        return multiLineEOL;
+    }
+    
+    /**
      * Returns a parser matching the configuration of this builder.
      * 
      * @param inputHelper
@@ -273,24 +293,5 @@ public class CSVParserBuilder {
             new DefaultCSVParserInputHelper());
     }
 
-    /**
-     * Sets the end-of-line marker when parsing multi-line records. By
-     * default it is set to {@link #DEFAULT_MULTILINE_EOL}.
-     * 
-     * @param ultiLineEOL
-     *            the marker
-     */
-    public void setMultiLineEOL(String multiLineEOL) {
-        this.multiLineEOL = multiLineEOL;
-    }
-
-    /**
-     * Returns the end-of-line marker when parsing multi-line records.
-     * 
-     * @return the marker
-     */
-    public String getMultiLineEOL() {
-        return multiLineEOL;
-    }
 
 }
