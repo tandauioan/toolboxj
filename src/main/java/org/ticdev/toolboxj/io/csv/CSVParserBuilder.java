@@ -215,7 +215,7 @@ public class CSVParserBuilder {
      * Sets the end-of-line marker when parsing multi-line records. By
      * default it is set to {@link #DEFAULT_MULTILINE_EOL}.
      * 
-     * @param ultiLineEOL
+     * @param multiLineEOL
      *            the marker
      */
     public void setMultiLineEOL(String multiLineEOL) {
