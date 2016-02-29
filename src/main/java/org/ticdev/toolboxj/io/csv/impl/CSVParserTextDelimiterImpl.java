@@ -188,7 +188,6 @@ public class CSVParserTextDelimiterImpl
                                     inputHelper.lineNumber());
                             }
                             stringBuilder.append(multiLineEOL);
-                            currentRecordCharCount++;
                         }
 
                     }
@@ -249,7 +248,11 @@ public class CSVParserTextDelimiterImpl
                                         inputHelper.lineNumber());
                                 }
                                 stringBuilder.append(textDelimiter);
-                                currentRecordCharCount++;
+                                if (currentRecordCharCount++ == maxRecordCharSize) {
+                                    throw new CSVParserLineTooLongException(
+                                        maxRecordCharSize,
+                                        inputHelper.lineNumber());
+                                }
                                 pendingQuoteExit = false;
                             }
                         }
@@ -291,7 +294,11 @@ public class CSVParserTextDelimiterImpl
                                             inputHelper.lineNumber());
                                     }
                                     stringBuilder.append(c);
-                                    currentRecordCharCount++;
+                                    if (currentRecordCharCount++ == maxRecordCharSize) {
+                                        throw new CSVParserLineTooLongException(
+                                            maxRecordCharSize,
+                                            inputHelper.lineNumber());
+                                    }
                                 }
 
                             }
@@ -308,7 +315,11 @@ public class CSVParserTextDelimiterImpl
                                     inputHelper.lineNumber());
                             }
                             stringBuilder.append(c);
-                            currentRecordCharCount++;
+                            if (currentRecordCharCount++ == maxRecordCharSize) {
+                                throw new CSVParserLineTooLongException(
+                                    maxRecordCharSize,
+                                    inputHelper.lineNumber());
+                            }
                         }
 
                     }

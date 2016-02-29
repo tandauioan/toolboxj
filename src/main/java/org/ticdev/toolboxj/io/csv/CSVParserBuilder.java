@@ -10,9 +10,15 @@ import org.ticdev.toolboxj.io.csv.impl.CSVParserTextDelimiterImpl;
  * Builder class for {@link CSVParser}.
  * 
  * <p>
- * The end-of-line marker that can be set using
- * {@link #setMultiLineEOL(String)} defaults to %s. Any String or
- * {@link String#format(String, Object...)} non-argument pattern is accepted.
+ * The end-of-line marker that can be set using {@link #setMultiLineEOL(String)}
+ * defaults to %n. Any String or {@link String#format(String, Object...)}
+ * non-argument pattern is accepted.
+ * </p>
+ * 
+ * <p>
+ * Delimiters are stored in a list in the order they were provided, without
+ * removing duplicates. This allows for implementations that impose a specific
+ * order and number of delimiters when parsing records.
  * </p>
  * 
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
@@ -33,7 +39,7 @@ public class CSVParserBuilder {
     /**
      * Default end-of-line marker when parsing multi-line records.
      */
-    public static final String DEFAULT_MULTILINE_EOL = "%s";
+    public static final String DEFAULT_MULTILINE_EOL = "%n";
 
     /**
      * Maximum number of fields in one record
@@ -173,9 +179,6 @@ public class CSVParserBuilder {
      * @return this instance
      */
     public CSVParserBuilder addDelimiter(Character delimiter) {
-        if (delimiters.stream().anyMatch(c -> c == delimiter)) {
-            return this;
-        }
         delimiters.add(delimiter);
         return this;
     }
@@ -212,14 +215,16 @@ public class CSVParserBuilder {
     }
 
     /**
-     * Sets the end-of-line marker when parsing multi-line records. By
-     * default it is set to {@link #DEFAULT_MULTILINE_EOL}.
+     * Sets the end-of-line marker when parsing multi-line records. By default
+     * it is set to {@link #DEFAULT_MULTILINE_EOL}.
      * 
      * @param multiLineEOL
      *            the marker
+     * @return this instance
      */
-    public void setMultiLineEOL(String multiLineEOL) {
+    public CSVParserBuilder setMultiLineEOL(String multiLineEOL) {
         this.multiLineEOL = multiLineEOL;
+        return this;
     }
 
     /**
@@ -230,7 +235,7 @@ public class CSVParserBuilder {
     public String getMultiLineEOL() {
         return multiLineEOL;
     }
-    
+
     /**
      * Returns a parser matching the configuration of this builder.
      * 
@@ -292,6 +297,5 @@ public class CSVParserBuilder {
         return newParser(delimiter, textDelimiter,
             new DefaultCSVParserInputHelper());
     }
-
 
 }

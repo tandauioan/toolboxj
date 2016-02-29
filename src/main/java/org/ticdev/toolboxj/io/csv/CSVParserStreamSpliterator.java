@@ -1,24 +1,48 @@
 package org.ticdev.toolboxj.io.csv;
 
-import java.io.IOException;
 import java.io.Reader;
-import java.io.UncheckedIOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
+/**
+ * Spliterator to be used with a stream that provides records from a CSV parser.
+ * 
+ * <p>
+ * The spliterator provides the {@link #close()} method that can be registered
+ * with {@link Stream#onClose(Runnable)} method to close the reader
+ * automatically when the stream is closed.
+ * </p>
+ * 
+ * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
+ *
+ */
 public class CSVParserStreamSpliterator
     implements
-    Spliterator<List<String>> {
+    Spliterator<List<String>>,
+    AutoCloseable {
 
+    /**
+     * The reader
+     */
     private final Reader reader;
 
+    /**
+     * The parser
+     */
     private final CSVParser parser;
 
-    private CSVParserStreamSpliterator(
+    /**
+     * Class constructor.
+     * 
+     * @param parser
+     *            the parser
+     * @param reader
+     *            the reader
+     */
+    public CSVParserStreamSpliterator(
         CSVParser parser,
         Reader reader) {
         this.reader = reader;
@@ -59,19 +83,10 @@ public class CSVParserStreamSpliterator
             | Spliterator.ORDERED;
     }
 
-    public static Stream<List<String>>
-        stream(final CSVParser parser, final Reader reader) {
-
-        return StreamSupport
-            .stream(new CSVParserStreamSpliterator(parser, reader), false)
-            .onClose(() -> {
-                try {
-                    reader.close();
-                } catch (IOException ex) {
-                    throw new UncheckedIOException(ex);
-                }
-            });
-
+    @Override
+    public void close()
+        throws Exception {
+        reader.close();
     }
 
 }
