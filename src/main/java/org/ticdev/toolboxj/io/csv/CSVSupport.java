@@ -88,7 +88,7 @@ public class CSVSupport {
     }
 
     /**
-     * Like {@link #parserReader(Reader, char, Character, CSVParserInputHelper)}
+     * Like {@link #parseReader(Reader, char, Character, String, CSVParserInputHelper)}
      * , but using the default {@link DefaultCSVParserInputHelper}.
      * 
      * @param reader
