@@ -53,6 +53,68 @@ public class CSVSupport {
     }
 
     /**
+     * Reads all the CSV records from a reader. It does not close the reader.
+     * 
+     * @param reader
+     *            the reader
+     * @param fieldDelimiter
+     *            the field delimiter
+     * @param textDelimiter
+     *            the text delimiter or null
+     * @param multiLineEOL
+     *            end-of-line replacement for multi-line parsers
+     * @param inputHelper
+     *            the input helper
+     * @return the list of records
+     * @throws Exception
+     *             if an exception occurred
+     */
+    public static List<List<String>> parseReader(
+        Reader reader,
+        char fieldDelimiter,
+        Character textDelimiter,
+        String multiLineEOL,
+        CSVParserInputHelper inputHelper)
+            throws Exception {
+        try (Stream<List<String>> stream = newStream(
+            CSVParserBuilder.newInstance().addDelimiter(fieldDelimiter)
+                .setTextDelimiter(textDelimiter)
+                .setMultiLineEOL(multiLineEOL)
+                .build(inputHelper),
+            reader)) {
+            return stream.collect(LinkedList::new, List::add,
+                List::addAll);
+        }
+    }
+
+    /**
+     * Like {@link #parserReader(Reader, char, Character, CSVParserInputHelper)}
+     * , but using the default {@link DefaultCSVParserInputHelper}.
+     * 
+     * @param reader
+     *            the reader
+     * @param fieldDelimiter
+     *            the field delimiter
+     * @param textDelimiter
+     *            the text delimiter
+     * @param multiLineEOL
+     *            end-of-line replacement for multi-line parsers
+     * @return the list of records
+     * @throws Exception
+     *             if an exception occurred
+     */
+    public static List<List<String>> parseReader(
+        Reader reader,
+        char fieldDelimiter,
+        Character textDelimiter,
+        String multiLineEOL)
+            throws Exception {
+        return parseReader(reader, fieldDelimiter, textDelimiter,
+            multiLineEOL,
+            new DefaultCSVParserInputHelper());
+    }
+
+    /**
      * Parses an entire file and returns a list of all the records found.
      * 
      * @param file
@@ -65,6 +127,8 @@ public class CSVSupport {
      *            the field delimiter.
      * @param textDelimiter
      *            the text delimiter (or null)
+     * @param multiLineEOL
+     *            end-of-line replacement for multi-line parsers
      * @return the list of all records found in the file
      * @throws Exception
      *             if an exception occurred
@@ -74,18 +138,15 @@ public class CSVSupport {
         Charset charset,
         CSVParserInputHelper inputHelper,
         char fieldDelimiter,
-        Character textDelimiter)
+        Character textDelimiter,
+        String multiLineEOL)
             throws Exception {
 
         try (BufferedReader reader =
-            Files.newBufferedReader(file.toPath(), charset);
-            Stream<List<String>> stream = newStream(
-                CSVParserBuilder.newInstance().addDelimiter(fieldDelimiter)
-                    .setTextDelimiter(textDelimiter).build(inputHelper),
-                reader)) {
+            Files.newBufferedReader(file.toPath(), charset);) {
 
-            return stream.collect(LinkedList::new,
-                List::add, List::addAll);
+            return parseReader(reader, fieldDelimiter, textDelimiter,
+                multiLineEOL, inputHelper);
 
         } catch (Exception ex) {
             throw ex;
