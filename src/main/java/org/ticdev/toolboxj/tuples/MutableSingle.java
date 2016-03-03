@@ -6,14 +6,14 @@ package org.ticdev.toolboxj.tuples;
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  *
  * @param <T1>
- *            argument type
+ *            the type of the first element
  */
 public interface MutableSingle<T1>
     extends
-    Single<T1> {
+    Single<T1>, MutableTuple<MutableSingle<T1>> {
 
     /**
-     * Sets the new value of the tuple.
+     * Sets the new value for the first item
      * 
      * @param item1
      *            the new value

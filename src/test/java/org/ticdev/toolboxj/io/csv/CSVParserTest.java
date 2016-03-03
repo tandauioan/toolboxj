@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.plaf.multi.MultiButtonUI;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -118,16 +116,16 @@ public class CSVParserTest {
         } catch (Exception ex) {
             Assert.fail(ex.toString());
         }
-        
+
         /* last line empty "" record */
         /* regular records */
         str = "\"1,2\n3\",4,\"\n\"\n\"\"";
 
-        str_expected = new String[][]{
+        str_expected = new String[][] {
             { "1,2\n3", "4", "\n" },
             { "" }
         };
-        
+
         expected = string_array_to_list_(str_expected);
 
         try {
@@ -137,7 +135,7 @@ public class CSVParserTest {
         } catch (Exception ex) {
             Assert.fail(ex.toString());
         }
-        
+
     }
 
     /**

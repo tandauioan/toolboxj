@@ -1,7 +1,6 @@
 package org.ticdev.toolboxj.tuples.impl;
 
 import org.ticdev.toolboxj.tuples.MutableSingle;
-import org.ticdev.toolboxj.tuples.Single;
 import org.ticdev.toolboxj.tuples.Tuples;
 
 /**
@@ -10,11 +9,16 @@ import org.ticdev.toolboxj.tuples.Tuples;
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  *
  * @param <T1>
- *            argument type
+ *            the type of the first element
  */
 public class MutableSingleImpl<T1>
     implements
     MutableSingle<T1> {
+
+    /**
+     * default serial version
+     */
+    private static final long serialVersionUID = 1L;
 
     /**
      * item 1
@@ -33,21 +37,10 @@ public class MutableSingleImpl<T1>
     }
 
     /**
-     * Default class constructor initializing the object with null.
+     * Default class constructor initializing elements with null.
      */
     public MutableSingleImpl() {
         this.item1 = null;
-    }
-
-    /**
-     * Copy constructor.
-     * 
-     * @param source
-     *            the single from which to copy the value. Must be non-null.
-     */
-    public MutableSingleImpl(
-        Single<T1> source) {
-        this.item1 = source.item1();
     }
 
     @Override
@@ -69,6 +62,12 @@ public class MutableSingleImpl<T1>
     @Override
     public boolean equals(Object obj) {
         return Tuples.singleEquals(this, obj);
+    }
+
+    @Override
+    public MutableSingle<T1> copyFrom(MutableSingle<T1> source) {
+        item1 = source.item1();
+        return this;
     }
 
 }
