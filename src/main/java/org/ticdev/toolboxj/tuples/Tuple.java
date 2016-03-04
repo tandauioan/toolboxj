@@ -58,7 +58,9 @@ public interface Tuple<T extends Tuple<T>> {
      * Execute thenDo if the predicate applied to this tuple returns true.
      * 
      * @param predicate
+     *            the predicate to apply
      * @param thenDo
+     *            the action to take if the predicate returns true
      * @return this instance
      */
     default T ifDo(
@@ -73,6 +75,9 @@ public interface Tuple<T extends Tuple<T>> {
      * @param mapper
      *            the mapping function
      * @return an optional containing the result
+     * @param <R>
+     *            the type of the result
+     * 
      */
     default <R> Optional<R> map(UnaryFunction<? super T, R> mapper) {
         return Optional.ofNullable(mapper.apply(self()));
@@ -84,7 +89,9 @@ public interface Tuple<T extends Tuple<T>> {
      * optional otherwise.
      * 
      * @param predicate
-     * @return
+     *            the predicate to apply to this tuple
+     * @return an optional containing this instance if the predicate is true and
+     *         empty otherwise
      */
     default Optional<T> filter(Predicate<? super T> predicate) {
         T self = self();

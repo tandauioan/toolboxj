@@ -30,7 +30,8 @@ public class Tuples {
      * from 0, otherwise 1.
      * 
      * @param objects
-     * @return
+     *            the objects for which to compute the hash code
+     * @return the hash code
      */
     public static int hashCode(Object... objects) {
         for (Object o : objects) {
@@ -112,6 +113,8 @@ public class Tuples {
      * @param item1
      *            the value of the single's item
      * @return the new single
+     * @param <T1>
+     *            the type of the first element
      */
     public static <T1> Single<T1> of(T1 item1) {
         return new SingleImpl<T1>(item1);
@@ -124,6 +127,8 @@ public class Tuples {
      * @param source
      *            the non-null source
      * @return the new single
+     * @param <T1>
+     *            the type of the first element
      */
     public static <T1> Single<T1> copyOf(SingleContainer<T1> source) {
         return of(source.item1());
@@ -135,6 +140,8 @@ public class Tuples {
      * @param item1
      *            the value of the single's item
      * @return the new single
+     * @param <T1>
+     *            the type of the first element
      */
     public static <T1> MutableSingle<T1> mutableOf(T1 item1) {
         return new MutableSingleImpl<>(item1);
@@ -147,6 +154,8 @@ public class Tuples {
      * @param source
      *            the non-null source
      * @return the new mutable single
+     * @param <T1>
+     *            the type of the first element
      */
     public static <T1> MutableSingle<T1>
         mutableCopyOf(SingleContainer<T1> source) {
@@ -157,6 +166,8 @@ public class Tuples {
      * Returns a new instance of a mutable single with all null elements.
      * 
      * @return the new mutable single
+     * @param <T1>
+     *            the type of the first element
      */
     public static <T1> MutableSingle<T1> newMutableSingle() {
         return new MutableSingleImpl<>();
@@ -170,6 +181,10 @@ public class Tuples {
      * @param item2
      *            the second element
      * @return the new pair
+     * @param <T1>
+     *            the type of the first element
+     * @param <T2>
+     *            the type of the second element
      */
     public static <T1, T2> Pair<T1, T2> of(T1 item1, T2 item2) {
         return new PairImpl<>(item1, item2);
@@ -181,6 +196,10 @@ public class Tuples {
      * @param source
      *            the non-null source
      * @return the new pair
+     * @param <T1>
+     *            the type of the first element
+     * @param <T2>
+     *            the type of the second element
      */
     public static <T1, T2> Pair<T1, T2>
         copyOf(PairContainer<T1, T2> source) {
@@ -195,6 +214,10 @@ public class Tuples {
      * @param item2
      *            the second element
      * @return the new mutable pair
+     * @param <T1>
+     *            the type of the first element
+     * @param <T2>
+     *            the type of the second element
      */
     public static <T1, T2> MutablePair<T1, T2>
         mutableOf(T1 item1, T2 item2) {
@@ -208,6 +231,10 @@ public class Tuples {
      * @param source
      *            the non-null source
      * @return the new mutable pair
+     * @param <T1>
+     *            the type of the first element
+     * @param <T2>
+     *            the type of the second element
      */
     public static <T1, T2> MutablePair<T1, T2>
         mutableCopyOf(PairContainer<T1, T2> source) {
@@ -218,6 +245,10 @@ public class Tuples {
      * Returns a new instance of a mutable pair with all null elements.
      * 
      * @return the new mutable pair
+     * @param <T1>
+     *            the type of the first element
+     * @param <T2>
+     *            the type of the second element
      */
     public static <T1, T2> MutablePair<T1, T2> newMutablePair() {
         return new MutablePairImpl<>();
@@ -233,6 +264,12 @@ public class Tuples {
      * @param item3
      *            the third element
      * @return the new triplet
+     * @param <T1>
+     *            the type of the first element
+     * @param <T2>
+     *            the type of the second element
+     * @param <T3>
+     *            the type of the third element
      */
     public static <T1, T2, T3> Triplet<T1, T2, T3>
         of(T1 item1, T2 item2, T3 item3) {
@@ -246,6 +283,12 @@ public class Tuples {
      * @param source
      *            the non-null source
      * @return the new triplet
+     * @param <T1>
+     *            the type of the first element
+     * @param <T2>
+     *            the type of the second element
+     * @param <T3>
+     *            the type of the third element
      */
     public static <T1, T2, T3> Triplet<T1, T2, T3>
         copyOf(TripletContainer<T1, T2, T3> source) {
@@ -262,6 +305,12 @@ public class Tuples {
      * @param item3
      *            the third element
      * @return the new mutable triplet
+     * @param <T1>
+     *            the type of the first element
+     * @param <T2>
+     *            the type of the second element
+     * @param <T3>
+     *            the type of the third element
      */
     public static <T1, T2, T3> MutableTriplet<T1, T2, T3>
         mutableOf(T1 item1, T2 item2, T3 item3) {
@@ -275,6 +324,12 @@ public class Tuples {
      * @param source
      *            the non-null source
      * @return the new mutable triplet
+     * @param <T1>
+     *            the type of the first element
+     * @param <T2>
+     *            the type of the second element
+     * @param <T3>
+     *            the type of the third element
      */
     public static <T1, T2, T3> MutableTriplet<T1, T2, T3>
         mutableCopyOf(TripletContainer<T1, T2, T3> source) {
@@ -285,6 +340,12 @@ public class Tuples {
      * Returns a new instance of a mutable triplet with all null elements.
      * 
      * @return the new mutable triplet
+     * @param <T1>
+     *            the type of the first element
+     * @param <T2>
+     *            the type of the second element
+     * @param <T3>
+     *            the type of the third element
      */
     public static <T1, T2, T3> MutableTriplet<T1, T2, T3>
         newMutableTriplet() {
