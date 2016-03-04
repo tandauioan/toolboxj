@@ -1,5 +1,7 @@
 package org.ticdev.toolboxj.tuples;
 
+import java.io.Serializable;
+
 /**
  * Pair container setter.
  * 
@@ -12,7 +14,9 @@ package org.ticdev.toolboxj.tuples;
  * @param <SELF>
  *            the type of this as the implementing tuple
  */
-public interface PairContainerSetter<T1, T2, SELF extends PairContainerSetter<T1, T2, SELF>> {
+public interface PairContainerSetter<T1, T2, SELF extends PairContainerSetter<T1, T2, SELF>>
+    extends
+    Serializable {
 
     /**
      * Sets the first element and returns the tuple.

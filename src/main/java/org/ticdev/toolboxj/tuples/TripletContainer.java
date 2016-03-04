@@ -1,5 +1,7 @@
 package org.ticdev.toolboxj.tuples;
 
+import java.io.Serializable;
+
 /**
  * Triplet container.
  * 
@@ -12,7 +14,9 @@ package org.ticdev.toolboxj.tuples;
  * @param <T3>
  *            the type of the third element
  */
-public interface TripletContainer<T1, T2, T3> {
+public interface TripletContainer<T1, T2, T3>
+    extends
+    Serializable {
 
     /**
      * Returns the first element

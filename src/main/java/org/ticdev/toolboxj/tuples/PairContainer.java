@@ -1,5 +1,7 @@
 package org.ticdev.toolboxj.tuples;
 
+import java.io.Serializable;
+
 /**
  * Pair container.
  * 
@@ -10,7 +12,9 @@ package org.ticdev.toolboxj.tuples;
  * @param <T2>
  *            the type of the second element
  */
-public interface PairContainer<T1, T2> {
+public interface PairContainer<T1, T2>
+    extends
+    Serializable {
 
     /**
      * Returns the first element

@@ -1,5 +1,7 @@
 package org.ticdev.toolboxj.tuples;
 
+import java.io.Serializable;
+
 /**
  * Triplet container setter.
  * 
@@ -14,7 +16,9 @@ package org.ticdev.toolboxj.tuples;
  * @param <SELF>
  *            the type of this as the implementing tuple
  */
-public interface TripletContainerSetter<T1, T2, T3, SELF extends TripletContainerSetter<T1, T2, T3, SELF>> {
+public interface TripletContainerSetter<T1, T2, T3, SELF extends TripletContainerSetter<T1, T2, T3, SELF>>
+    extends
+    Serializable {
 
     /**
      * Sets the first element and returns the tuple

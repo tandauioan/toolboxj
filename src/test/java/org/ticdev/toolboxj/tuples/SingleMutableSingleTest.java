@@ -3,7 +3,13 @@ package org.ticdev.toolboxj.tuples;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class SingleTest {
+/**
+ * Test class for Single and MutableSingle.
+ * 
+ * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
+ *
+ */
+public class SingleMutableSingleTest {
 
     /**
      * Verifies that all the given objects have the same hash

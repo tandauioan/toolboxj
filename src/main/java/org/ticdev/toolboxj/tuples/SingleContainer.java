@@ -1,5 +1,7 @@
 package org.ticdev.toolboxj.tuples;
 
+import java.io.Serializable;
+
 /**
  * Single container.
  * 
@@ -8,7 +10,9 @@ package org.ticdev.toolboxj.tuples;
  * @param <T1>
  *            the type of the first element
  */
-public interface SingleContainer<T1> {
+public interface SingleContainer<T1>
+    extends
+    Serializable {
 
     /**
      * Returns the first element

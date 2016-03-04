@@ -1,5 +1,7 @@
 package org.ticdev.toolboxj.tuples;
 
+import java.io.Serializable;
+
 /**
  * Single container setter.
  * 
@@ -10,7 +12,9 @@ package org.ticdev.toolboxj.tuples;
  * @param <SELF>
  *            the type of this as the implementing tuple
  */
-public interface SingleContainerSetter<T1, SELF extends SingleContainerSetter<T1, SELF>> {
+public interface SingleContainerSetter<T1, SELF extends SingleContainerSetter<T1, SELF>>
+    extends
+    Serializable {
 
     /**
      * Sets the first element and returns the tuple
