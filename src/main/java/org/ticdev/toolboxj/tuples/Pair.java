@@ -14,22 +14,9 @@ import java.io.Serializable;
  */
 public interface Pair<T1, T2>
     extends
+    PairContainer<T1, T2>,
     Tuple<Pair<T1, T2>>,
     Serializable {
-
-    /**
-     * Returns the first item
-     * 
-     * @return the first item
-     */
-    T1 item1();
-
-    /**
-     * Returns the second item
-     * 
-     * @return the second item
-     */
-    T2 item2();
 
     @Override
     default Pair<T1, T2> self() {

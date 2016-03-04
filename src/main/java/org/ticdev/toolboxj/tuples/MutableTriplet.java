@@ -14,8 +14,15 @@ package org.ticdev.toolboxj.tuples;
  */
 public interface MutableTriplet<T1, T2, T3>
     extends
-    Triplet<T1, T2, T3>,
+    TripletContainer<T1, T2, T3>,
+    TripletContainerSetter<T1, T2, T3, MutableTriplet<T1, T2, T3>>,
+    Tuple<MutableTriplet<T1, T2, T3>>,
     MutableTuple<MutableTriplet<T1, T2, T3>> {
+
+    @Override
+    default MutableTriplet<T1, T2, T3> self() {
+        return this;
+    }
 
     /**
      * Sets the new value of the first element

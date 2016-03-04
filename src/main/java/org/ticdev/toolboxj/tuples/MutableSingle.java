@@ -10,7 +10,15 @@ package org.ticdev.toolboxj.tuples;
  */
 public interface MutableSingle<T1>
     extends
-    Single<T1>, MutableTuple<MutableSingle<T1>> {
+    SingleContainer<T1>,
+    SingleContainerSetter<T1, MutableSingle<T1>>,
+    Tuple<MutableSingle<T1>>,
+    MutableTuple<MutableSingle<T1>> {
+
+    @Override
+    default org.ticdev.toolboxj.tuples.MutableSingle<T1> self() {
+        return this;
+    };
 
     /**
      * Sets the new value for the first item

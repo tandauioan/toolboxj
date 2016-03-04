@@ -16,30 +16,11 @@ import java.io.Serializable;
  */
 public interface Triplet<T1, T2, T3>
     extends
+    TripletContainer<T1, T2, T3>,
     Tuple<Triplet<T1, T2, T3>>,
     Serializable {
 
-    /**
-     * Returns the first element
-     * 
-     * @return the first element
-     */
-    T1 item1();
-
-    /**
-     * Returns the second element
-     * 
-     * @return the second element
-     */
-    T2 item2();
-
-    /**
-     * Returns the third element
-     * 
-     * @return the third element
-     */
-    T3 item3();
-
+    
     @Override
     default Triplet<T1, T2, T3> self() {
         return this;

@@ -9,6 +9,17 @@ import org.ticdev.toolboxj.tuples.impl.PairImpl;
 import org.ticdev.toolboxj.tuples.impl.SingleImpl;
 import org.ticdev.toolboxj.tuples.impl.TripletImpl;
 
+/**
+ * Tuples utility methods.
+ * 
+ * <p>
+ * Provides factory methods and utility methods for creating alternative
+ * implementations to existing tuples.
+ * </p>
+ * 
+ * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
+ *
+ */
 public class Tuples {
 
     /**
@@ -41,9 +52,11 @@ public class Tuples {
      *            the object to compare against
      * @return true if the two objects are equal and false otherwise
      */
-    public static boolean singleEquals(Single<?> single, Object obj) {
-        return (single == obj) || ((obj instanceof Single)
-            && Objects.equals(single.item1(), ((Single<?>) obj).item1()));
+    public static boolean
+        singleEquals(SingleContainer<?> single, Object obj) {
+        return (single == obj) || ((obj instanceof SingleContainer)
+            && Objects.equals(single.item1(),
+                ((SingleContainer<?>) obj).item1()));
     }
 
     /**
@@ -56,12 +69,13 @@ public class Tuples {
      *            the object to compare against
      * @return true if the two objects are equal and false otherwise
      */
-    public static boolean pairEquals(Pair<?, ?> pair, Object obj) {
+    public static boolean
+        pairEquals(PairContainer<?, ?> pair, Object obj) {
         if (pair == obj) {
             return true;
         }
-        if (obj instanceof Pair) {
-            Pair<?, ?> p = (Pair<?, ?>) obj;
+        if (obj instanceof PairContainer) {
+            PairContainer<?, ?> p = (PairContainer<?, ?>) obj;
             return Objects.equals(pair.item1(), p.item1())
                 && Objects.equals(pair.item2(), p.item2());
         }
@@ -79,12 +93,12 @@ public class Tuples {
      * @return true iof the two objects are equal and false otherwise
      */
     public static boolean
-        tripletEquals(Triplet<?, ?, ?> triplet, Object obj) {
+        tripletEquals(TripletContainer<?, ?, ?> triplet, Object obj) {
         if (triplet == obj) {
             return true;
         }
-        if (obj instanceof Triplet) {
-            Triplet<?, ?, ?> t = (Triplet<?, ?, ?>) obj;
+        if (obj instanceof TripletContainer) {
+            TripletContainer<?, ?, ?> t = (TripletContainer<?, ?, ?>) obj;
             return Objects.equals(triplet.item1(), t.item2())
                 && Objects.equals(triplet.item2(), t.item2())
                 && Objects.equals(triplet.item3(), t.item3());
@@ -111,7 +125,7 @@ public class Tuples {
      *            the non-null source
      * @return the new single
      */
-    public static <T1> Single<T1> of(Single<T1> source) {
+    public static <T1> Single<T1> copyOf(SingleContainer<T1> source) {
         return of(source.item1());
     }
 
@@ -134,7 +148,8 @@ public class Tuples {
      *            the non-null source
      * @return the new mutable single
      */
-    public static <T1> MutableSingle<T1> mutableOf(Single<T1> source) {
+    public static <T1> MutableSingle<T1>
+        mutableCopyOf(SingleContainer<T1> source) {
         return mutableOf(source.item1());
     }
 
@@ -161,6 +176,18 @@ public class Tuples {
     }
 
     /**
+     * Returns a new pair instance whose content is copied from the given pair
+     * 
+     * @param source
+     *            the non-null source
+     * @return the new pair
+     */
+    public static <T1, T2> Pair<T1, T2>
+        copyOf(PairContainer<T1, T2> source) {
+        return of(source.item1(), source.item2());
+    }
+
+    /**
      * Returns a new instance of a mutable pair
      * 
      * @param item1
@@ -183,7 +210,7 @@ public class Tuples {
      * @return the new mutable pair
      */
     public static <T1, T2> MutablePair<T1, T2>
-        mutableOf(Pair<T1, T2> source) {
+        mutableCopyOf(PairContainer<T1, T2> source) {
         return mutableOf(source.item1(), source.item2());
     }
 
@@ -213,6 +240,19 @@ public class Tuples {
     }
 
     /**
+     * Returns a new triplet instance whose content is copied from the given
+     * triplet
+     * 
+     * @param source
+     *            the non-null source
+     * @return the new triplet
+     */
+    public static <T1, T2, T3> Triplet<T1, T2, T3>
+        copyOf(TripletContainer<T1, T2, T3> source) {
+        return of(source.item1(), source.item2(), source.item3());
+    }
+
+    /**
      * Returns a new instance of a mutable triplet.
      * 
      * @param item1
@@ -237,7 +277,7 @@ public class Tuples {
      * @return the new mutable triplet
      */
     public static <T1, T2, T3> MutableTriplet<T1, T2, T3>
-        mutableOf(Triplet<T1, T2, T3> source) {
+        mutableCopyOf(TripletContainer<T1, T2, T3> source) {
         return mutableOf(source.item1(), source.item2(), source.item3());
     }
 

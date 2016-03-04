@@ -93,4 +93,17 @@ public interface Tuple<T extends Tuple<T>> {
             : Optional.empty();
     }
 
+    /**
+     * Calls the given consumer with this instance.
+     * 
+     * @param consumer
+     *            the consumer
+     * @return this instance
+     */
+    default T doConsume(UnaryConsumer<? super T> consumer) {
+        T self = self();
+        consumer.accept(self);
+        return self;
+    }
+
 }

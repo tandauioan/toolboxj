@@ -12,15 +12,9 @@ import java.io.Serializable;
  */
 public interface Single<T1>
     extends
+    SingleContainer<T1>,
     Tuple<Single<T1>>,
     Serializable {
-
-    /**
-     * Returns the first item.
-     * 
-     * @return the first item
-     */
-    T1 item1();
 
     @Override
     default Single<T1> self() {

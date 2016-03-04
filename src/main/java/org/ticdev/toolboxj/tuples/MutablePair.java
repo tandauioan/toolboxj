@@ -12,8 +12,15 @@ package org.ticdev.toolboxj.tuples;
  */
 public interface MutablePair<T1, T2>
     extends
-    Pair<T1, T2>,
+    PairContainer<T1, T2>,
+    PairContainerSetter<T1, T2, MutablePair<T1, T2>>,
+    Tuple<MutablePair<T1, T2>>,
     MutableTuple<MutablePair<T1, T2>> {
+
+    @Override
+    default org.ticdev.toolboxj.tuples.MutablePair<T1, T2> self() {
+        return this;
+    }
 
     /**
      * Sets the new value of the first item
