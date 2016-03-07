@@ -6,8 +6,6 @@ import java.util.Spliterators;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import org.ticdev.toolboxj.functions.UnaryConsumer;
-
 /**
  * Concrete implementation of a reusable iterator on an array.
  * 
