@@ -103,6 +103,8 @@ public class ReusableArrayIterator<T>
      * Returns a new, uninitialized instance of the iterator
      * 
      * @return a new, uninitialized instance of the iterator
+     * @param <T>
+     *            the type of the elements in the iterator
      */
     public static <T> ReusableArrayIterator<T> newInstance() {
         return new ReusableArrayIterator<>();
@@ -118,6 +120,8 @@ public class ReusableArrayIterator<T>
      * @param len
      *            the length
      * @return a new, initialized instance of the iterator.
+     * @param <T>
+     *            the type of the elements in the iterator
      */
     public static <T> ReusableArrayIterator<T>
         of(T[] elements, int off, int len) {
@@ -131,6 +135,8 @@ public class ReusableArrayIterator<T>
      * @param elements
      *            the object array
      * @return a new, initialized instance of the iterator.
+     * @param <T>
+     *            the type of the elements in the iterator.
      */
     public static <T> ReusableArrayIterator<T> of(T[] elements) {
         return ReusableArrayIterator.<T> newInstance().reset(elements);
@@ -148,6 +154,5 @@ public class ReusableArrayIterator<T>
                     | Spliterator.IMMUTABLE | Spliterator.ORDERED),
                 false);
     }
-
 
 }
