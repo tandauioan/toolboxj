@@ -8,6 +8,7 @@ import java.util.Collection;
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  *
  * @param <T>
+ *            the type of object to be collected.
  */
 public interface Collector<T> {
 
