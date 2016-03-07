@@ -22,6 +22,8 @@ public interface SelfMapper<T extends SelfMapper<T>>
      * @param mapper
      *            the mapper function
      * @return the result of the mapping operation
+     * @param <R>
+     *            the type of the mapping result
      */
     default <R> Optional<R> map(UnaryFunction<? super T, R> mapper) {
         return Optional.ofNullable(mapper.apply(self()));
