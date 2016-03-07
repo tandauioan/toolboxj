@@ -1,4 +1,4 @@
-package org.ticdev.toolboxj.tools;
+package org.ticdev.toolboxj.support;
 
 import java.util.Objects;
 
@@ -8,7 +8,7 @@ import java.util.Objects;
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  *
  */
-public class ObjectTools {
+public class ObjectSupport {
 
     /**
      * Returns true if all the arguments are null and false if any of them is

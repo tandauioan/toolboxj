@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.ticdev.toolboxj.tools.ObjectTools;
+import org.ticdev.toolboxj.support.ObjectSupport;
 
 /**
  * Test a {@link Single}
@@ -63,11 +63,11 @@ public class SingleTest {
 
         };
 
-        Assert.assertTrue(ObjectTools.allNonNull(objects));
+        Assert.assertTrue(ObjectSupport.allNonNull(objects));
 
-        Assert.assertTrue(ObjectTools.allEqualHashes(objects));
+        Assert.assertTrue(ObjectSupport.allEqualHashes(objects));
 
-        Assert.assertTrue(ObjectTools.allEqual(objects));
+        Assert.assertTrue(ObjectSupport.allEqual(objects));
 
     }
 
