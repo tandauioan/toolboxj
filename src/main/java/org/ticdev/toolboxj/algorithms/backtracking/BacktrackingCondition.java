@@ -1,4 +1,4 @@
-package org.ticdev.toolboxj.algorithms;
+package org.ticdev.toolboxj.algorithms.backtracking;
 
 /**
  * Condition used with the {@link Backtracking} class to validate a

@@ -7,6 +7,8 @@ import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.ticdev.toolboxj.algorithms.backtracking.Backtracking;
+import org.ticdev.toolboxj.algorithms.backtracking.BacktrackingSupport;
 
 /**
  * Tests for {@link Backtracking} and associated classes.

@@ -1,4 +1,4 @@
-package org.ticdev.toolboxj.algorithms;
+package org.ticdev.toolboxj.algorithms.backtracking;
 
 /**
  * Support methods for the backtracking class offering implementations for
