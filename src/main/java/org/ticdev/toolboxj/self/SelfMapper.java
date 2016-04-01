@@ -1,7 +1,5 @@
 package org.ticdev.toolboxj.self;
 
-import java.util.Optional;
-
 import org.ticdev.toolboxj.functions.UnaryFunction;
 
 /**
@@ -25,8 +23,8 @@ public interface SelfMapper<T extends SelfMapper<T>>
      * @param <R>
      *            the type of the mapping result
      */
-    default <R> Optional<R> map(UnaryFunction<? super T, R> mapper) {
-        return Optional.ofNullable(mapper.apply(self()));
+    default <R> R map(UnaryFunction<? super T, R> mapper) {
+        return mapper.apply(self());
     }
 
 }

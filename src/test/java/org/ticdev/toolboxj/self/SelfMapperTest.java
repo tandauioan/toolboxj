@@ -1,8 +1,9 @@
 package org.ticdev.toolboxj.self;
 
-import org.junit.Test;
+import java.util.Optional;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test {@link SelfMapper}
@@ -36,11 +37,12 @@ public class SelfMapperTest {
         final SelfMapperImpl smi = new SelfMapperImpl();
 
         /* test null */
-        Assert.assertFalse(smi.map(smi1 -> null).isPresent());
+        Assert.assertFalse(
+            Optional.ofNullable(smi.map(smi1 -> null)).isPresent());
 
         /* test return hash code as map */
         Assert.assertEquals(smi.hashCode(),
-            smi.map(smi1 -> smi1.hashCode()).get().intValue());
+            smi.map(smi1 -> smi1.hashCode()).intValue());
 
     }
 
