@@ -14,7 +14,7 @@ import org.ticdev.toolboxj.functions.UnaryConsumerLong;
  */
 public interface LongIterator
     extends
-    PrimitiveIterator {
+    PrimitiveTypeIterator {
 
     /**
      * Returns the next element.

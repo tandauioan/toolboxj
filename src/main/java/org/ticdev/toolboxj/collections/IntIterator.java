@@ -12,7 +12,7 @@ import org.ticdev.toolboxj.functions.UnaryConsumerInt;
  *
  * @see Iterator
  */
-public interface IntIterator extends PrimitiveIterator {
+public interface IntIterator extends PrimitiveTypeIterator {
 
     /**
      * Returns the next element.

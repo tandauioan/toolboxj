@@ -1,5 +1,7 @@
 package org.ticdev.toolboxj.collections;
 
+import java.util.Iterator;
+
 /**
  * Base interface for a primitive iterator.
  * 
@@ -7,7 +9,7 @@ package org.ticdev.toolboxj.collections;
  *
  * @see Iterator
  */
-public interface PrimitiveIterator {
+public interface PrimitiveTypeIterator {
 
     /**
      * Returns true if there are more elements available to iterate over and
