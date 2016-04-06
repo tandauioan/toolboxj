@@ -56,6 +56,10 @@ public class ReusableArrayIterator<T>
      * @return this instance
      */
     public ReusableArrayIterator<T> reset(T[] elements, int off, int len) {
+        if (off < 0 || len < 0 || elements.length - len < 0
+            || elements.length - len < off) {
+            throw new IndexOutOfBoundsException();
+        }
         this.elements = elements;
         this.off = off;
         this.len = len;
