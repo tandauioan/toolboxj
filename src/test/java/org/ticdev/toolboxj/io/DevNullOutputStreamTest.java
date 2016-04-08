@@ -17,7 +17,7 @@ public class DevNullOutputStreamTest {
     /**
      * Byte array that supplies the test bytes and the test array itself
      */
-    private final static byte[] byteArrayTest =
+    private final static byte[] BYTE_ARRAY_TEST =
         { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
     /**
@@ -28,7 +28,7 @@ public class DevNullOutputStreamTest {
     public void testWriteAndWriteAfterClose() {
         OutputStream os = DevNullOutputStream.getInstance();
         try {
-            os.write(byteArrayTest[0]);
+            os.write(BYTE_ARRAY_TEST[0]);
         } catch(Exception ex) {
             Assert.fail(ex.toString());
         } finally {
@@ -39,7 +39,7 @@ public class DevNullOutputStreamTest {
             }
         }
         try {
-            os.write(byteArrayTest[1]);
+            os.write(BYTE_ARRAY_TEST[1]);
         } catch(Exception ex) {
             Assert.fail(ex.toString());
         }
@@ -51,10 +51,10 @@ public class DevNullOutputStreamTest {
     @Test
     public void testAllWriteMethods() {
         try (OutputStream os = DevNullOutputStream.getInstance()) {
-            os.write(byteArrayTest[0]);
-            os.write(byteArrayTest, 0, byteArrayTest.length);
-            os.write(byteArrayTest);
-        } catch(Exception ex) {
+            os.write(BYTE_ARRAY_TEST[0]);
+            os.write(BYTE_ARRAY_TEST, 0, BYTE_ARRAY_TEST.length);
+            os.write(BYTE_ARRAY_TEST);
+        } catch(IOException ex) {
             Assert.fail(ex.toString());
         }
     }
@@ -67,7 +67,7 @@ public class DevNullOutputStreamTest {
         
         /* negative offset */
         try (OutputStream os = DevNullOutputStream.getInstance()) {
-            os.write(byteArrayTest, -1, 2);
+            os.write(BYTE_ARRAY_TEST, -1, 2);
             Assert.fail();
         } catch(IndexOutOfBoundsException ex) {
             Assert.assertTrue(ex != null);
@@ -77,7 +77,7 @@ public class DevNullOutputStreamTest {
         
         /* negative length */
         try (OutputStream os = DevNullOutputStream.getInstance()) {
-            os.write(byteArrayTest, 0, -1);
+            os.write(BYTE_ARRAY_TEST, 0, -1);
             Assert.fail();
         } catch(IndexOutOfBoundsException ex) {
             Assert.assertTrue(ex != null);
@@ -87,7 +87,7 @@ public class DevNullOutputStreamTest {
         
         /* invalid offset and length combination */
         try (OutputStream os = DevNullOutputStream.getInstance()) {
-            os.write(byteArrayTest, byteArrayTest.length , 1);
+            os.write(BYTE_ARRAY_TEST, BYTE_ARRAY_TEST.length , 1);
             Assert.fail();
         } catch(IndexOutOfBoundsException ex) {
             Assert.assertTrue(ex != null);
@@ -96,7 +96,7 @@ public class DevNullOutputStreamTest {
         }
         
         try (OutputStream os = DevNullOutputStream.getInstance()) {
-            os.write(byteArrayTest, 1 , byteArrayTest.length);
+            os.write(BYTE_ARRAY_TEST, 1 , BYTE_ARRAY_TEST.length);
             Assert.fail();
         } catch(IndexOutOfBoundsException ex) {
             Assert.assertTrue(ex != null);

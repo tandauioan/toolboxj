@@ -28,14 +28,14 @@ public interface PrimitiveGetter<T extends PrimitiveGetter<T>>
      * A standard function that creates an unsupported operation message for the
      * given object
      */
-    static Function<Object, String> formatUnsupportedExceptionString =
+    static Function<Object, String> FORMAT_UNSUPPORTED_EXCEPTION_STRING =
         (o) -> "Operation unsupported for "
             + o.getClass().getCanonicalName();
 
     /**
      * Standard message used for unsupported operation exceptions
      */
-    static final String unsupportedOperationMessage =
+    static final String UNSUPPORTED_OPERATION_MESSAGE =
         "Operation incompatible with this instance";
 
     /**

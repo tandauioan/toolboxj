@@ -16,6 +16,9 @@ import org.ticdev.toolboxj.support.ObjectSupport;
  */
 public class MutableSingleTest {
 
+    /**
+     * Test construction.
+     */
     @Test
     public void testConstruction() {
 

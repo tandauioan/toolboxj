@@ -183,12 +183,8 @@ public class DoubleWrapper
 
     @Override
     public boolean equals(Object obj) {
-        try {
-            return (obj instanceof PrimitiveGetter<?>
-                && value == ((PrimitiveGetter<?>) obj).doubleValue());
-        } catch (Exception ex) {
-            return false;
-        }
+        return (obj instanceof PrimitiveGetter<?>
+                && Double.compare(value, ((PrimitiveGetter<?>) obj).doubleValue())==0);
     }
 
     @Override

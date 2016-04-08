@@ -83,6 +83,7 @@ public class MutablePairImpl<T1, T2>
         return Tuples.hashCode(item1, item2);
     }
 
+    @Override
     public boolean equals(Object obj) {
         return Tuples.pairEquals(this, obj);
     }

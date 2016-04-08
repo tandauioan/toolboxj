@@ -14,6 +14,11 @@ import java.util.stream.StreamSupport;
  * implementation is not thread-safe.
  * </p>
  * 
+ * <p>
+ * This implementation will expose internal representation by storing a
+ * reference to the external array that is passed to it.
+ * </p>
+ * 
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  *
  * @param <T>

@@ -89,19 +89,19 @@ public class BooleanWrapper
     @Override
     public float floatValue() {
         throw new UnsupportedOperationException(
-            PrimitiveGetter.formatUnsupportedExceptionString.apply(this));
+            PrimitiveGetter.FORMAT_UNSUPPORTED_EXCEPTION_STRING.apply(this));
     }
 
     @Override
     public double doubleValue() {
         throw new UnsupportedOperationException(
-            PrimitiveGetter.formatUnsupportedExceptionString.apply(this));
+            PrimitiveGetter.FORMAT_UNSUPPORTED_EXCEPTION_STRING.apply(this));
     }
 
     @Override
     public char charValue() {
         throw new UnsupportedOperationException(
-            PrimitiveGetter.formatUnsupportedExceptionString.apply(this));
+            PrimitiveGetter.FORMAT_UNSUPPORTED_EXCEPTION_STRING.apply(this));
     }
 
     @Override
@@ -122,7 +122,7 @@ public class BooleanWrapper
 
     @Override
     public BooleanWrapper intValue(int value) {
-        this.value = (value == 0 ? false : true);
+        this.value = (value != 0);
         return this;
     }
 
@@ -134,19 +134,19 @@ public class BooleanWrapper
     @Override
     public BooleanWrapper floatValue(float value) {
         throw new UnsupportedOperationException(
-            PrimitiveGetter.formatUnsupportedExceptionString.apply(this));
+            PrimitiveGetter.FORMAT_UNSUPPORTED_EXCEPTION_STRING.apply(this));
     }
 
     @Override
     public BooleanWrapper doubleValue(double value) {
         throw new UnsupportedOperationException(
-            PrimitiveGetter.formatUnsupportedExceptionString.apply(this));
+            PrimitiveGetter.FORMAT_UNSUPPORTED_EXCEPTION_STRING.apply(this));
     }
 
     @Override
     public BooleanWrapper charValue(char value) {
         throw new UnsupportedOperationException(
-            PrimitiveGetter.formatUnsupportedExceptionString.apply(this));
+            PrimitiveGetter.FORMAT_UNSUPPORTED_EXCEPTION_STRING.apply(this));
     }
 
     /**

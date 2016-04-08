@@ -135,6 +135,10 @@ public class Backtracking {
      */
     private void assert_valid_topLimit_(int maxValue)
         throws IllegalArgumentException {
+        /* if TOP_LIMIT_MAX is {@link Integer.MAX_VALUE} 
+        * this may cause a code inspector to report a 
+        * vacuous comparison of integers. Ignore it. 
+        * TOP_LIMIT_MAX may change. */
         if (maxValue < TOP_LIMIT_MIN || maxValue > TOP_LIMIT_MAX) {
             throw new IllegalArgumentException(String.format(
                 "MaxValue should be between %d and %d. Actual value: %d",

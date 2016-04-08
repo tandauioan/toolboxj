@@ -117,7 +117,7 @@ public class Tuples {
      *            the type of the first element
      */
     public static <T1> Single<T1> of(T1 item1) {
-        return new SingleImpl<T1>(item1);
+        return new SingleImpl<>(item1);
     }
 
     /**

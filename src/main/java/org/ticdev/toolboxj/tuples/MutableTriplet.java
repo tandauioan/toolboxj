@@ -31,6 +31,7 @@ public interface MutableTriplet<T1, T2, T3>
      *            the new value
      * @return this instance
      */
+    @Override
     MutableTriplet<T1, T2, T3> item1(T1 item1);
 
     /**
@@ -40,6 +41,7 @@ public interface MutableTriplet<T1, T2, T3>
      *            the new value
      * @return this instance
      */
+    @Override
     MutableTriplet<T1, T2, T3> item2(T2 item2);
 
     /**
@@ -49,6 +51,7 @@ public interface MutableTriplet<T1, T2, T3>
      *            the new value
      * @return this instance
      */
+    @Override
     MutableTriplet<T1, T2, T3> item3(T3 item3);
 
 }

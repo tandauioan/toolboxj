@@ -14,6 +14,11 @@ import org.ticdev.toolboxj.io.csv.CSVParserInputHelper;
 import org.ticdev.toolboxj.io.csv.CSVParserLineTooLongException;
 import org.ticdev.toolboxj.io.csv.CSVParserTooManyFieldsException;
 
+/**
+ * Concrete implementation of a csv parser that uses a text delimiter.
+ * 
+ * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
+ */
 public class CSVParserTextDelimiterImpl
     implements
     CSVParser {
@@ -62,6 +67,13 @@ public class CSVParserTextDelimiterImpl
      */
     private final CSVParserInputHelper inputHelper;
 
+    /**
+     * Class constructor.
+     *
+     * @param parserBuilder the parser builder used to configure this
+     *                      parser.
+     * @param inputHelper   the input helper to use with a reader.
+     */
     public CSVParserTextDelimiterImpl(
         CSVParserBuilder parserBuilder,
         CSVParserInputHelper inputHelper) {

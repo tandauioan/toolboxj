@@ -17,14 +17,13 @@ public class ReusableArrayIteratorTest {
     /**
      * Global test array
      */
-    public static String[] testArray;
+    static String[] testArray=new String[23];;
 
     /**
      * Initialize test array
      */
     @Before
     public void before() {
-        testArray = new String[23];
         for (int i = 0; i < testArray.length; i++) {
             testArray[i] = i + "";
         }

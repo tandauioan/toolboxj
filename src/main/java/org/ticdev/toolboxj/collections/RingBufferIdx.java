@@ -74,7 +74,7 @@ public class RingBufferIdx {
      * @throws IllegalArgumentException
      *             if the capacity is outside the correct limits
      */
-    private static final void assert_valid_capacity_(int capacity)
+    private static void assert_valid_capacity_(int capacity)
         throws IllegalArgumentException {
         if (capacity <= MIN_CAPACITY || capacity >= MAX_CAPACITY) {
             throw new IllegalArgumentException(String.format(

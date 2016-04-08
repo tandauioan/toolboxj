@@ -25,7 +25,7 @@ public interface AllocatorWithParameter<T, P> {
     default T allocate(P parameter) {
         try {
             return allocateOrThrow();
-        } catch (Exception ex) {
+        } catch (NullPointerException | IllegalArgumentException ex) {
             return null;
         }
     }

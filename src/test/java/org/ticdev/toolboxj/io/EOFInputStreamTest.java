@@ -1,5 +1,6 @@
 package org.ticdev.toolboxj.io;
 
+import java.io.IOException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -19,27 +20,17 @@ public class EOFInputStreamTest {
      */
     @Test
     public void testOperations() {
-        EOFInputStream is = null;
-        try {
-            is = EOFInputStream.getInstance();
+        
+        try (EOFInputStream is = EOFInputStream.getInstance()) {
             Assert.assertEquals(0, is.available());
             Assert.assertEquals(-1, is.read());
-        } catch(Exception ex) {
-            Assert.fail();
-        } finally {
-            try {
-                is.close();
-            } catch(Exception ex) {
-                Assert.fail();
-            }
-        }
-        Assert.assertNotNull(is);
-        try {
+            is.close();
             Assert.assertEquals(0, is.available());
             Assert.assertEquals(-1, is.read());
-        } catch(Exception ex) {
-            Assert.fail();
+        } catch(IOException ex) {
+            Assert.fail(ex.toString());
         }
+        
     }
 
 }

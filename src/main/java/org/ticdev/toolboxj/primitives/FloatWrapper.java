@@ -183,12 +183,9 @@ public class FloatWrapper
 
     @Override
     public boolean equals(Object obj) {
-        try {
             return (obj instanceof PrimitiveGetter<?>
-                && value == ((PrimitiveGetter<?>) obj).floatValue());
-        } catch (Exception ex) {
-            return false;
-        }
+                    && Float.compare(value, ((PrimitiveGetter<?>) obj).
+                                     floatValue()) == 0);
     }
 
     @Override

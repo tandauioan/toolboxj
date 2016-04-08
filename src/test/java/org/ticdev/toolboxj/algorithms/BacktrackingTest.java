@@ -59,7 +59,7 @@ public class BacktrackingTest {
                 Assert.assertTrue(solutions.remove(actual));
             }
             Assert.assertTrue(solutions.isEmpty());
-        } catch (Exception ex) {
+        } catch (IllegalArgumentException | InterruptedException ex) {
             Assert.fail(ex.toString());
         }
 
@@ -78,7 +78,7 @@ public class BacktrackingTest {
          */
         try {
             queens = BacktrackingSupport.queens(0);
-            Assert.fail();
+            Assert.fail(queens.toString());
         } catch (Exception ex) {
             Assert.assertNotNull(ex);
         }
@@ -94,7 +94,7 @@ public class BacktrackingTest {
             Assert.assertEquals(1, arr.length);
             Assert.assertEquals(0, arr[0]);
             Assert.assertNull(queens.findNext());
-        } catch (Exception ex) {
+        } catch (IllegalArgumentException | InterruptedException ex) {
             Assert.fail(ex.toString());
         }
 
@@ -104,7 +104,7 @@ public class BacktrackingTest {
         try {
             queens = BacktrackingSupport.queens(2);
             Assert.assertNull(queens.findNext());
-        } catch (Exception ex) {
+        } catch (IllegalArgumentException | InterruptedException ex) {
             Assert.fail(ex.toString());
         }
 
@@ -114,7 +114,7 @@ public class BacktrackingTest {
         try {
             queens = BacktrackingSupport.queens(3);
             Assert.assertNull(queens.findNext());
-        } catch (Exception ex) {
+        } catch (IllegalArgumentException | InterruptedException ex) {
             Assert.fail(ex.toString());
         }
 
@@ -173,7 +173,7 @@ public class BacktrackingTest {
             } catch (Exception ex) {
                 Assert.assertNotNull(ex);
             }
-        } catch (Exception ex) {
+        } catch (IllegalArgumentException | InterruptedException ex) {
             Assert.fail(ex.toString());
         }
 
@@ -190,40 +190,41 @@ public class BacktrackingTest {
             Backtracking b = new Backtracking(Backtracking.COUNT_MIN,
                 Backtracking.TOP_LIMIT_MIN, (arr, i) -> true);
             Assert.assertNotNull(b.findNext());
-        } catch (Exception ex) {
+        } catch (IllegalArgumentException | InterruptedException ex) {
             Assert.fail(ex.toString());
         }
 
         /* failures */
 
         try {
-            new Backtracking(Backtracking.COUNT_MIN,
-                Backtracking.TOP_LIMIT_MIN, null);
-            Assert.fail();
+            Assert.fail(new Backtracking(Backtracking.COUNT_MIN,
+                                         Backtracking.TOP_LIMIT_MIN, null).
+                toString());
         } catch (Exception ex) {
             Assert.assertNotNull(ex);
         }
 
         try {
-            new Backtracking(Backtracking.COUNT_MIN - 1,
-                Backtracking.TOP_LIMIT_MIN, (arr, index) -> true);
-            Assert.fail();
+            Assert.fail(new Backtracking(Backtracking.COUNT_MIN - 1,
+                                         Backtracking.TOP_LIMIT_MIN, (arr,
+                                                                      index) ->
+                                         true).toString());
         } catch (Exception ex) {
             Assert.assertNotNull(ex);
         }
 
         try {
-            new Backtracking(Backtracking.COUNT_MAX + 1,
-                Backtracking.TOP_LIMIT_MIN, (arr, index) -> true);
-            Assert.fail();
+            Assert.fail(new Backtracking(Backtracking.COUNT_MAX + 1,
+                                         Backtracking.TOP_LIMIT_MIN, (arr,
+                                                                      index) ->
+                                         true).toString());
         } catch (Exception ex) {
             Assert.assertNotNull(ex);
         }
 
         try {
-            new Backtracking(Backtracking.COUNT_MIN - 1, 2,
-                (arr, index) -> true);
-            Assert.fail();
+            Assert.fail(new Backtracking(Backtracking.COUNT_MIN - 1, 2,
+                                         (arr, index) -> true).toString());
         } catch (Exception ex) {
             Assert.assertNotNull(ex);
         }

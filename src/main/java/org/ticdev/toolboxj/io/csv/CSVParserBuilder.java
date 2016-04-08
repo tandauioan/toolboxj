@@ -72,7 +72,7 @@ public class CSVParserBuilder {
     /**
      * Field delimiters defined for a parser.
      */
-    private List<Character> delimiters = new LinkedList<>();
+    private final List<Character> delimiters = new LinkedList<>();
 
     /**
      * Text delimiter defaults to null.

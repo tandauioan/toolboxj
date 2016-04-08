@@ -27,6 +27,7 @@ public interface MutableSingle<T1>
      *            the new value
      * @return this instance
      */
+    @Override
     MutableSingle<T1> item1(T1 item1);
 
 }
