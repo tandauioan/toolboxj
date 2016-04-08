@@ -1,5 +1,6 @@
 package org.ticdev.toolboxj.io.csv;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.List;
 
@@ -265,8 +266,14 @@ public class CSVParserTestLimits {
             List<String> record =
                 parser.parseRecord(new StringReader(stringToParse), null);
             Assert.assertEquals(fields.length, record.size());
-        } catch (Exception ex) {
-            Assert.fail();
+        } catch(CSVParserException |
+            CSVParserLineTooLongException |
+            CSVParserTooManyFieldsException |
+            IOException |
+            InterruptedException ex) {
+                Assert.fail(ex.toString());
+        } catch(Exception ex) {
+            Assert.fail(ex.toString());
         }
     }
 

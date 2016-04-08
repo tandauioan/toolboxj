@@ -1,6 +1,7 @@
 package org.ticdev.toolboxj.tuples.impl;
 
 import org.ticdev.toolboxj.tuples.Triplet;
+import org.ticdev.toolboxj.tuples.TripletContainer;
 import org.ticdev.toolboxj.tuples.Tuples;
 
 /**
@@ -74,7 +75,9 @@ public class TripletImpl<T1, T2, T3>
 
     @Override
     public boolean equals(Object obj) {
-        return Tuples.tripletEquals(this, obj);
+        return (obj instanceof TripletContainer<?, ?, ?>)
+                   && Tuples.tripletEquals(this,
+                (TripletContainer<?, ?, ?>) obj);
     }
 
     @Override

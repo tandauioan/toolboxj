@@ -1,6 +1,7 @@
 package org.ticdev.toolboxj.tuples.impl;
 
 import org.ticdev.toolboxj.tuples.MutableSingle;
+import org.ticdev.toolboxj.tuples.SingleContainer;
 import org.ticdev.toolboxj.tuples.Tuples;
 
 /**
@@ -61,7 +62,8 @@ public class MutableSingleImpl<T1>
 
     @Override
     public boolean equals(Object obj) {
-        return Tuples.singleEquals(this, obj);
+        return (obj instanceof SingleContainer<?>) && Tuples.singleEquals(
+            this, (SingleContainer<?>) obj);
     }
 
     @Override

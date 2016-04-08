@@ -148,6 +148,12 @@ public class CSVSupport {
             return parseReader(reader, fieldDelimiter, textDelimiter,
                 multiLineEOL, inputHelper);
 
+        } catch (CSVParserException |
+                 CSVParserLineTooLongException |
+                 CSVParserTooManyFieldsException |
+                 IOException |
+                 InterruptedException ex) {
+            throw ex;
         } catch (Exception ex) {
             throw ex;
         }

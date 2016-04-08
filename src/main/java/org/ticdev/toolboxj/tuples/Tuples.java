@@ -50,14 +50,12 @@ public class Tuples {
      * @param single
      *            the non-null single
      * @param obj
-     *            the object to compare against
+     *            the non-null single object to compare against
      * @return true if the two objects are equal and false otherwise
      */
     public static boolean
-        singleEquals(SingleContainer<?> single, Object obj) {
-        return (single == obj) || ((obj instanceof SingleContainer)
-            && Objects.equals(single.item1(),
-                ((SingleContainer<?>) obj).item1()));
+        singleEquals(SingleContainer<?> single, SingleContainer<?> obj) {
+            return Objects.equals(single.item1(), obj.item1());
     }
 
     /**
@@ -67,20 +65,16 @@ public class Tuples {
      * @param pair
      *            the non-null pair
      * @param obj
-     *            the object to compare against
+     *            the non-null pair object to compare against
      * @return true if the two objects are equal and false otherwise
      */
     public static boolean
-        pairEquals(PairContainer<?, ?> pair, Object obj) {
+        pairEquals(PairContainer<?, ?> pair, PairContainer<?, ?> obj) {
         if (pair == obj) {
             return true;
         }
-        if (obj instanceof PairContainer) {
-            PairContainer<?, ?> p = (PairContainer<?, ?>) obj;
-            return Objects.equals(pair.item1(), p.item1())
-                && Objects.equals(pair.item2(), p.item2());
-        }
-        return false;
+        return Objects.equals(pair.item1(), obj.item1()) 
+            && Objects.equals(pair.item2(), obj.item2());
     }
 
     /**
@@ -90,21 +84,17 @@ public class Tuples {
      * @param triplet
      *            the non-null triplet
      * @param obj
-     *            the object to compare against
+     *            the non-null triplet to compare against.
      * @return true iof the two objects are equal and false otherwise
      */
     public static boolean
-        tripletEquals(TripletContainer<?, ?, ?> triplet, Object obj) {
+        tripletEquals(TripletContainer<?, ?, ?> triplet, TripletContainer<?, ?, ?>  obj) {
         if (triplet == obj) {
             return true;
         }
-        if (obj instanceof TripletContainer) {
-            TripletContainer<?, ?, ?> t = (TripletContainer<?, ?, ?>) obj;
-            return Objects.equals(triplet.item1(), t.item2())
-                && Objects.equals(triplet.item2(), t.item2())
-                && Objects.equals(triplet.item3(), t.item3());
-        }
-        return false;
+        return Objects.equals(triplet.item1(), obj.item1())
+            && Objects.equals(triplet.item2(), obj.item2())
+            && Objects.equals(triplet.item3(), obj.item3());
     }
 
     /**

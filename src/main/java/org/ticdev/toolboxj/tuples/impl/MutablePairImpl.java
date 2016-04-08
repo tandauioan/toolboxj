@@ -1,6 +1,7 @@
 package org.ticdev.toolboxj.tuples.impl;
 
 import org.ticdev.toolboxj.tuples.MutablePair;
+import org.ticdev.toolboxj.tuples.PairContainer;
 import org.ticdev.toolboxj.tuples.Tuples;
 
 /**
@@ -85,7 +86,8 @@ public class MutablePairImpl<T1, T2>
 
     @Override
     public boolean equals(Object obj) {
-        return Tuples.pairEquals(this, obj);
+        return (obj instanceof PairContainer<?, ?>)
+                   && Tuples.pairEquals(this, (PairContainer<?, ?>) obj);
     }
 
     @Override
