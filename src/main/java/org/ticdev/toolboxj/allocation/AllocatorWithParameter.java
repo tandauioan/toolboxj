@@ -24,7 +24,7 @@ public interface AllocatorWithParameter<T, P> {
      */
     default T allocate(P parameter) {
         try {
-            return allocateOrThrow();
+            return allocateOrThrow(parameter);
         } catch (NullPointerException | IllegalArgumentException ex) {
             return null;
         }
@@ -37,6 +37,7 @@ public interface AllocatorWithParameter<T, P> {
      * {@link NullPointerException} if the allocation fails for any other
      * reason.
      * 
+     * @param parameter the parameter for construction
      * @return the allocated instance of T.
      * @throws NullPointerException
      *             if an allocation exception occurs.
@@ -44,7 +45,7 @@ public interface AllocatorWithParameter<T, P> {
      *             if the object cannot be constructed to conform to the
      *             parameter.
      */
-    T allocateOrThrow()
+    T allocateOrThrow(P parameter)
         throws NullPointerException,
         IllegalArgumentException;
 
