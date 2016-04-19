@@ -408,7 +408,7 @@ public class RingBufferIdx {
      *            the cursor/index
      * @return the cursor/index
      */
-    public int acquireCursor(int cursor) {
+    private int acquire_cursor_(int cursor) {
         if (cursor == head) {
             return acquirePrepend();
         }
@@ -436,7 +436,7 @@ public class RingBufferIdx {
     /**
      * Allocates and returns the index for an insert operation.
      * <p>
-     * This method is similar to {@link #acquireCursor(int) } but it uses
+     * This method is similar to {@link #acquire_cursor_(int) } but it uses
      * the external, zero-based, index.
 	 * </p>
      *
@@ -450,7 +450,7 @@ public class RingBufferIdx {
         if(index == size) {
             return acquireAppend();
         }
-        return acquireCursor(mapIndex(index));
+        return acquire_cursor_(mapIndex(index));
     }
 
     /**
