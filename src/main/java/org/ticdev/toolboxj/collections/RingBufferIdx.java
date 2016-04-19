@@ -76,7 +76,7 @@ public class RingBufferIdx {
      */
     private static void assert_valid_capacity_(int capacity)
         throws IllegalArgumentException {
-        if (capacity <= MIN_CAPACITY || capacity >= MAX_CAPACITY) {
+        if (capacity < MIN_CAPACITY || capacity > MAX_CAPACITY) {
             throw new IllegalArgumentException(String.format(
                 "Valid capacity between %d and %d. Actual value: %d.",
                 MIN_CAPACITY, MAX_CAPACITY, capacity));
@@ -102,8 +102,8 @@ public class RingBufferIdx {
         int capacity,
         UnaryConsumerInt deleteOperator,
         BinaryConsumerInt copyToFrom)
-            throws IllegalArgumentException {
-        assert_valid_capacity_(capacity);
+            throws IllegalArgumentException, NullPointerException {
+        this.allocationSize = allocationSizeForCapacity(capacity);
         if (deleteOperator == null) {
             throw new NullPointerException(
                 "Delete operator cannot be null.");
@@ -116,7 +116,13 @@ public class RingBufferIdx {
         this.copyToFrom = copyToFrom;
         this.capacity = capacity;
         this.lastIndex = capacity;
-        this.allocationSize = this.lastIndex + 1;
+        reset_header_tail_size_();
+    }
+    
+    /**
+     * Resets head, tail and size to empty list 
+     */
+    private void reset_header_tail_size_() {
         this.head = 0;
         this.tail = lastIndex;
         this.size = 0;
@@ -129,6 +135,20 @@ public class RingBufferIdx {
      */
     public int allocationSize() {
         return allocationSize;
+    }
+    
+    /**
+     * Returns the allocation size required for an array based on the
+     * desired ring buffer capacity;
+     *
+     * @param capacity the capacity
+     * @return the allocation size;
+     * @throws IllegalArgumentException if the capacity value is invalid
+     */
+    public static int allocationSizeForCapacity(int capacity) throws
+        IllegalArgumentException {
+        assert_valid_capacity_(capacity);
+        return capacity + 1;
     }
 
     /**
@@ -321,10 +341,11 @@ public class RingBufferIdx {
     public int mapIndex(int index)
         throws IndexOutOfBoundsException {
         assert_valid_external_index_(index);
-        if (tail >= head) {
-            return head + index;
+        int diff = allocationSize-head;
+        if(index<diff) {
+            return index+head;
         } else {
-            return index - (allocationSize - head);
+            return index-diff;
         }
     }
 
@@ -365,7 +386,7 @@ public class RingBufferIdx {
             tail = prev_(tail);
             size--;
         }
-        head = next_(head);
+        head = prev_(head);
         size++;
         return head;
     }
@@ -403,11 +424,33 @@ public class RingBufferIdx {
         tail = next_(tail);
         int addcursor = tail;
         while (addcursor != cursor) {
-            copyToFrom.accept(addcursor, prev_(addcursor));
-            addcursor = prev_(addcursor);
+            int prev_addcursor = prev_(addcursor);
+            copyToFrom.accept(addcursor, prev_addcursor);
+            addcursor = prev_addcursor;
         }
         deleteOperator.accept(addcursor);
         return cursor;
+    }
+    
+    
+    /**
+     * Allocates and returns the index for an insert operation.
+     * <p>
+     * This method is similar to {@link #acquireCursor(int) } but it uses
+     * the external, zero-based, index.
+	 * </p>
+     *
+     * @param index the external index
+     * @return the allocated index
+     */
+    public int acquireCursorUsingExternalIndex(int index) {
+        if(index == 0) {
+            return acquirePrepend();
+        }
+        if(index == size) {
+            return acquireAppend();
+        }
+        return acquireCursor(mapIndex(index));
     }
 
     /**
@@ -457,6 +500,50 @@ public class RingBufferIdx {
     }
 
     /**
+     * If the cursor position is deleted, this method will compact the
+     * array toward the head, calling the deleteOperator and copyToFrom
+     * operator to compact the data. The method will not decrement the
+     * size. That is expected to be done by the calling method.
+     *
+     * @param cursor the cursor that was vacated.
+     */
+    private void compact_toward_head_(int cursor) {
+        if (cursor != head) {
+            int compactCursor = cursor;
+            cursor = prev_(cursor);
+            while (!empty_as_tail_(cursor)) {
+                copyToFrom.accept(compactCursor, cursor);
+                compactCursor = prev_(compactCursor);
+                cursor = prev_(cursor);
+            }
+            deleteOperator.acceptInt(head);
+        }
+        head = next_(head);
+    }
+
+    /**
+     * If the cursor position is deleted, this method will compact the
+     * array toward the tail, calling the deleteOperator and copyToFrom
+     * operator to compact the data. The method will not decrement the
+     * size. That is expected to be done by the calling method.
+     *
+     * @param cursor the cursor that was vacated.
+     */
+    private void compact_toward_tail_(int cursor) {
+        if (cursor != tail) {
+            int compactCursor = cursor;
+            cursor = next_(cursor);
+            while (!empty_as_head_(cursor)) {
+                copyToFrom.acceptInt(compactCursor, cursor);
+                compactCursor = next_(compactCursor);
+                cursor = next_(cursor);
+            }
+            deleteOperator.acceptInt(tail);
+        }
+        tail = prev_(tail);
+    }
+    
+    /**
      * Removes the element at the given cursor and compacts the elements toward
      * the head.
      * 
@@ -465,38 +552,22 @@ public class RingBufferIdx {
      */
     private void remove_compact_toward_head_(int cursor) {
         deleteOperator.acceptInt(cursor);
-        int compactCursor = cursor;
-        cursor = prev_(cursor);
-        while (!empty_as_tail_(cursor)) {
-            copyToFrom.accept(compactCursor, cursor);
-            compactCursor = prev_(compactCursor);
-            cursor = prev_(cursor);
-        }
-        deleteOperator.acceptInt(head);
-        head = next_(head);
+        compact_toward_head_(cursor);
         size--;
     }
-
+    
     /**
-     * Removes the element at the given cursor and compacts toward the tail.
-     * 
-     * @param cursor
-     *            the cursor.
+     * Removes the element at the given cursor and compacts toward the
+     * tail.
+     *
+     * @param cursor the cursor.
      */
     private void remove_compact_toward_tail_(int cursor) {
         deleteOperator.acceptInt(cursor);
-        int compactCursor = cursor;
-        cursor = next_(cursor);
-        while (!empty_as_head_(cursor)) {
-            copyToFrom.accept(compactCursor, cursor);
-            compactCursor = next_(compactCursor);
-            cursor = next_(cursor);
-        }
-        deleteOperator.accept(tail);
-        tail = prev_(tail);
+        compact_toward_tail_(cursor);
         size--;
     }
-
+    
     /**
      * Returns the first index, starting from the head, that matches the given
      * predicate.
@@ -617,34 +688,86 @@ public class RingBufferIdx {
     public boolean removeAll(IntPredicate predicate) {
         int cursor = head;
         int compactCursor = head;
-        while (!empty_as_head_(cursor)) {
-            if (predicate.test(cursor)) {
-                deleteOperator.acceptInt(cursor);
+        
+        while(!empty_as_head_(cursor)) {
+            if(predicate.test(cursor)) {
                 size--;
             } else {
-                if (cursor != compactCursor) {
+                if(cursor !=compactCursor) {
+                    deleteOperator.acceptInt(compactCursor);
                     copyToFrom.acceptInt(compactCursor, cursor);
                 }
-                compactCursor = next_(compactCursor);
+                compactCursor=next_(compactCursor);
             }
             cursor = next_(cursor);
         }
-
+        
         if (compactCursor == cursor) {
             return false;
         }
-
-        cursor = compactCursor;
-        while (!empty_as_head_(cursor)) {
-            deleteOperator.acceptInt(cursor);
-            cursor = next_(cursor);
+        
+        tail=prev_(compactCursor);
+        
+        while(compactCursor != cursor) {
+            deleteOperator.acceptInt(compactCursor);
+            compactCursor=next_(compactCursor);
         }
-        tail = prev_(compactCursor);
+        
+        
+//        cursor = compactCursor;
+//        while (!empty_as_head_(cursor)) {
+//            deleteOperator.acceptInt(cursor);
+//            cursor = next_(cursor);
+//        }
+//        tail = prev_(compactCursor);
 
         return true;
 
     }
+    
+    /**
+     * Considers the cursor position as vacated and compacts toward either
+     * the head or the tail depending on which one is closer. There is no
+     * delete operation for the cursor position since the user performs the
+     * action.
+     *
+     * @param cursor the cursor that has been vacated.
+     */
+    public void remove(int cursor) {
+        if (compute_size_as_head_(cursor) >= compute_size_as_tail_(
+            cursor)) {
+            /* tail closer */
+            compact_toward_tail_(cursor);
+        } else {
+            /* head closer */
+            compact_toward_head_(cursor);
+        }
+    }
+    
+    /**
+     * Walks through all the valid indexes and reports them as deleted,
+     * then it resets the ring buffer to empty.
+     */
+    public void removeAll() {
+        if (!isEmpty()) {
+            int cursor = head;
+            while (!empty_as_head_(cursor)) {
+                deleteOperator.acceptInt(cursor);
+                cursor = next_(cursor);
+            }
+        }
+        reset_header_tail_size_();
+    }
 
+    /**
+     * Resets the ring buffer to empty without reporting any deleted
+     * elements (useful when the elements are moved and don't need to be
+     * reported as deleted
+     */
+    public void removeAllNoReporting() {
+        reset_header_tail_size_();
+    }
+    
     /**
      * Returns a forward iterator, that starts iterating from head toward the
      * tail.
@@ -774,58 +897,22 @@ public class RingBufferIdx {
     }
 
     /**
-     * Returns a string detailing the content of the ring buffer.
-     * 
-     * @return a string detailing the content of the ring buffer.
+     * Returns the head of the ring buffer
+     *
+     * @return the head of the ring buffer
      */
-    public String getDebugData() {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < 50; i++) {
-            stringBuilder.append('-');
-        }
-        stringBuilder.append(String.format("%n"));
-        int indexWidth = (capacity + "").length() + 1;
-        String formatIndexWidth = "%" + indexWidth + "d ";
-        String formatIndexStringWidth = "%" + indexWidth + "s ";
-        for (int i = 0; i <= capacity; i++) {
-            stringBuilder.append(String.format(formatIndexWidth, i));
-        }
-        stringBuilder.append(String.format("%n"));
-        for (int i = 0; i <= capacity; i++) {
-            if (i == head && i == tail) {
-                stringBuilder
-                    .append(String.format(formatIndexStringWidth, "HT"));
-            } else if (i == head) {
-                stringBuilder
-                    .append(String.format(formatIndexStringWidth, "H"));
-            } else if (i == tail) {
-                stringBuilder
-                    .append(String.format(formatIndexStringWidth, "T"));
-            } else {
-                stringBuilder
-                    .append(String.format(formatIndexStringWidth, " "));
-            }
-        }
-        stringBuilder.append(String.format("%n"));
-        stringBuilder.append(String.format("Capacity: %d%n", capacity()));
-        stringBuilder.append(String.format("Size: %d%n", size()));
-        stringBuilder
-            .append(String.format(
-                "Computed size: %d - isEmpty: %b - isFull: %b%n",
-                compute_size_(), isEmpty(), isFull()));
-        stringBuilder.append(
-            String.format("Allocation size: %d%n", allocationSize()));
-        for (int i = 0; i < 50; i++) {
-            stringBuilder.append('-');
-        }
-        return stringBuilder.substring(0);
+    public int head() {
+        return head;
     }
 
     /**
-     * Prints {@link #getDebugData()} to stderr.
+     * Returns the tail of the ring buffer
+     *
+     * @return the tail of the ring buffer
      */
-    public void printDebugData() {
-        System.err.println(getDebugData());
+    public int tail() {
+        return tail;
     }
+    
 
 }
