@@ -118,7 +118,6 @@ public class CharSequenceReader
     @Override
     public int read(char[] cbuf)
         throws IOException {
-        // TODO Auto-generated method stub
         return read(cbuf, 0, cbuf.length);
     }
 
