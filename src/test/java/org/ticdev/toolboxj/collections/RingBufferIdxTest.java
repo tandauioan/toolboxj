@@ -1,9 +1,11 @@
 package org.ticdev.toolboxj.collections;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 import org.junit.Assert;
 import org.junit.Test;
 import org.ticdev.toolboxj.allocation.AllocatorWithParameter;
@@ -17,6 +19,22 @@ import org.ticdev.toolboxj.tuples.Tuples;
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
 public class RingBufferIdxTest {
+
+    /**
+     * Unique string value supplier, with any call to {@link Supplier#get()},
+     * starting from 0.
+     */
+    static final Supplier<String> VALUE_SUPPLIER = new Supplier<String>() {
+
+        long currentValue = 0;
+
+        @Override
+        public String get() {
+            String result = currentValue + "";
+            currentValue++;
+            return result;
+        }
+    };
 
     /**
      * Test constructor with the minimum acceptable capacity
@@ -223,6 +241,131 @@ public class RingBufferIdxTest {
                 Assert.assertEquals(expected, deletions.removeFirst());
             });
             Assert.assertTrue(deletions.isEmpty());
+        }
+
+    }
+
+    /**
+     * Test {@link RingBufferIdx#acquireIndex(int)} with capacity 1.
+     */
+    @Test
+    public void test_acquireIndex_OneElement() {
+
+        final LinkedList<String> deletions = new LinkedList<>();
+
+        String[] elements = new String[RingBufferIdx.
+                allocationSizeForCapacity(1)];
+        RingBufferIdx rbi = new RingBufferIdx(1, d -> {
+            deletions.add(elements[d]);
+            elements[d] = null;
+        },
+                (to, from) -> elements[to] = elements[from]
+        );
+
+        Assert.assertTrue(rbi.isEmpty());
+
+        final String ZERO = "Zero";
+
+        final String ONE = "One";
+
+        final String TWO = "Two";
+
+        elements[rbi.acquireIndex(0)] = ZERO;
+        Assert.assertTrue(rbi.isFull());
+        Assert.assertEquals(ZERO, elements[rbi.forwardIterator().next()]);
+
+        elements[rbi.acquireIndex(0)] = ONE;
+        Assert.assertTrue(rbi.isFull());
+        Assert.assertEquals(ONE, elements[rbi.forwardIterator().next()]);
+        Assert.assertEquals(1, deletions.size());
+        Assert.assertEquals(ZERO, deletions.removeFirst());
+
+        elements[rbi.acquireIndex(1)] = "Two";
+        Assert.assertTrue(rbi.isFull());
+        Assert.assertEquals(TWO, elements[rbi.forwardIterator().next()]);
+        Assert.assertEquals(1, deletions.size());
+        Assert.assertEquals(ONE, deletions.removeFirst());
+
+    }
+
+    /**
+     * Test {@link RingBufferIdx#acquireIndex(int)}
+     */
+    @Test
+    public void test_acquireIndex() {
+
+        int capacity = 13;
+
+        final String[] elements = new String[RingBufferIdx.
+                allocationSizeForCapacity(capacity)];
+
+        RingBufferIdx rbi = new RingBufferIdx(capacity, d -> elements[d] = null,
+                (to, from) -> elements[to] = elements[from]);
+
+        final String[] expected = new String[capacity];
+
+        for (int i = 0; i < expected.length; i++) {
+            expected[i] = VALUE_SUPPLIER.get();
+        }
+
+        /* fill rbi by inserting at 0 with expected - ends up with reversed content */
+        Assert.assertTrue(rbi.isEmpty());
+        for (String s : expected) {
+            Assert.assertFalse(rbi.isFull());
+            elements[rbi.acquireIndex(0)] = s;
+        }
+        Assert.assertTrue(rbi.isFull());
+
+        IntIterator rbIterator = rbi.forwardIterator();
+        for (String s : ArraysSupport.reverseCopy(expected)) {
+            Assert.assertTrue(rbIterator.hasNext());
+            String actual = elements[rbIterator.next()];
+            Assert.assertEquals(s, actual);
+        }
+        Assert.assertFalse(rbIterator.hasNext());
+
+        /* inserting at with index==size appends */
+        for (int i = 0; i < expected.length; i++) {
+            expected[i] = VALUE_SUPPLIER.get();
+            elements[rbi.acquireIndex(rbi.size())] = expected[i];
+        }
+        rbIterator = rbi.forwardIterator();
+        for (String s : expected) {
+            Assert.assertTrue(rbIterator.hasNext());
+            String actual = elements[rbIterator.next()];
+            Assert.assertEquals(s, actual);
+        }
+        Assert.assertFalse(rbIterator.hasNext());
+
+        /* inserting at any position in full buffer will remove head 
+        so the position will be shifted by one toward the head */
+        for (int i = 0; i < capacity; i++) {
+            int expectedPos = i - 1;
+            if (expectedPos < 0) {
+                expectedPos = 0;
+            }
+            String expectedValue = VALUE_SUPPLIER.get();
+            elements[rbi.acquireIndex(i)] = expectedValue;
+            Assert.assertEquals(expectedValue, elements[rbi.
+                    mapIndex(expectedPos)]);
+        }
+
+        /* inserting at any position in the non-full buffer should
+        preserve the position
+         */
+        rbi = new RingBufferIdx(capacity, d -> elements[d] = null,
+                (to, from) -> elements[to] = elements[from]);
+        elements[rbi.acquireAppend()] = "HEAD";
+        elements[rbi.acquireAppend()] = "TAIL";
+        /* 0 and 1 have values */
+ /* pos moves modulo 5 to retry indexes */
+        int pos = 0;
+        for (int i = 1; i < capacity - 2; i++) {
+            pos = pos % 5;
+            Assert.assertFalse(rbi.isFull());
+            String expectedValue = VALUE_SUPPLIER.get();
+            elements[rbi.acquireIndex(pos)] = expectedValue;
+            Assert.assertEquals(expectedValue, elements[rbi.mapIndex(pos)]);
         }
 
     }
@@ -505,6 +648,172 @@ public class RingBufferIdxTest {
             Assert.assertEquals(e, rbIterator1.next());
         });
 
+    }
+
+    /**
+     * Test {@link RingBufferIdx#removeAll()}
+     */
+    @Test
+    public void test_removeAll_removeAllNoReporting() {
+
+        final int capacity = 123;
+
+        String[] elements = new String[RingBufferIdx.allocationSizeForCapacity(
+                capacity)];
+
+        RingBufferIdx rbi = new RingBufferIdx(capacity, d -> elements[d] = null,
+                (to, from) -> elements[to] = elements[from]);
+
+        for (int i = 0; i < capacity + 17; i++) {
+            elements[rbi.acquireAppend()] = VALUE_SUPPLIER.get();
+        }
+        Assert.assertTrue(rbi.isFull());
+        rbi.removeAll();
+        Assert.assertTrue(rbi.isEmpty());
+
+        /* all elements should've been set to null */
+        for (String s : elements) {
+            Assert.assertNull(s);
+        }
+
+        for (int i = 0; i < capacity + 17; i++) {
+            elements[rbi.acquireAppend()] = VALUE_SUPPLIER.get();
+        }
+        Assert.assertTrue(rbi.isFull());
+        rbi.removeAllNoReporting();
+        Assert.assertTrue(rbi.isEmpty());
+        /* all elements except for the extra allocated should be non-null, i.e. 1 null */
+        int nullCount = 0;
+        for (String s : elements) {
+            if (s == null) {
+                nullCount++;
+            }
+        }
+        Assert.assertEquals(1, nullCount);
+    }
+
+    /**
+     * Test {@link RingBufferIdx#removeHead()}
+     */
+    @Test
+    public void test_removeHead() {
+        final int capacity = 123;
+        String[] elements = new String[RingBufferIdx.allocationSizeForCapacity(
+                capacity)];
+        RingBufferIdx rbi = new RingBufferIdx(capacity, d -> elements[d] = null,
+                (to, from) -> elements[to] = elements[from]);
+        
+        LinkedList<String> doubleCheck = new LinkedList<>();
+        
+        while(!rbi.isFull()) {
+            String value = VALUE_SUPPLIER.get();
+            elements[rbi.acquireAppend()]=value;
+            doubleCheck.add(value);
+        }
+        
+        while(!doubleCheck.isEmpty()) {
+            String expectedValue = doubleCheck.removeFirst();
+            String actualValue = elements[rbi.removeHead()];
+            Assert.assertEquals(expectedValue, actualValue);
+            final IntIterator rbIterator=rbi.forwardIterator();
+            doubleCheck.forEach(e -> {
+                Assert.assertTrue(rbIterator.hasNext());
+                Assert.assertEquals(e, elements[rbIterator.next()]);
+            });
+        }
+        Assert.assertTrue(rbi.isEmpty());
+        
+        /* sweep and catch up */
+        while(!rbi.isFull()) {
+            elements[rbi.acquireAppend()]=VALUE_SUPPLIER.get();
+        }
+        
+        int count=0;
+        while(!rbi.isEmpty()) {
+            elements[rbi.removeHead()]=null;
+            if(!rbi.isEmpty()) {
+                elements[rbi.acquireAppend()]=VALUE_SUPPLIER.get();
+                elements[rbi.removeHead()]=null;
+            }
+            count++;
+        }
+        Assert.assertEquals(capacity, count);
+        
+        
+    }
+    
+    @Test
+    public void test_removeTail() {
+        final int capacity = 123;
+        String[] elements = new String[RingBufferIdx.allocationSizeForCapacity(
+                capacity)];
+        RingBufferIdx rbi = new RingBufferIdx(capacity, d -> elements[d] = null,
+                (to, from) -> elements[to] = elements[from]);
+        
+        LinkedList<String> doubleCheck = new LinkedList<>();
+        
+        while(!rbi.isFull()) {
+            String value = VALUE_SUPPLIER.get();
+            elements[rbi.acquireAppend()]=value;
+            doubleCheck.add(value);
+        }
+        
+        while(!doubleCheck.isEmpty()) {
+            String expectedValue = doubleCheck.removeLast();
+            String actualValue = elements[rbi.removeTail()];
+            Assert.assertEquals(expectedValue, actualValue);
+            final IntIterator rbIterator=rbi.forwardIterator();
+            doubleCheck.forEach(e -> {
+                Assert.assertTrue(rbIterator.hasNext());
+                Assert.assertEquals(e, elements[rbIterator.next()]);
+            });
+        }
+        
+        Assert.assertTrue(rbi.isEmpty());
+        
+        /* sweep and catch up */
+        while(!rbi.isFull()) {
+            elements[rbi.acquireAppend()]=VALUE_SUPPLIER.get();
+        }
+        
+        int count=0;
+        while(!rbi.isEmpty()) {
+            elements[rbi.removeTail()]=null;
+            if(!rbi.isEmpty()) {
+                elements[rbi.acquirePrepend()]=VALUE_SUPPLIER.get();
+                elements[rbi.removeTail()]=null;
+            }
+            count++;
+        }
+        Assert.assertEquals(capacity, count);
+    }
+    
+    /**
+     * TODO
+     */
+    @Test
+    public void test_removeFirst_predicate() {
+        
+    }
+    
+    /**
+     * TODO
+     */
+    @Test
+    public void test_removeLast_predicate() {
+        
+    }
+    
+    public void test_removeAll_predicate() {
+        
+    }
+    
+    /**
+     * TODO
+     */
+    @Test
+    public void test_remove_at_index() {
+        
     }
 
 }
