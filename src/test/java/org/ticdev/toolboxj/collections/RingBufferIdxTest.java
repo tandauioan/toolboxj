@@ -1,6 +1,5 @@
 package org.ticdev.toolboxj.collections;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -741,6 +740,9 @@ public class RingBufferIdxTest {
 
     }
 
+    /**
+     * Test {@link RingBufferIdx#removeTail()}
+     */
     @Test
     public void test_removeTail() {
         final int capacity = 123;
@@ -1033,7 +1035,7 @@ public class RingBufferIdxTest {
                 elementsExpected.add(valueSame);
             }
             rbi.removeAll(i -> elements[i].equals(valueSame));
-            while(elementsExpected.remove(valueSame));
+            while(elementsExpected.remove(valueSame)){}
             Assert.assertTrue(rbi.isEmpty());
             Assert.assertTrue(elementsExpected.isEmpty());
             /* fill with unique values */
@@ -1045,7 +1047,7 @@ public class RingBufferIdxTest {
             while(!elementsExpected.isEmpty()) {
                 final String valueToRemove = elementsExpected.get(elementsExpected.size()/2);
                 rbi.removeAll(i -> elements[i].equals(valueToRemove));
-                while(elementsExpected.remove(valueToRemove));
+                while(elementsExpected.remove(valueToRemove)){}
                 Assert.assertEquals(elementsExpected.size(), rbi.size());
                 IntIterator rbIterator = rbi.forwardIterator();
                 for(String s : elementsExpected) {
@@ -1069,7 +1071,7 @@ public class RingBufferIdxTest {
             while(!elementsExpected.isEmpty()) {
                 final String valueToRemove = elementsExpected.get(elementsExpected.size()/2);
                 rbi.removeAll(i -> elements[i].equals(valueToRemove));
-                while(elementsExpected.remove(valueToRemove));
+                while(elementsExpected.remove(valueToRemove)){}
                 Assert.assertEquals(elementsExpected.size(), rbi.size());
                 IntIterator rbIterator = rbi.forwardIterator();
                 for(String s : elementsExpected) {
