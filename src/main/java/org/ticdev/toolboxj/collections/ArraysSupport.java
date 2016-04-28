@@ -36,8 +36,8 @@ public class ArraysSupport {
         int right = arr.length - 1;
         while (left < right) {
             T tmp = arr[left];
-            arr[left] = arr[right];
-            arr[right] = tmp;
+            arr[left++] = arr[right];
+            arr[right--] = tmp;
         }
     }
 
