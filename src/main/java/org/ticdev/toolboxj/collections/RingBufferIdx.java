@@ -275,6 +275,9 @@ public class RingBufferIdx {
      */
     protected int compute_size_() {
         int result = tail - head + 1;
+        if(result == allocationSize) {
+            return 0;
+        }
         return result >= 0 ? result : allocationSize + result;
     }
 
@@ -286,6 +289,9 @@ public class RingBufferIdx {
      */
     protected int compute_size_as_head_(int cursor) {
         int result = tail - cursor + 1;
+        if(result == allocationSize) {
+            return 0;
+        }
         return result >= 0 ? result : allocationSize - result;
     }
 
@@ -297,6 +303,9 @@ public class RingBufferIdx {
      */
     protected int compute_size_as_tail_(int cursor) {
         int result = cursor - head + 1;
+        if(result == allocationSize) {
+            return 0;
+        }
         return result >= 0 ? result : allocationSize - result;
     }
 
@@ -603,7 +612,7 @@ public class RingBufferIdx {
             if (predicate.test(cursor)) {
                 return cursor;
             }
-            cursor = next_(cursor);
+            cursor = prev_(cursor);
         }
         return -1;
     }
@@ -738,6 +747,7 @@ public class RingBufferIdx {
             /* head closer */
             compact_toward_head_(cursor);
         }
+        size--;
     }
 
     /**
