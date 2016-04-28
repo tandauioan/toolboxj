@@ -44,6 +44,7 @@ public class ArraysSupport {
     /**
      * Returns a string representation of an array.
      *
+     * @param <T> the type of the elements in the array
      * @param arr the array
      * @return the string representation
      */
