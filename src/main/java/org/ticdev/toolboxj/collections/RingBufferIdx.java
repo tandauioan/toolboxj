@@ -275,7 +275,7 @@ public class RingBufferIdx {
      */
     protected int compute_size_() {
         int result = tail - head + 1;
-        if(result == allocationSize) {
+        if (result == allocationSize) {
             return 0;
         }
         return result >= 0 ? result : allocationSize + result;
@@ -289,7 +289,7 @@ public class RingBufferIdx {
      */
     protected int compute_size_as_head_(int cursor) {
         int result = tail - cursor + 1;
-        if(result == allocationSize) {
+        if (result == allocationSize) {
             return 0;
         }
         return result >= 0 ? result : allocationSize - result;
@@ -303,7 +303,7 @@ public class RingBufferIdx {
      */
     protected int compute_size_as_tail_(int cursor) {
         int result = cursor - head + 1;
-        if(result == allocationSize) {
+        if (result == allocationSize) {
             return 0;
         }
         return result >= 0 ? result : allocationSize - result;
@@ -402,41 +402,41 @@ public class RingBufferIdx {
     private int acquire_cursor_remove_head_on_full_(int cursor) {
         int diffHead = compute_size_as_tail_(cursor);
         int diffTail = compute_size_as_head_(cursor);
-        
-        if(isFull()) {
+
+        if (isFull()) {
             deleteOperator.accept(head);
-            if(head==cursor) {
+            if (head == cursor) {
                 return cursor;
             }
-            head=next_(head);
+            head = next_(head);
             size--;
             diffHead--;
         }
         size++;
         int addCursor;
-        if(diffHead < diffTail) {
+        if (diffHead < diffTail) {
             /* head is closer */
             head = prev_(head);
             addCursor = head;
             int c = next_(addCursor);
-            while(c!=cursor) {
+            while (c != cursor) {
                 copyToFrom.accept(addCursor, c);
-                addCursor=next_(addCursor);
-                c=next_(c);
+                addCursor = next_(addCursor);
+                c = next_(c);
             }
-            if(addCursor!=head) {
+            if (addCursor != head) {
                 deleteOperator.accept(addCursor);
             }
         } else {
-            tail=next_(tail);
+            tail = next_(tail);
             addCursor = tail;
             int c = prev_(tail);
-            while(c!=prev_(cursor)) {
+            while (c != prev_(cursor)) {
                 copyToFrom.accept(addCursor, c);
-                addCursor=prev_(addCursor);
-                c=prev_(c);
+                addCursor = prev_(addCursor);
+                c = prev_(c);
             }
-            if(addCursor!=tail) {
+            if (addCursor != tail) {
                 deleteOperator.accept(addCursor);
             }
         }
@@ -751,14 +751,18 @@ public class RingBufferIdx {
     }
 
     /**
-     * Removes the element at the given external index, and compacts either toward the head or the tail depending which one is closer. There is no delete operation for the cursor position since the user performs the action.
+     * Removes the element at the given external index, and compacts either
+     * toward the head or the tail depending which one is closer. There is no
+     * delete operation for the cursor position since the user performs the
+     * action.
+     *
      * @param index the external index
      * @throws IndexOutOfBoundsException if the index is out of bounds
      */
     public void remove(int index) throws IndexOutOfBoundsException {
         remove_(mapIndex(index));
     }
-    
+
     /**
      * Walks through all the valid indexes and reports them as deleted, then it
      * resets the ring buffer to empty.

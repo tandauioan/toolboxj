@@ -316,7 +316,7 @@ public class RingBufferIdxTest {
         Assert.assertTrue(rbi.isFull());
 
         IntIterator rbIterator = rbi.forwardIterator();
-        for (String s : ArraysSupport.reverseCopy(expected)) {
+        for (String s : ArraySupport.reverseCopy(expected)) {
             Assert.assertTrue(rbIterator.hasNext());
             String actual = elements[rbIterator.next()];
             Assert.assertEquals(s, actual);
