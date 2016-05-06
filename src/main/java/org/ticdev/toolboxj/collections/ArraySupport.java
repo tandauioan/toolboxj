@@ -102,7 +102,9 @@ public class ArraySupport {
                     right));
         }
 
-        /* return instance based on the offset to optimize index access */
+        /*
+         * return instance based on the offset to optimize index access
+         */
         if (left > 0) {
             return new IntIndexedGetterSetter<T>() {
 
@@ -151,8 +153,7 @@ public class ArraySupport {
     }
 
     /**
-     * Short form of {@link #indexedGetterSetterOf(T[], int, int)} wrapping
-     * around the entire array.
+     * Wraps the entire array into an {@link IntIndexedGetterSetter}.
      *
      * @param <T> the type of elements in the array
      * @param array the wrapped array
