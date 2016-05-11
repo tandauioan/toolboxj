@@ -13,4 +13,32 @@ public interface LongIndexedGetterSetter<E>
         LongIndexedSetter<E>,
         LongSized {
 
+    /**
+     * Returns a new instance of {@link LongIndexedGetterSetter} that wraps an
+     * instance of {@link IntIndexedGetterSetter}.
+     *
+     * @param <T> the type of elements in the getter/setter.
+     * @param gs the int indexed getter setter instance
+     * @return the long indexed wrapper
+     */
+    static <T> LongIndexedGetterSetter<T> wrap(
+            final IntIndexedGetterSetter<T> gs) {
+        return new LongIndexedGetterSetter<T>() {
+            @Override
+            public T get(long index) throws IndexOutOfBoundsException {
+                return gs.get((int) index);
+            }
+
+            @Override
+            public void set(long index, T value) {
+                gs.set((int) index, value);
+            }
+
+            @Override
+            public long size() {
+                return gs.size();
+            }
+        };
+    }
+
 }
