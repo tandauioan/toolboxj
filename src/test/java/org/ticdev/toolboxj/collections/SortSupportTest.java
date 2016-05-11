@@ -179,15 +179,6 @@ public class SortSupportTest {
             SortSupport.heapSort(ArraySupport.indexedGetterSetterOf(actual),
                     VALUES_COMPARATOR);
             Assert.assertArrayEquals(expected, actual);
-
-            // TODO remove the commented code below
-//            System.out.println("---- START:" + original.length);
-//            for (int i = 0; i < original.length; i++) {
-//                System.out.println(
-//                        i + "\t" + original[i] + "\t" + expected[i] + "\t" + actual[i]);
-//            }
-//            System.out.println("---- DONE:" + original.length);
-//            System.out.println();
         }
     }
 
