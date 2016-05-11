@@ -247,7 +247,7 @@ public class ArraySupportTest {
                         Assert.assertEquals(original[i], gs.get(i - left));
                     }
                     /*
-                     * TODO make changes via gs and make sure they're reflected
+                     * make changes via gs and make sure they're reflected
                      * in array
                      */
                     for (int i = left; i < right; i++) {
