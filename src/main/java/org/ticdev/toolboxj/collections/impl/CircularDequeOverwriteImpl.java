@@ -18,7 +18,7 @@ import org.ticdev.toolboxj.functions.UnaryConsumer;
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  * @param <E> the type of the element contained by this collection
  */
-public class CircularDequeOverwrite<E> implements Deque<E> {
+public class CircularDequeOverwriteImpl<E> implements Deque<E> {
 
     /**
      * The ring buffer idx object
@@ -38,7 +38,7 @@ public class CircularDequeOverwrite<E> implements Deque<E> {
      * objects which are not returned to the caller
      * @throws IllegalArgumentException if the capacity is invalid
      */
-    public CircularDequeOverwrite(int capacity,
+    public CircularDequeOverwriteImpl(int capacity,
                                   UnaryConsumer<Object> deleteOperator) throws
             IllegalArgumentException {
 
@@ -61,7 +61,7 @@ public class CircularDequeOverwrite<E> implements Deque<E> {
      * @param capacity the capacity of the deque.
      * @throws IllegalArgumentException if the capacity is invalid
      */
-    public CircularDequeOverwrite(int capacity) throws IllegalArgumentException {
+    public CircularDequeOverwriteImpl(int capacity) throws IllegalArgumentException {
         this(capacity, null);
     }
 
