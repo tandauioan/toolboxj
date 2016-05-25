@@ -2,5 +2,6 @@
 .classpath
 .project
 .settings/
-
+.idea
+toolbox.iml
 /nb-configuration.xml
