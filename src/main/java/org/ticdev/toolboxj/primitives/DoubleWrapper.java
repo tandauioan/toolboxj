@@ -160,7 +160,7 @@ public class DoubleWrapper
      *            the value
      * @return the new instance
      */
-    public static final DoubleWrapper of(double value) {
+    public static  DoubleWrapper of(double value) {
         return new DoubleWrapper(value);
     }
 
@@ -171,7 +171,7 @@ public class DoubleWrapper
      *            the primitive getter
      * @return the new instance
      */
-    public static final DoubleWrapper
+    public static  DoubleWrapper
         of(PrimitiveGetter<?> primitiveGetter) {
         return of(primitiveGetter.doubleValue());
     }

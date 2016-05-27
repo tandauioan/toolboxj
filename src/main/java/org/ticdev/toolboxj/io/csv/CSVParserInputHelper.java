@@ -30,12 +30,12 @@ public interface CSVParserInputHelper {
     /**
      * end-of-line flag
      */
-    public static final int EOL = -2;
+    int EOL = -2;
 
     /**
      * end-of-file flag
      */
-    public static final int EOF = -1;
+    int EOF = -1;
 
     /**
      * Reads the next character from the reader.

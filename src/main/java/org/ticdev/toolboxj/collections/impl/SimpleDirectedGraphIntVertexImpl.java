@@ -88,7 +88,7 @@ public class SimpleDirectedGraphIntVertexImpl<EDGE> implements Graph<Integer, ED
 
     @Override
     public boolean hasVertex(Integer vertex) {
-        return vertex == null ? false : vertex >= 0 && vertex < vertices.size();
+        return vertex != null && vertex >= 0 && vertex < vertices.size();
     }
 
     @Override

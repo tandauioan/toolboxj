@@ -1,18 +1,20 @@
 package org.ticdev.toolboxj.tuples;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.ticdev.toolboxj.support.ObjectSupport;
+import org.ticdev.toolboxj.tuplesnew.Single;
+import org.ticdev.toolboxj.tuplesnew.TupleSupport;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Test a {@link Single}
- * 
- * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  *
+ * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
 public class SingleTest {
 
@@ -25,10 +27,10 @@ public class SingleTest {
         final String item1 = "testitem1";
 
         final List<Single<String>> inputTuples = new LinkedList<>();
-        inputTuples.add(Tuples.of(item1));
-        inputTuples.add(Tuples.copyOf(Tuples.of(item1)));
-        inputTuples.add(Tuples.of(null));
-        inputTuples.add(Tuples.copyOf(Tuples.of(null)));
+        inputTuples.add(TupleSupport.of(item1));
+        inputTuples.add(TupleSupport.copyOf(TupleSupport.of(item1)));
+        inputTuples.add(TupleSupport.of(null));
+        inputTuples.add(TupleSupport.copyOf(TupleSupport.of(null)));
 
         final List<String> expectedContent = new LinkedList<>();
         expectedContent.add(item1);
@@ -37,13 +39,13 @@ public class SingleTest {
         expectedContent.add(null);
 
         /* none null */
-        inputTuples.stream().forEach(s -> Assert.assertNotNull(s));
+        inputTuples.stream().forEach(Assert::assertNotNull);
 
         /* correct content */
         final Iterator<String> expectedContentIterator =
-            expectedContent.iterator();
-        inputTuples.stream().map(s -> s.item1()).forEach(is -> Assert
-            .assertEquals(expectedContentIterator.next(), is));
+                expectedContent.iterator();
+        inputTuples.stream().map(Single::item1).forEach(is -> Assert
+                .assertEquals(expectedContentIterator.next(), is));
 
     }
 
@@ -57,9 +59,9 @@ public class SingleTest {
 
         final Object[] objects = {
 
-            Tuples.of(item1),
+                TupleSupport.of(item1),
 
-            Tuples.copyOf(Tuples.of(item1))
+                TupleSupport.copyOf(TupleSupport.of(item1))
 
         };
 

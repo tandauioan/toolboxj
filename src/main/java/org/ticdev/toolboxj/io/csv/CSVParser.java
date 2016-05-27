@@ -48,7 +48,7 @@ public interface CSVParser {
      * @throws Exception
      *             if any other exception occurred
      */
-    public List<String>
+    List<String>
         parseRecord(Reader reader, List<String> destination)
             throws CSVParserException,
             CSVParserLineTooLongException,

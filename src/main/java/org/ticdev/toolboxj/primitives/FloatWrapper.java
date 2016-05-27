@@ -160,7 +160,7 @@ public class FloatWrapper
      *            the value
      * @return the new instance
      */
-    public static final FloatWrapper of(float value) {
+    public static FloatWrapper of(float value) {
         return new FloatWrapper(value);
     }
 
@@ -171,7 +171,7 @@ public class FloatWrapper
      *            the primitive getter
      * @return the new instance
      */
-    public static final FloatWrapper
+    public static FloatWrapper
         of(PrimitiveGetter<?> primitiveGetter) {
         return of(primitiveGetter.floatValue());
     }

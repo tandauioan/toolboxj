@@ -18,7 +18,7 @@ public interface Collector<T> {
      * @param obj
      *            the object to release.
      */
-    public void release(T obj);
+    void release(T obj);
 
     /**
      * Releases len the objects starting from off, from the given object array.

@@ -33,7 +33,7 @@ public class EOFInputStream
      * 
      * @return the singleton instance.
      */
-    public static final EOFInputStream getInstance() {
+    public static EOFInputStream getInstance() {
         return INSTANCE;
     }
     

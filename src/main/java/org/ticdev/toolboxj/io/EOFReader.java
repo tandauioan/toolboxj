@@ -37,7 +37,7 @@ public class EOFReader
      * 
      * @return the singleton instance.
      */
-    public final static EOFReader getInstance() {
+    public static EOFReader getInstance() {
         return INSTANCE;
     }
 

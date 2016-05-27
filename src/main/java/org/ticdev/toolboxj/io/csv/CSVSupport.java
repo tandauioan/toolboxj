@@ -143,7 +143,7 @@ public class CSVSupport {
             throws Exception {
 
         try (BufferedReader reader =
-            Files.newBufferedReader(file.toPath(), charset);) {
+            Files.newBufferedReader(file.toPath(), charset)) {
 
             return parseReader(reader, fieldDelimiter, textDelimiter,
                 multiLineEOL, inputHelper);

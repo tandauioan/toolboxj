@@ -161,7 +161,7 @@ public class IntWrapper
      *            the value
      * @return the new instance
      */
-    public static final IntWrapper of(int value) {
+    public static IntWrapper of(int value) {
         return new IntWrapper(value);
     }
 
@@ -172,7 +172,7 @@ public class IntWrapper
      *            the primitive getter
      * @return the new instance
      */
-    public static final IntWrapper
+    public static IntWrapper
         of(PrimitiveGetter<?> primitiveGetter) {
         return of(primitiveGetter.intValue());
     }

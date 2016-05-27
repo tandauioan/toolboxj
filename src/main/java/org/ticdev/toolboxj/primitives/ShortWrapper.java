@@ -115,7 +115,7 @@ public class ShortWrapper
 
     @Override
     public ShortWrapper shortValue(short value) {
-        this.value = (short) value;
+        this.value = value;
         return this;
     }
 
@@ -162,7 +162,7 @@ public class ShortWrapper
      *            the value
      * @return the new instance
      */
-    public static final ShortWrapper of(short value) {
+    public static ShortWrapper of(short value) {
         return new ShortWrapper(value);
     }
 
@@ -173,7 +173,7 @@ public class ShortWrapper
      *            the primitive getter
      * @return the new instance
      */
-    public static final ShortWrapper
+    public static ShortWrapper
         of(PrimitiveGetter<?> primitiveGetter) {
         return of(primitiveGetter.shortValue());
     }

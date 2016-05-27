@@ -161,7 +161,7 @@ public class ByteWrapper
      *            the value
      * @return the new instance
      */
-    public static final ByteWrapper of(byte value) {
+    public static  ByteWrapper of(byte value) {
         return new ByteWrapper(value);
     }
 
@@ -172,7 +172,7 @@ public class ByteWrapper
      *            the primitive getter
      * @return the new instance
      */
-    public static final ByteWrapper
+    public static  ByteWrapper
         of(PrimitiveGetter<?> primitiveGetter) {
         return of(primitiveGetter.byteValue());
     }

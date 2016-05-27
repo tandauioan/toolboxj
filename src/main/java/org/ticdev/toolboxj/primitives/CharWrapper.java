@@ -98,7 +98,7 @@ public class CharWrapper
 
     @Override
     public char charValue() {
-        return (char) value;
+        return value;
     }
 
     @Override
@@ -162,7 +162,7 @@ public class CharWrapper
      *            the value
      * @return the new instance
      */
-    public static final CharWrapper of(char value) {
+    public static  CharWrapper of(char value) {
         return new CharWrapper(value);
     }
 
@@ -173,7 +173,7 @@ public class CharWrapper
      *            the primitive getter
      * @return the new instance
      */
-    public static final CharWrapper
+    public static  CharWrapper
         of(PrimitiveGetter<?> primitiveGetter) {
         return of(primitiveGetter.charValue());
     }

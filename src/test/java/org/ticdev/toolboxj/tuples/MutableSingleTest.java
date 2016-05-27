@@ -7,12 +7,14 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.ticdev.toolboxj.support.ObjectSupport;
+import org.ticdev.toolboxj.tuplesnew.MutableSingle;
+import org.ticdev.toolboxj.tuplesnew.Single;
+import org.ticdev.toolboxj.tuplesnew.TupleSupport;
 
 /**
  * Test {@link MutableSingle}.
- * 
- * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  *
+ * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
 public class MutableSingleTest {
 
@@ -25,15 +27,20 @@ public class MutableSingleTest {
         final String item1 = "testitem1";
 
         final List<MutableSingle<String>> inputTuples = new LinkedList<>();
-        inputTuples.add(Tuples.mutableOf(item1));
-        inputTuples.add(Tuples.mutableCopyOf(Tuples.mutableOf(item1)));
-        inputTuples.add(Tuples.mutableCopyOf(Tuples.of(item1)));
-        inputTuples.add(Tuples.<String> newMutableSingle().item1(item1));
-        inputTuples.add(Tuples.mutableOf(null));
-        inputTuples.add(Tuples.mutableCopyOf(Tuples.mutableOf(null)));
-        inputTuples.add(Tuples.mutableCopyOf(Tuples.of(null)));
+        inputTuples.add(TupleSupport.mutableOf(item1));
+        inputTuples.add(TupleSupport.mutableCopyOf(
+                TupleSupport.mutableOf(item1)));
+        inputTuples
+                .add(TupleSupport.mutableCopyOf(TupleSupport.of(item1)));
+        inputTuples
+                .add(TupleSupport.<String>newMutableSingle().item1(item1));
+        inputTuples.add(TupleSupport.mutableOf(null));
+        inputTuples.add(TupleSupport.mutableCopyOf(
+                TupleSupport.mutableOf(null)));
+        inputTuples.add(TupleSupport.mutableCopyOf(TupleSupport.of(null)));
         inputTuples.add(
-            Tuples.<String> newMutableSingle().item1(item1).item1(null));
+                TupleSupport.<String>newMutableSingle().item1(item1)
+                                                       .item1(null));
 
         final List<String> expectedContent = new LinkedList<>();
         expectedContent.add(item1);
@@ -46,13 +53,13 @@ public class MutableSingleTest {
         expectedContent.add(null);
 
         /* none null */
-        inputTuples.stream().forEach(ms -> Assert.assertNotNull(ms));
+        inputTuples.stream().forEach(Assert::assertNotNull);
 
         /* correct content */
         final Iterator<String> expectedContentIterator =
-            expectedContent.iterator();
-        inputTuples.stream().map(ms -> ms.item1()).forEach(ims -> Assert
-            .assertEquals(expectedContentIterator.next(), ims));
+                expectedContent.iterator();
+        inputTuples.stream().map(Single::item1).forEach(ims -> Assert
+                .assertEquals(expectedContentIterator.next(), ims));
 
     }
 
@@ -63,11 +70,11 @@ public class MutableSingleTest {
     public void testEqualObjects() {
         final String item1 = "testitem1";
         final Object[] objects = {
-            Tuples.of(item1),
-            Tuples.copyOf(Tuples.mutableOf(item1)),
-            Tuples.mutableOf(item1),
-            Tuples.mutableCopyOf(Tuples.mutableOf(item1)),
-            Tuples.mutableCopyOf(Tuples.of(item1))
+                TupleSupport.of(item1),
+                TupleSupport.copyOf(TupleSupport.mutableOf(item1)),
+                TupleSupport.mutableOf(item1),
+                TupleSupport.mutableCopyOf(TupleSupport.mutableOf(item1)),
+                TupleSupport.mutableCopyOf(TupleSupport.of(item1))
         };
         Assert.assertTrue(ObjectSupport.allNonNull(objects));
         Assert.assertTrue(ObjectSupport.allEqualHashes(objects));

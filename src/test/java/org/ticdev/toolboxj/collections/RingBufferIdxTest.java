@@ -5,12 +5,13 @@ import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Supplier;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.ticdev.toolboxj.allocation.AllocatorWithParameter;
 import org.ticdev.toolboxj.primitives.IntWrapper;
-import org.ticdev.toolboxj.tuples.Pair;
-import org.ticdev.toolboxj.tuples.Tuples;
+import org.ticdev.toolboxj.tuplesnew.Pair;
+import org.ticdev.toolboxj.tuplesnew.TupleSupport;
 
 /**
  * Test class for {@link RingBufferIdx}.
@@ -178,11 +179,11 @@ public class RingBufferIdxTest {
 
         final AllocatorWithParameter<RingBufferIdx, Integer> allocator
                 = (capacity) -> new RingBufferIdx(
-                        capacity,
-                        d -> {
-                        },
-                        (to, from) -> {
-                        });
+                capacity,
+                d -> {
+                },
+                (to, from) -> {
+                });
 
         int rangeMin = Math.max(1, RingBufferIdx.MIN_CAPACITY);
         int rangeMax = Math.min(
@@ -205,19 +206,20 @@ public class RingBufferIdxTest {
 
         final LinkedList<Integer> deletions = new LinkedList<>();
 
-        final LinkedList<Pair<Integer, Integer>> copies = new LinkedList<>();
+        final LinkedList<Pair<Integer, Integer>> copies =
+                new LinkedList<>();
 
         final AllocatorWithParameter<RingBufferIdx, Integer> allocator
                 = (capacity)
                 -> new RingBufferIdx(
-                        capacity,
-                        d -> deletions.add(d),
-                        (to, from) -> copies.add(
-                                Tuples.of(to, from)));
+                capacity,
+                deletions::add,
+                (to, from) -> copies.add(
+                        TupleSupport.of(to, from)));
 
         int rangeMin = Math.max(1, RingBufferIdx.MIN_CAPACITY);
         int rangeMax = Math.min(RingBufferIdx.MIN_CAPACITY + 10,
-                RingBufferIdx.MAX_CAPACITY);
+                                RingBufferIdx.MAX_CAPACITY);
 
         for (int capacity = rangeMin; capacity < rangeMax; capacity++) {
             RingBufferIdx rbi = allocator.allocate(capacity);
@@ -253,12 +255,14 @@ public class RingBufferIdxTest {
         final LinkedList<String> deletions = new LinkedList<>();
 
         String[] elements = new String[RingBufferIdx.
-                allocationSizeForCapacity(1)];
+                                                            allocationSizeForCapacity(
+                                                                    1)];
         RingBufferIdx rbi = new RingBufferIdx(1, d -> {
             deletions.add(elements[d]);
             elements[d] = null;
         },
-                (to, from) -> elements[to] = elements[from]
+                                              (to, from) -> elements[to] =
+                                                      elements[from]
         );
 
         Assert.assertTrue(rbi.isEmpty());
@@ -296,10 +300,13 @@ public class RingBufferIdxTest {
         int capacity = 13;
 
         final String[] elements = new String[RingBufferIdx.
-                allocationSizeForCapacity(capacity)];
+                                                                  allocationSizeForCapacity(
+                                                                          capacity)];
 
-        RingBufferIdx rbi = new RingBufferIdx(capacity, d -> elements[d] = null,
-                (to, from) -> elements[to] = elements[from]);
+        RingBufferIdx rbi =
+                new RingBufferIdx(capacity, d -> elements[d] = null,
+                                  (to, from) -> elements[to] =
+                                          elements[from]);
 
         final String[] expected = new String[capacity];
 
@@ -346,14 +353,16 @@ public class RingBufferIdxTest {
             String expectedValue = VALUE_SUPPLIER.get();
             elements[rbi.acquireIndex(i)] = expectedValue;
             Assert.assertEquals(expectedValue, elements[rbi.
-                    mapIndex(expectedPos)]);
+                                                                   mapIndex(
+                                                                           expectedPos)]);
         }
 
         /* inserting at any position in the non-full buffer should
         preserve the position
          */
         rbi = new RingBufferIdx(capacity, d -> elements[d] = null,
-                (to, from) -> elements[to] = elements[from]);
+                                (to, from) -> elements[to] =
+                                        elements[from]);
         elements[rbi.acquireAppend()] = "HEAD";
         elements[rbi.acquireAppend()] = "TAIL";
         /* 0 and 1 have values */
@@ -364,7 +373,8 @@ public class RingBufferIdxTest {
             Assert.assertFalse(rbi.isFull());
             String expectedValue = VALUE_SUPPLIER.get();
             elements[rbi.acquireIndex(pos)] = expectedValue;
-            Assert.assertEquals(expectedValue, elements[rbi.mapIndex(pos)]);
+            Assert.assertEquals(expectedValue,
+                                elements[rbi.mapIndex(pos)]);
         }
 
     }
@@ -424,19 +434,20 @@ public class RingBufferIdxTest {
 
         final LinkedList<Integer> deletions = new LinkedList<>();
 
-        final LinkedList<Pair<Integer, Integer>> copies = new LinkedList<>();
+        final LinkedList<Pair<Integer, Integer>> copies =
+                new LinkedList<>();
 
         final AllocatorWithParameter<RingBufferIdx, Integer> allocator
                 = (capacity)
                 -> new RingBufferIdx(
-                        capacity,
-                        d -> deletions.add(d),
-                        (to, from) -> copies.add(
-                                Tuples.of(to, from)));
+                capacity,
+                deletions::add,
+                (to, from) -> copies.add(
+                        TupleSupport.of(to, from)));
 
         int rangeMin = Math.max(1, RingBufferIdx.MIN_CAPACITY);
         int rangeMax = Math.min(RingBufferIdx.MIN_CAPACITY + 10,
-                RingBufferIdx.MAX_CAPACITY);
+                                RingBufferIdx.MAX_CAPACITY);
 
         for (int capacity = rangeMin; capacity < rangeMax; capacity++) {
             RingBufferIdx rbi = allocator.allocate(capacity);
@@ -471,7 +482,7 @@ public class RingBufferIdxTest {
     public void test_validate_allocationSize() {
         int rangeMin = Math.max(1, RingBufferIdx.MIN_CAPACITY);
         int rangeMax = Math.min(RingBufferIdx.MIN_CAPACITY + 10,
-                RingBufferIdx.MAX_CAPACITY);
+                                RingBufferIdx.MAX_CAPACITY);
         for (int capacity = rangeMin; capacity < rangeMax; capacity++) {
             Assert.assertEquals(new RingBufferIdx(capacity, d -> {
             }, (to, from) -> {
@@ -479,7 +490,7 @@ public class RingBufferIdxTest {
                     capacity));
         }
         rangeMin = Math.max(RingBufferIdx.MIN_CAPACITY,
-                RingBufferIdx.MAX_CAPACITY - 10);
+                            RingBufferIdx.MAX_CAPACITY - 10);
         rangeMax = RingBufferIdx.MAX_CAPACITY;
         for (int capacity = rangeMin; capacity < rangeMax; capacity++) {
             Assert.assertEquals(new RingBufferIdx(capacity, d -> {
@@ -507,15 +518,17 @@ public class RingBufferIdxTest {
         IntIterator rbIterator = rbi.forwardIterator();
         while (rbIterator.hasNext()) {
             Assert.assertTrue(!acquiredList.isEmpty());
-            Assert.assertEquals(rbIterator.next(), acquiredList.removeFirst().
-                    intValue());
+            Assert.assertEquals(rbIterator.next(),
+                                acquiredList.removeFirst().
+                                        intValue());
         }
         Assert.assertTrue(acquiredList.isEmpty());
 
         /* iterate and delete each element */
         Set<Integer> deletePositions = new HashSet<>();
-        rbi = new RingBufferIdx(capacity, deletePositions::add, (to, from) -> {
-        });
+        rbi = new RingBufferIdx(capacity, deletePositions::add,
+                                (to, from) -> {
+                                });
         while (!rbi.isFull()) {
             rbi.acquireAppend();
         }
@@ -587,15 +600,17 @@ public class RingBufferIdxTest {
         IntIterator rbIterator = rbi.backwardIterator();
         while (rbIterator.hasNext()) {
             Assert.assertTrue(!acquiredList.isEmpty());
-            Assert.assertEquals(rbIterator.next(), acquiredList.removeLast().
-                    intValue());
+            Assert.assertEquals(rbIterator.next(),
+                                acquiredList.removeLast().
+                                        intValue());
         }
         Assert.assertTrue(acquiredList.isEmpty());
 
         /* iterate and delete each element */
         Set<Integer> deletePositions = new HashSet<>();
-        rbi = new RingBufferIdx(capacity, deletePositions::add, (to, from) -> {
-        });
+        rbi = new RingBufferIdx(capacity, deletePositions::add,
+                                (to, from) -> {
+                                });
         while (!rbi.isFull()) {
             rbi.acquireAppend();
         }
@@ -657,11 +672,14 @@ public class RingBufferIdxTest {
 
         final int capacity = 123;
 
-        String[] elements = new String[RingBufferIdx.allocationSizeForCapacity(
-                capacity)];
+        String[] elements =
+                new String[RingBufferIdx.allocationSizeForCapacity(
+                        capacity)];
 
-        RingBufferIdx rbi = new RingBufferIdx(capacity, d -> elements[d] = null,
-                (to, from) -> elements[to] = elements[from]);
+        RingBufferIdx rbi =
+                new RingBufferIdx(capacity, d -> elements[d] = null,
+                                  (to, from) -> elements[to] =
+                                          elements[from]);
 
         for (int i = 0; i < capacity + 17; i++) {
             elements[rbi.acquireAppend()] = VALUE_SUPPLIER.get();
@@ -697,10 +715,13 @@ public class RingBufferIdxTest {
     @Test
     public void test_removeHead() {
         final int capacity = 123;
-        String[] elements = new String[RingBufferIdx.allocationSizeForCapacity(
-                capacity)];
-        RingBufferIdx rbi = new RingBufferIdx(capacity, d -> elements[d] = null,
-                (to, from) -> elements[to] = elements[from]);
+        String[] elements =
+                new String[RingBufferIdx.allocationSizeForCapacity(
+                        capacity)];
+        RingBufferIdx rbi =
+                new RingBufferIdx(capacity, d -> elements[d] = null,
+                                  (to, from) -> elements[to] =
+                                          elements[from]);
 
         LinkedList<String> doubleCheck = new LinkedList<>();
 
@@ -746,10 +767,13 @@ public class RingBufferIdxTest {
     @Test
     public void test_removeTail() {
         final int capacity = 123;
-        String[] elements = new String[RingBufferIdx.allocationSizeForCapacity(
-                capacity)];
-        RingBufferIdx rbi = new RingBufferIdx(capacity, d -> elements[d] = null,
-                (to, from) -> elements[to] = elements[from]);
+        String[] elements =
+                new String[RingBufferIdx.allocationSizeForCapacity(
+                        capacity)];
+        RingBufferIdx rbi =
+                new RingBufferIdx(capacity, d -> elements[d] = null,
+                                  (to, from) -> elements[to] =
+                                          elements[from]);
 
         LinkedList<String> doubleCheck = new LinkedList<>();
 
@@ -798,9 +822,9 @@ public class RingBufferIdxTest {
         LinkedList<Integer> deletionPos = new LinkedList<>();
 
         /* test capacity one */
-        RingBufferIdx rbi = new RingBufferIdx(1, d -> deletionPos.add(d),
-                (to, from) -> {
-                });
+        RingBufferIdx rbi = new RingBufferIdx(1, deletionPos::add,
+                                              (to, from) -> {
+                                              });
         Assert.assertTrue(rbi.isEmpty());
         Assert.assertFalse(rbi.removeFirst(i -> i == 0));
 
@@ -815,10 +839,11 @@ public class RingBufferIdxTest {
         /* test capacity more than one*/
         for (int capacity = 1; capacity < 50; capacity++) {
             String[] elements = new String[RingBufferIdx.
-                    allocationSizeForCapacity(
-                            capacity)];
+                                                                allocationSizeForCapacity(
+                                                                        capacity)];
             rbi = new RingBufferIdx(capacity, d -> elements[d] = null,
-                    (to, from) -> elements[to] = elements[from]);
+                                    (to, from) -> elements[to] =
+                                            elements[from]);
             LinkedList<String> elementsExpected = new LinkedList<>();
             String notFoundValue = VALUE_SUPPLIER.get();
             String repeatingValue = VALUE_SUPPLIER.get();
@@ -835,7 +860,8 @@ public class RingBufferIdxTest {
                 elementsExpected.add(value);
             }
             /* remove repeating first */
-            while (rbi.removeFirst(i -> elements[i].equals(repeatingValue))) {
+            while (rbi.removeFirst(
+                    i -> elements[i].equals(repeatingValue))) {
                 Assert.assertTrue(elementsExpected.removeFirstOccurrence(
                         repeatingValue));
                 IntIterator rbIterator = rbi.forwardIterator();
@@ -847,7 +873,7 @@ public class RingBufferIdxTest {
 
             /* try removing something that doesn't exist */
             Assert.assertFalse(rbi.removeFirst(i -> elements[i].
-                    equals(notFoundValue)));
+                                                                       equals(notFoundValue)));
 
             /* remove the rest */
             int headTailBetween = 0;
@@ -855,30 +881,34 @@ public class RingBufferIdxTest {
             while (!rbi.isEmpty()) {
                 switch (headTailBetween) {
                     case 0:
-                        final String sRemoveHead = elementsExpected.peekFirst();
-                        elementsExpected.removeFirstOccurrence(sRemoveHead);
+                        final String sRemoveHead =
+                                elementsExpected.peekFirst();
+                        elementsExpected
+                                .removeFirstOccurrence(sRemoveHead);
                         Assert.assertTrue(rbi.removeFirst(i -> elements[i].
-                                equals(
-                                        sRemoveHead)));
+                                                                                  equals(
+                                                                                          sRemoveHead)));
                         IntIterator rbIteratorHead = rbi.forwardIterator();
                         for (String s : elementsExpected) {
                             Assert.assertTrue(rbIteratorHead.hasNext());
                             Assert.assertEquals(s, elements[rbIteratorHead.
-                                    next()]);
+                                                                                  next()]);
                         }
                         headTailBetween++;
                         break;
                     case 1:
-                        final String sRemoveTail = elementsExpected.peekLast();
-                        elementsExpected.removeFirstOccurrence(sRemoveTail);
+                        final String sRemoveTail =
+                                elementsExpected.peekLast();
+                        elementsExpected
+                                .removeFirstOccurrence(sRemoveTail);
                         Assert.assertTrue(rbi.removeFirst(i -> elements[i].
-                                equals(
-                                        sRemoveTail)));
+                                                                                  equals(
+                                                                                          sRemoveTail)));
                         IntIterator rbIteratorTail = rbi.forwardIterator();
                         for (String s : elementsExpected) {
                             Assert.assertTrue(rbIteratorTail.hasNext());
                             Assert.assertEquals(s, elements[rbIteratorTail.
-                                    next()]);
+                                                                                  next()]);
                         }
                         headTailBetween++;
                         headTailBetween++;
@@ -886,15 +916,18 @@ public class RingBufferIdxTest {
                     default:
                         final String sRemoveBetween = elementsExpected.get(
                                 elementsExpected.size() / 2);
-                        elementsExpected.removeFirstOccurrence(sRemoveBetween);
+                        elementsExpected
+                                .removeFirstOccurrence(sRemoveBetween);
                         Assert.assertTrue(rbi.removeFirst(i -> elements[i].
-                                equals(
-                                        sRemoveBetween)));
-                        IntIterator rbIteratorBetween = rbi.forwardIterator();
+                                                                                  equals(
+                                                                                          sRemoveBetween)));
+                        IntIterator rbIteratorBetween =
+                                rbi.forwardIterator();
                         for (String s : elementsExpected) {
                             Assert.assertTrue(rbIteratorBetween.hasNext());
                             Assert.assertEquals(s,
-                                    elements[rbIteratorBetween.next()]);
+                                                elements[rbIteratorBetween
+                                                        .next()]);
                         }
                         headTailBetween = 0;
                 }
@@ -911,9 +944,9 @@ public class RingBufferIdxTest {
         LinkedList<Integer> deletionPos = new LinkedList<>();
 
         /* test capacity one */
-        RingBufferIdx rbi = new RingBufferIdx(1, d -> deletionPos.add(d),
-                (to, from) -> {
-                });
+        RingBufferIdx rbi = new RingBufferIdx(1, deletionPos::add,
+                                              (to, from) -> {
+                                              });
         Assert.assertTrue(rbi.isEmpty());
         Assert.assertFalse(rbi.removeFirst(i -> i == 0));
 
@@ -928,10 +961,11 @@ public class RingBufferIdxTest {
         /* test capacity more than one*/
         for (int capacity = 1; capacity < 50; capacity++) {
             String[] elements = new String[RingBufferIdx.
-                    allocationSizeForCapacity(
-                            capacity)];
+                                                                allocationSizeForCapacity(
+                                                                        capacity)];
             rbi = new RingBufferIdx(capacity, d -> elements[d] = null,
-                    (to, from) -> elements[to] = elements[from]);
+                                    (to, from) -> elements[to] =
+                                            elements[from]);
             LinkedList<String> elementsExpected = new LinkedList<>();
             String notFoundValue = VALUE_SUPPLIER.get();
             String repeatingValue = VALUE_SUPPLIER.get();
@@ -948,7 +982,8 @@ public class RingBufferIdxTest {
                 elementsExpected.add(value);
             }
             /* remove repeating first */
-            while (rbi.removeLast(i -> elements[i].equals(repeatingValue))) {
+            while (rbi
+                    .removeLast(i -> elements[i].equals(repeatingValue))) {
                 Assert.assertTrue(elementsExpected.removeLastOccurrence(
                         repeatingValue));
                 IntIterator rbIterator = rbi.forwardIterator();
@@ -960,7 +995,7 @@ public class RingBufferIdxTest {
 
             /* try removing something that doesn't exist */
             Assert.assertFalse(rbi.removeFirst(i -> elements[i].
-                    equals(notFoundValue)));
+                                                                       equals(notFoundValue)));
 
             /* remove the rest */
             int headTailBetween = 0;
@@ -969,30 +1004,32 @@ public class RingBufferIdxTest {
 
                 switch (headTailBetween) {
                     case 0:
-                        final String sRemoveHead = elementsExpected.peekFirst();
+                        final String sRemoveHead =
+                                elementsExpected.peekFirst();
                         elementsExpected.removeLastOccurrence(sRemoveHead);
                         Assert.assertTrue(rbi.removeLast(i -> elements[i].
-                                equals(
-                                        sRemoveHead)));
+                                                                                 equals(
+                                                                                         sRemoveHead)));
                         IntIterator rbIteratorHead = rbi.forwardIterator();
                         for (String s : elementsExpected) {
                             Assert.assertTrue(rbIteratorHead.hasNext());
                             Assert.assertEquals(s, elements[rbIteratorHead.
-                                    next()]);
+                                                                                  next()]);
                         }
                         headTailBetween++;
                         break;
                     case 1:
-                        final String sRemoveTail = elementsExpected.peekLast();
+                        final String sRemoveTail =
+                                elementsExpected.peekLast();
                         elementsExpected.removeLastOccurrence(sRemoveTail);
                         Assert.assertTrue(rbi.removeLast(i -> elements[i].
-                                equals(
-                                        sRemoveTail)));
+                                                                                 equals(
+                                                                                         sRemoveTail)));
                         IntIterator rbIteratorTail = rbi.forwardIterator();
                         for (String s : elementsExpected) {
                             Assert.assertTrue(rbIteratorTail.hasNext());
                             Assert.assertEquals(s, elements[rbIteratorTail.
-                                    next()]);
+                                                                                  next()]);
                         }
                         headTailBetween++;
                         headTailBetween++;
@@ -1000,15 +1037,18 @@ public class RingBufferIdxTest {
                     default:
                         final String sRemoveBetween = elementsExpected.get(
                                 elementsExpected.size() / 2);
-                        elementsExpected.removeLastOccurrence(sRemoveBetween);
+                        elementsExpected
+                                .removeLastOccurrence(sRemoveBetween);
                         Assert.assertTrue(rbi.removeLast(i -> elements[i].
-                                equals(
-                                        sRemoveBetween)));
-                        IntIterator rbIteratorBetween = rbi.forwardIterator();
+                                                                                 equals(
+                                                                                         sRemoveBetween)));
+                        IntIterator rbIteratorBetween =
+                                rbi.forwardIterator();
                         for (String s : elementsExpected) {
                             Assert.assertTrue(rbIteratorBetween.hasNext());
                             Assert.assertEquals(s,
-                                    elements[rbIteratorBetween.next()]);
+                                                elements[rbIteratorBetween
+                                                        .next()]);
                         }
                         headTailBetween = 0;
                 }
@@ -1022,59 +1062,64 @@ public class RingBufferIdxTest {
      */
     @Test
     public void test_removeAll_predicate() {
-        for(int capacity=1;capacity<50;capacity++) {
-            String[] elements = new String[RingBufferIdx.allocationSizeForCapacity(capacity)];
+        for (int capacity = 1; capacity < 50; capacity++) {
+            String[] elements = new String[RingBufferIdx
+                    .allocationSizeForCapacity(capacity)];
             RingBufferIdx rbi = new RingBufferIdx(capacity,
-                    d -> elements[d] = null,
-                    (to, from) -> elements[to] = elements[from]);
+                                                  d -> elements[d] = null,
+                                                  (to, from) ->
+                                                          elements[to] =
+                                                                  elements[from]);
             LinkedList<String> elementsExpected = new LinkedList<>();
             /* fill with the same value */
             final String valueSame = VALUE_SUPPLIER.get();
-            while(!rbi.isFull()) {
-                elements[rbi.acquireAppend()]=valueSame;
+            while (!rbi.isFull()) {
+                elements[rbi.acquireAppend()] = valueSame;
                 elementsExpected.add(valueSame);
             }
             rbi.removeAll(i -> elements[i].equals(valueSame));
-            while(elementsExpected.remove(valueSame)){}
+            while (elementsExpected.remove(valueSame));
             Assert.assertTrue(rbi.isEmpty());
             Assert.assertTrue(elementsExpected.isEmpty());
             /* fill with unique values */
-            while(!rbi.isFull()) {
+            while (!rbi.isFull()) {
                 final String valueUnique = VALUE_SUPPLIER.get();
-                elements[rbi.acquireAppend()]=valueUnique;
+                elements[rbi.acquireAppend()] = valueUnique;
                 elementsExpected.add(valueUnique);
             }
-            while(!elementsExpected.isEmpty()) {
-                final String valueToRemove = elementsExpected.get(elementsExpected.size()/2);
+            while (!elementsExpected.isEmpty()) {
+                final String valueToRemove =
+                        elementsExpected.get(elementsExpected.size() / 2);
                 rbi.removeAll(i -> elements[i].equals(valueToRemove));
-                while(elementsExpected.remove(valueToRemove)){}
+                while (elementsExpected.remove(valueToRemove));
                 Assert.assertEquals(elementsExpected.size(), rbi.size());
                 IntIterator rbIterator = rbi.forwardIterator();
-                for(String s : elementsExpected) {
+                for (String s : elementsExpected) {
                     Assert.assertEquals(s, elements[rbIterator.next()]);
                 }
             }
             /* unique and non-unique values */
             final String uniqueValue = VALUE_SUPPLIER.get();
             boolean uniqueOn = false;
-            while(!rbi.isFull()) {
+            while (!rbi.isFull()) {
                 String value;
-                if(uniqueOn) {
+                if (uniqueOn) {
                     value = uniqueValue;
                 } else {
                     value = VALUE_SUPPLIER.get();
                 }
                 uniqueOn = !uniqueOn;
-                elements[rbi.acquireAppend()]=value;
+                elements[rbi.acquireAppend()] = value;
                 elementsExpected.add(value);
             }
-            while(!elementsExpected.isEmpty()) {
-                final String valueToRemove = elementsExpected.get(elementsExpected.size()/2);
+            while (!elementsExpected.isEmpty()) {
+                final String valueToRemove =
+                        elementsExpected.get(elementsExpected.size() / 2);
                 rbi.removeAll(i -> elements[i].equals(valueToRemove));
-                while(elementsExpected.remove(valueToRemove)){}
+                while (elementsExpected.remove(valueToRemove));
                 Assert.assertEquals(elementsExpected.size(), rbi.size());
                 IntIterator rbIterator = rbi.forwardIterator();
-                for(String s : elementsExpected) {
+                for (String s : elementsExpected) {
                     Assert.assertEquals(s, elements[rbIterator.next()]);
                 }
             }
@@ -1086,29 +1131,33 @@ public class RingBufferIdxTest {
      */
     @Test
     public void test_remove_at_index() {
-        for(int capacity=1;capacity<50;capacity++) {
-            RingBufferIdx rbi = new RingBufferIdx(capacity, d->{}, (to, from)->{});
-            while(!rbi.isFull()) {
+        for (int capacity = 1; capacity < 50; capacity++) {
+            RingBufferIdx rbi = new RingBufferIdx(capacity, d -> {
+            }, (to, from) -> {
+            });
+            while (!rbi.isFull()) {
                 rbi.acquireAppend();
             }
             int delpos = 0;
-            while(!rbi.isEmpty()) {
-                int lastSize=rbi.size();
-                switch(delpos) {
-                    case 0: rbi.remove(0);
-                    delpos++;
-                    break;
-                    case 1: rbi.remove(rbi.size()-1);
-                    delpos++;
-                    break;
+            while (!rbi.isEmpty()) {
+                int lastSize = rbi.size();
+                switch (delpos) {
+                    case 0:
+                        rbi.remove(0);
+                        delpos++;
+                        break;
+                    case 1:
+                        rbi.remove(rbi.size() - 1);
+                        delpos++;
+                        break;
                     default:
-                        rbi.remove(rbi.size()/2);
+                        rbi.remove(rbi.size() / 2);
                         delpos++;
                 }
-                if(delpos==3) {
-                    delpos=0;
+                if (delpos == 3) {
+                    delpos = 0;
                 }
-                Assert.assertEquals(lastSize-1, rbi.size());
+                Assert.assertEquals(lastSize - 1, rbi.size());
                 Assert.assertEquals(rbi.size(), rbi.compute_size_());
             }
         }

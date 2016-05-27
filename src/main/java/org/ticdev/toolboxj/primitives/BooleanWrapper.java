@@ -156,7 +156,7 @@ public class BooleanWrapper
      *            the value
      * @return the new instance
      */
-    public static final BooleanWrapper of(boolean value) {
+    public static BooleanWrapper of(boolean value) {
         return new BooleanWrapper(value);
     }
 
@@ -167,7 +167,7 @@ public class BooleanWrapper
      *            the primitive getter
      * @return the new instance
      */
-    public static final BooleanWrapper
+    public static  BooleanWrapper
         of(PrimitiveGetter<?> primitiveGetter) {
         return of(primitiveGetter.booleanValue());
     }

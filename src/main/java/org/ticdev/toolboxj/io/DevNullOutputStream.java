@@ -32,7 +32,7 @@ public final class DevNullOutputStream
      * Returns the singleton instance.
      * @return the singleton instance.
      */
-    public static final DevNullOutputStream getInstance() {
+    public static  DevNullOutputStream getInstance() {
         return INSTANCE;
     }
 

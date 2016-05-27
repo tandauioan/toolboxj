@@ -100,8 +100,8 @@ public class CSVParserTextDelimiterImpl
                 delimiterPredicate = (c) -> c == singleDelimiter;
             } else {
                 delimiterPredicate = (c) -> {
-                    for (int i = 0; i < delimiters.length; i++) {
-                        if (delimiters[i] == c) {
+                    for (char delimiter : delimiters) {
+                        if (delimiter == c) {
                             return true;
                         }
                     }

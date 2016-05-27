@@ -162,7 +162,7 @@ public class LongWrapper
      *            the value
      * @return the new instance
      */
-    public static final LongWrapper of(long value) {
+    public static LongWrapper of(long value) {
         return new LongWrapper(value);
     }
 
@@ -173,7 +173,7 @@ public class LongWrapper
      *            the primitive getter
      * @return the new instance
      */
-    public static final LongWrapper
+    public static LongWrapper
         of(PrimitiveGetter<?> primitiveGetter) {
         return of(primitiveGetter.longValue());
     }

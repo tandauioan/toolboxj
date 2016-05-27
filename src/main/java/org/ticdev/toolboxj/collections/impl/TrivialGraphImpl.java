@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 import org.ticdev.toolboxj.collections.Graph;
-import org.ticdev.toolboxj.tuples.Single;
-import org.ticdev.toolboxj.tuples.Tuples;
+import org.ticdev.toolboxj.tuplesnew.Single;
+import org.ticdev.toolboxj.tuplesnew.TupleSupport;
 
 /**
  * A trivial graph implementation, containing a single vertex and no edges.
@@ -26,7 +26,7 @@ public class TrivialGraphImpl<VERTEX> implements Single<VERTEX>, Graph<VERTEX, V
      * @param vertex the vertex
      */
     public TrivialGraphImpl(VERTEX vertex) {
-        vertexHolder = Tuples.of(vertex);
+        vertexHolder = TupleSupport.of(vertex);
     }
 
     @Override
@@ -86,9 +86,5 @@ public class TrivialGraphImpl<VERTEX> implements Single<VERTEX>, Graph<VERTEX, V
         return vertexHolder.item1();
     }
 
-    @Override
-    public Single<VERTEX> self() {
-        return this;
-    }
 
 }

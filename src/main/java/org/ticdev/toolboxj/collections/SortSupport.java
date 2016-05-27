@@ -29,7 +29,7 @@ public class SortSupport {
                     ? -Long.MIN_VALUE - 1
                     : Long.MAX_VALUE - 1;
 
-    ;
+
     
     /**
      * Binary search insertion point modes, when the element is in the collection.
@@ -39,7 +39,7 @@ public class SortSupport {
      * If {@link BinarySearchInsertionMode#FIRST} then return 0. 
      * If {@link BinarySearchInsertionMode#LAST} then return 3.</p>
      */
-    public static enum BinarySearchInsertionMode {
+    public enum BinarySearchInsertionMode {
         /**
          * First found index is returned
          */
@@ -66,7 +66,7 @@ public class SortSupport {
      * @param gs the {@link IntIndexedGetterSetter} object.
      * @param comp the comparator used to perform the sorting.
      */
-    public static final <T> void heapSort(IntIndexedGetterSetter<T> gs,
+    public static <T> void heapSort(IntIndexedGetterSetter<T> gs,
                                           Comparator<T> comp) {
         T tmp;
         int n = gs.size();
@@ -114,7 +114,7 @@ public class SortSupport {
      * @param gs the {@link IntIndexedGetterSetter} object.
      * @param comp the comparator used to perform the sorting.
      */
-    public static final <T> void heapSort(LongIndexedGetterSetter<T> gs,
+    public static <T> void heapSort(LongIndexedGetterSetter<T> gs,
                                           Comparator<T> comp) {
         T tmp;
         long n = gs.size();
@@ -167,7 +167,7 @@ public class SortSupport {
      * @param comp the comparator used to perform the sorting.
      * @see RandomAccess
      */
-    public static final <T> void heapSort(List<T> list, Comparator<T> comp) {
+    public static <T> void heapSort(List<T> list, Comparator<T> comp) {
         T tmp;
         int n = list.size();
         int i = n / 2;
@@ -217,7 +217,7 @@ public class SortSupport {
      * @return either a positive value representing the position where the
      * searched element was found, or -1 if the object was not found.
      */
-    public static final <T> int binarySearch(IntIndexedGetterSetter<T> gs,
+    public static <T> int binarySearch(IntIndexedGetterSetter<T> gs,
                                              Comparator<T> comp, T search) {
         int l = 0;
         int r = gs.size() - 1;
@@ -272,7 +272,7 @@ public class SortSupport {
      * the result of adding 1 to the return value.
      * @throws IllegalStateException if the size assertions on insertion failed.
      */
-    public static final <T> int binarySearchInsertionPoint(
+    public static <T> int binarySearchInsertionPoint(
             IntIndexedGetterSetter<T> gs, Comparator<T> comp, T search,
             BinarySearchInsertionMode mode) throws IllegalStateException {
 
@@ -357,7 +357,7 @@ public class SortSupport {
      * the result of adding 1 to the return value.
      * @throws IllegalStateException if the size assertions on insertion failed.
      */
-    public static final <T> long binarySearchInsertionPoint(
+    public static <T> long binarySearchInsertionPoint(
             LongIndexedGetterSetter<T> gs, Comparator<T> comp, T search,
             BinarySearchInsertionMode mode) throws IllegalStateException {
 
@@ -442,7 +442,7 @@ public class SortSupport {
      * the result of adding 1 to the return value.
      * @throws IllegalStateException if the size assertions on insertion failed.
      */
-    public static final <T> long binarySearchInsertionPoint(
+    public static <T> long binarySearchInsertionPoint(
             List<T> list, Comparator<T> comp, T search,
             BinarySearchInsertionMode mode) throws IllegalStateException {
 
@@ -516,7 +516,7 @@ public class SortSupport {
      * searched element was found, or -1 if the object was not found.
      * @see RandomAccess
      */
-    public static final <T> int binarySearch(List<T> list,
+    public static <T> int binarySearch(List<T> list,
                                              Comparator<T> comp, T search) {
         int l = 0;
         int r = list.size() - 1;
@@ -554,7 +554,7 @@ public class SortSupport {
      * @return either a positive value representing the position where the
      * searched element was found, or -1 if the object was not found.
      */
-    public static final <T> long binarySearch(LongIndexedGetterSetter<T> gs,
+    public static <T> long binarySearch(LongIndexedGetterSetter<T> gs,
                                               Comparator<T> comp, T search) {
         long l = 0;
         long r = gs.size() - 1;
