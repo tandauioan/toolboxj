@@ -13,7 +13,7 @@ public class TupleSupport {
 
     /**
      * Method for creatings consistent hash codes for tuples.
-     * <p/>
+     *
      * The method returns 0 only if all the objects in the tuple are null.
      * Otherwise it will return {@link Objects#hash(Object...)} if
      * different from 0, otherwise 1.
