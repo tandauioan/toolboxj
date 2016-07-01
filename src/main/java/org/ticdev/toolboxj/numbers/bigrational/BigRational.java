@@ -13,7 +13,6 @@ import java.util.concurrent.*;
 /**
  * Rational immutable generalization for a rational that uses
  * {@link BigInteger} for numerator and denominator.
- * <p/>
  * <p>In most cases, a new rational instance is returned by every
  * method that returns a rational instance with the exception of specific
  * edge (+/- infinity) and sentinel/short-cut (zero, nan) cases.</p>

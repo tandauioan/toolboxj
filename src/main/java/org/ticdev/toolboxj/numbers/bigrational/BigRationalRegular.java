@@ -55,24 +55,46 @@ public class BigRationalRegular
 
     /**
      * Factory method for creating rational values.
-     * <p/>
-     * <p>The instance returned is explained in the table below:</p>
-     * <p/>
      * <table border="1">
-     * <th align=><b>numerator</b><td/><b>denominator</b><td/><b>result</b></th><tr/>
-     * ==0<td/>==0<td/>NAN<tr/>
-     * ==0<td/>!=0<td/>0<tr/>
-     * &lt;0<td/>==0<td/>NEGATIVE_INFINITY<tr/>
-     * &gt;0<td/>==0<td/>POSITIVE_INFINITY<tr/>
-     * !=0<td/>!=0<td/>new BigRational(numerator, denominator)<tr/>
+     * <caption>Rational values returned based on numerator and
+     * denominator values.</caption>
+     * <tr>
+     * <th>numerator</th>
+     * <th>denominator</th>
+     * <th>result</th>
+     * </tr>
+     * <tr>
+     *     <td>0</td>
+     *     <td>0</td>
+     *     <td>{@link BigRational#NAN}</td>
+     * </tr>
+     * <tr>
+     *     <td>0</td>
+     *     <td>!=0</td>
+     *     <td>{@link BigRational#ZERO}</td>
+     * </tr>
+     * <tr>
+     *     <td>&lt;0</td>
+     *     <td>0</td>
+     *     <td>{@link BigRational#NEGATIVE_INFINITY}</td>
+     * </tr>
+     * <tr>
+     *     <td>&gt;0</td>
+     *     <td>0</td>
+     *     <td>{@link BigRational#POSITIVE_INFINITY}</td>
+     * </tr>
+     * <tr>
+     *     <td>!=0</td>
+     *     <td>!=0</td>
+     *     <td>new BigRational(numerator, denominator)</td>
+     * </tr>
      * </table>
-     * <p/>
-     * <p>If either the numerator, denominator or both are null, they are
-     * set to {@link BigInteger#ZERO}.</p>
+     * <p>If either the numerator, denominator, or both are null,
+     * they are set to {@link BigInteger#ZERO}.</p>
      *
-     * @param numerator   the numerator.
-     * @param denominator the denominator.
-     * @return the rational instance.
+     * @param numerator the numerator
+     * @param denominator the denomninator
+     * @return the rational instance
      */
     public static BigRational of(
             BigInteger numerator, BigInteger denominator) {

@@ -10,17 +10,19 @@ import java.math.RoundingMode;
 
 /**
  * Rational number interface.
- * <p/>
- * <p>For methods which return a rational instance, whether or not the result is a new instance
- * or an existing instance (including this) is implementation defined.</p>
- * <p/>
- * <p>The {@link Rational#equals(Object)} and {@link Rational#hashCode()} methods must be
+ * <p>
+ * For methods which return a rational instance, whether or not the result is a new instance
+ * or an existing instance (including this) is implementation defined.
+ *</p>
+ * <p>
+ * The {@link Object#equals(Object)} and {@link Object#hashCode()} methods must be
  * implemented to match the {@link Pair} class.
  * A direct result of this is that {@link Object#equals} and {@link Rational#compareTo(Object)}
  * may not return consistent values for equality, but consistent with the {@link BigDecimal}
  * behavior. For example, given 1/3 and 2/6, an implementation may return false for equality,
  * but it must return 0 for compareTo. Implementations are not required to reduce fractions,
- * unless demanded so via {@link Rational#reduce()}.</p>
+ * unless demanded so via {@link Rational#reduce()}.
+ * </p>
  *
  * @param <ARGS> type of numerator and denominator.
  * @param <R>    concrete rational type
