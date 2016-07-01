@@ -1,10 +1,8 @@
 package org.ticdev.toolboxj.numbers;
 
-import org.ticdev.toolboxj.primitives.BooleanWrapper;
 import org.ticdev.toolboxj.tuplesnew.Pair;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 

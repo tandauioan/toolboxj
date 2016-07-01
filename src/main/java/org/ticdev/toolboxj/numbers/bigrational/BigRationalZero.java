@@ -1,5 +1,6 @@
 package org.ticdev.toolboxj.numbers.bigrational;
 
+import org.ticdev.toolboxj.tuplesnew.Pair;
 import org.ticdev.toolboxj.tuplesnew.TupleSupport;
 
 import java.math.BigInteger;
@@ -130,18 +131,20 @@ public class BigRationalZero
 
     @Override
     public boolean equals(Object obj) {
-        return this == obj;
+        return this == obj || (obj instanceof Pair<?, ?> && TupleSupport
+                .pairEquals(this, (Pair<?, ?>) obj));
     }
 
     @Override
     public int compareTo(BigRational o) {
         return this == o ? 0 :
-                (o == BigRational.NAN ? -1 : (o.signum() < 0 ? -1 : 1));
+                (o == BigRational.NAN ? -1 : (o.signum() < 0 ? 1 : -1));
     }
 
     @Override
     public int hashCode() {
         return HASH_CODE_;
     }
+
 }
 

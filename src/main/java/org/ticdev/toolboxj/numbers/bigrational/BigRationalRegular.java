@@ -3,10 +3,13 @@ package org.ticdev.toolboxj.numbers.bigrational;
 import org.ticdev.toolboxj.tuplesnew.Pair;
 import org.ticdev.toolboxj.tuplesnew.TupleSupport;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
 
 /**
- * Regular concrete BigRational implementation as singleton.
+ * Regular concrete BigRational implementation.
+ *
  *
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
@@ -64,36 +67,36 @@ public class BigRationalRegular
      * <th>result</th>
      * </tr>
      * <tr>
-     *     <td>0</td>
-     *     <td>0</td>
-     *     <td>{@link BigRational#NAN}</td>
+     * <td>0</td>
+     * <td>0</td>
+     * <td>{@link BigRational#NAN}</td>
      * </tr>
      * <tr>
-     *     <td>0</td>
-     *     <td>!=0</td>
-     *     <td>{@link BigRational#ZERO}</td>
+     * <td>0</td>
+     * <td>!=0</td>
+     * <td>{@link BigRational#ZERO}</td>
      * </tr>
      * <tr>
-     *     <td>&lt;0</td>
-     *     <td>0</td>
-     *     <td>{@link BigRational#NEGATIVE_INFINITY}</td>
+     * <td>&lt;0</td>
+     * <td>0</td>
+     * <td>{@link BigRational#NEGATIVE_INFINITY}</td>
      * </tr>
      * <tr>
-     *     <td>&gt;0</td>
-     *     <td>0</td>
-     *     <td>{@link BigRational#POSITIVE_INFINITY}</td>
+     * <td>&gt;0</td>
+     * <td>0</td>
+     * <td>{@link BigRational#POSITIVE_INFINITY}</td>
      * </tr>
      * <tr>
-     *     <td>!=0</td>
-     *     <td>!=0</td>
-     *     <td>new BigRational(numerator, denominator)</td>
+     * <td>!=0</td>
+     * <td>!=0</td>
+     * <td>new BigRational(numerator, denominator)</td>
      * </tr>
      * </table>
      * <p>If either the numerator, denominator, or both are null,
      * they are set to {@link BigInteger#ZERO}.</p>
      *
-     * @param numerator the numerator
-     * @param denominator the denomninator
+     * @param numerator   the numerator
+     * @param denominator the denominator
      * @return the rational instance
      */
     public static BigRational of(
@@ -270,4 +273,5 @@ public class BigRationalRegular
         }
         return cached_hash_code_;
     }
+
 }
