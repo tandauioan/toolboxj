@@ -18,7 +18,7 @@
   <fileSets>
     <fileSet>
       <directory>${project.basedir}</directory>
-      <outputDirectory></outputDirectory>
+      <outputDirectory/>
       <includes>
         <include>LICENSE*</include>
       </includes>
