@@ -74,35 +74,38 @@ public final class BigCounter {
     /**
      * Resets the counter to 0.
      */
-    public void reset() {
+    public BigCounter reset() {
         maxLongCounter = BigInteger.ZERO;
         counter = 0;
+        return this;
     }
 
     /**
      * Increments the counter by 1.
      */
-    public void increment() {
+    public BigCounter increment() {
         if (counter == Long.MAX_VALUE) {
-            maxLongCounter.add(BigInteger.ONE);
+            maxLongCounter=maxLongCounter.add(BigInteger.ONE);
             counter = 1;
         } else {
             counter++;
         }
+        return this;
     }
 
     /**
      * Decrements the counter by 1. If the counter is 0 it will stay 0.
      */
-    public void decrement() {
+    public BigCounter decrement() {
         if (counter > 0) {
             counter--;
-            return;
+        } else {
+            if (maxLongCounter.signum() != 0) {
+                maxLongCounter=maxLongCounter.subtract(BigInteger.ONE);
+                counter = Long.MAX_VALUE - 1;
+            }
         }
-        if (maxLongCounter.signum() != 0) {
-            maxLongCounter.subtract(BigInteger.ONE);
-            counter = Long.MAX_VALUE - 1;
-        }
+        return this;
     }
 
     /**
@@ -138,8 +141,9 @@ public final class BigCounter {
      * </ul>
      * <p>If the side-effect long wrapper is null, it is ignored.</p>
      *
-     * @param longWrapper
-     * @return
+     * @param longWrapper side-effect long wrapper
+     * @return true if the counter fits in a long primitive and false
+     * otherwise.
      */
     public boolean getMaxLong(LongWrapper longWrapper) {
         if (fitsLong()) {
@@ -184,7 +188,7 @@ public final class BigCounter {
      * @param amount the amount to add
      * @throws IllegalArgumentException if the amount is strictly negative.
      */
-    public void add(long amount)
+    public BigCounter add(long amount)
             throws
             IllegalArgumentException {
         assert_positive_argument_(amount);
@@ -194,6 +198,7 @@ public final class BigCounter {
             maxLongCounter = maxLongCounter.add(BigInteger.ONE);
             counter -= (Long.MAX_VALUE - amount);
         }
+        return this;
     }
 
     /**
@@ -203,20 +208,21 @@ public final class BigCounter {
      * @param amount the amount to subtract
      * @throws IllegalArgumentException if the amount is strictly negative.
      */
-    public void subtract(long amount)
+    public BigCounter subtract(long amount)
             throws
             IllegalArgumentException {
         assert_positive_argument_(amount);
         if (amount <= counter) {
             counter -= amount;
-            return;
+            return this;
         }
         if (maxLongCounter == null) {
             counter = 0;
-            return;
+            return this;
         }
         counter = Long.MAX_VALUE - (amount - counter);
         maxLongCounter = maxLongCounter.subtract(BigInteger.ONE);
+        return this;
     }
 
     /**
@@ -224,9 +230,9 @@ public final class BigCounter {
      *
      * @param other the other counter.
      */
-    public void add(BigCounter other) {
+    public BigCounter add(BigCounter other) {
         maxLongCounter = maxLongCounter.add(other.maxLongCounter);
-        add(other.counter);
+        return add(other.counter);
     }
 
     /**
@@ -234,12 +240,12 @@ public final class BigCounter {
      *
      * @param other the other counter.
      */
-    public void subtract(BigCounter other) {
+    public BigCounter subtract(BigCounter other) {
         if (maxLongCounter.compareTo(other.maxLongCounter) < 0) {
-            reset();
+            return reset();
         } else {
             maxLongCounter = maxLongCounter.subtract(other.maxLongCounter);
-            subtract(other.counter);
+            return subtract(other.counter);
         }
     }
 
