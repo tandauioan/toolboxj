@@ -1,4 +1,7 @@
-package org.ticdev.toolboxj.collections;
+package org.ticdev.toolboxj.algorithms.sort;
+
+import org.ticdev.toolboxj.collections.IntIndexedGetterSetter;
+import org.ticdev.toolboxj.collections.LongIndexedGetterSetter;
 
 import java.util.Comparator;
 import java.util.List;
