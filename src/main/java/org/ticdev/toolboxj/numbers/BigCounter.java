@@ -23,6 +23,44 @@ public final class BigCounter {
             BigInteger.valueOf(Long.MAX_VALUE);
 
     /**
+     * Default class constructor.
+     * <p/>
+     * <p>Creates a new counter set to 0.</p>
+     */
+    public BigCounter() {
+        reset();
+    }
+
+    /**
+     * Class constructor.
+     * <p/>
+     * <p>Creates a new account initialized with the given initial
+     * amount.</p>
+     *
+     * @param initialAmount the initial amount as a positive long.
+     * @throws IllegalArgumentException if the initial amount is
+     *                                  strictly negative.
+     */
+    public BigCounter(long initialAmount)
+            throws
+            IllegalArgumentException {
+        assert_positive_argument_(initialAmount);
+        counter = initialAmount;
+    }
+
+    /**
+     * Copy constructor.
+     * <p>Creates a new instance initialized with the values from
+     * another counter.</p>
+     *
+     * @param other the other counter.
+     */
+    public BigCounter(BigCounter other) {
+        maxLongCounter = other.maxLongCounter;
+        counter = other.counter;
+    }
+
+    /**
      * Initial overflow value
      */
     private BigInteger maxLongCounter = BigInteger.ZERO;
