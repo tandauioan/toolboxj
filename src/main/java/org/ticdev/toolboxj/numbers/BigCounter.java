@@ -85,7 +85,7 @@ public final class BigCounter {
      */
     public BigCounter increment() {
         if (counter == Long.MAX_VALUE) {
-            maxLongCounter=maxLongCounter.add(BigInteger.ONE);
+            maxLongCounter = maxLongCounter.add(BigInteger.ONE);
             counter = 1;
         } else {
             counter++;
@@ -101,7 +101,7 @@ public final class BigCounter {
             counter--;
         } else {
             if (maxLongCounter.signum() != 0) {
-                maxLongCounter=maxLongCounter.subtract(BigInteger.ONE);
+                maxLongCounter = maxLongCounter.subtract(BigInteger.ONE);
                 counter = Long.MAX_VALUE - 1;
             }
         }
@@ -160,6 +160,25 @@ public final class BigCounter {
     }
 
     /**
+     * Subtracts as many values as possible to fit in a long, while the
+     * counter stays above 0, and returns the value.
+     * <p>This method returns 0 when the counter reached 0.</p>
+     * <p>This method is usable to deplete the counter by calling it
+     * repeatedly, getting partial counts as long.</p>
+     *
+     * @return number of available values before reaching zero that fit in a long.
+     */
+    public long subtractMax() {
+        if (maxLongCounter.signum() != 0) {
+            maxLongCounter.subtract(BigInteger.ONE);
+            return Long.MAX_VALUE;
+        }
+        long res = counter;
+        counter -= counter;
+        return res;
+    }
+
+    /**
      * Returns the actual value of the counter.
      *
      * @return the actual value of the counter.
@@ -178,8 +197,11 @@ public final class BigCounter {
     private void assert_positive_argument_(long argument)
             throws
             IllegalArgumentException {
-        throw new IllegalArgumentException(
-                "The argument is expected to be >=0. Actual: " + argument);
+        if (argument < 0) {
+            throw new IllegalArgumentException(
+                    "The argument is expected to be >=0. Actual: " +
+                    argument);
+        }
     }
 
     /**
