@@ -24,7 +24,6 @@ public final class BigCounter {
 
     /**
      * Default class constructor.
-     * <p/>
      * <p>Creates a new counter set to 0.</p>
      */
     public BigCounter() {
@@ -33,7 +32,6 @@ public final class BigCounter {
 
     /**
      * Class constructor.
-     * <p/>
      * <p>Creates a new account initialized with the given initial
      * amount.</p>
      *
@@ -73,6 +71,8 @@ public final class BigCounter {
 
     /**
      * Resets the counter to 0.
+     *
+     * @return this instance
      */
     public BigCounter reset() {
         maxLongCounter = BigInteger.ZERO;
@@ -82,6 +82,8 @@ public final class BigCounter {
 
     /**
      * Increments the counter by 1.
+     *
+     * @return this instance
      */
     public BigCounter increment() {
         if (counter == Long.MAX_VALUE) {
@@ -95,6 +97,8 @@ public final class BigCounter {
 
     /**
      * Decrements the counter by 1. If the counter is 0 it will stay 0.
+     *
+     * @return this instance
      */
     public BigCounter decrement() {
         if (counter > 0) {
@@ -208,6 +212,7 @@ public final class BigCounter {
      * Adds the given positive amount to the counter.
      *
      * @param amount the amount to add
+     * @return this instance
      * @throws IllegalArgumentException if the amount is strictly negative.
      */
     public BigCounter add(long amount)
@@ -228,6 +233,7 @@ public final class BigCounter {
      * If the counter would fall below zero it will be reset to 0.
      *
      * @param amount the amount to subtract
+     * @return this instance
      * @throws IllegalArgumentException if the amount is strictly negative.
      */
     public BigCounter subtract(long amount)
@@ -251,6 +257,7 @@ public final class BigCounter {
      * Adds the value of another counter to this one.
      *
      * @param other the other counter.
+     * @return this instance
      */
     public BigCounter add(BigCounter other) {
         maxLongCounter = maxLongCounter.add(other.maxLongCounter);
@@ -261,6 +268,7 @@ public final class BigCounter {
      * Subtracts the value of another counter from this one.
      *
      * @param other the other counter.
+     * @return this instance
      */
     public BigCounter subtract(BigCounter other) {
         if (maxLongCounter.compareTo(other.maxLongCounter) < 0) {
