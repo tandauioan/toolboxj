@@ -14,7 +14,8 @@ import java.math.BigInteger;
  *
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
-public final class BigCounter {
+public final class BigCounter
+        implements Comparable<BigCounter> {
 
     /**
      * {@link Long#MAX_VALUE} as {@link BigInteger}.
@@ -279,4 +280,17 @@ public final class BigCounter {
         }
     }
 
+    @Override
+    public int compareTo(BigCounter o) {
+        int c = maxLongCounter.compareTo(o.maxLongCounter);
+        if (c != 0) {
+            return c;
+        }
+        if (counter < o.counter) {
+            return -1;
+        } else if (counter > o.counter) {
+            return 1;
+        }
+        return 0;
+    }
 }
