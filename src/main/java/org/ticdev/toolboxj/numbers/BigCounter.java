@@ -125,7 +125,7 @@ public final class BigCounter {
      * @return true if the counter is 0, and false otherwise.
      */
     public boolean isZero() {
-        return maxLongCounter == null && counter == 0;
+        return maxLongCounter.equals(BigInteger.ZERO) && counter == 0;
     }
 
     /**
