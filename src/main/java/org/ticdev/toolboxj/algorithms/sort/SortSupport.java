@@ -1,13 +1,11 @@
 package org.ticdev.toolboxj.algorithms.sort;
 
-import org.ticdev.toolboxj.collections.IntIndexedGetterSetter;
-import org.ticdev.toolboxj.collections.LongIndexedGetterSetter;
-import org.ticdev.toolboxj.collections.ReusableArrayIterator;
+import org.ticdev.toolboxj.collections.*;
+import org.ticdev.toolboxj.numbers.BigCounter;
 import org.ticdev.toolboxj.primitives.IntWrapper;
 
 import java.util.*;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 /**
  * Support methods for sorting algorithms.
@@ -594,6 +592,164 @@ public class SortSupport {
             }
         }
         return -1;
+    }
+
+    /**
+     * Sorts length elements of the given array and places it in the
+     * destination array.
+     *
+     * @param srcArray   source array
+     * @param offset     offset in the array
+     * @param length     number of elements from offset
+     * @param destArray  destination array
+     * @param destOffset offset in the destination array
+     * @param comparator comparator
+     * @param <T>        type of elements in the array
+     * @throws IndexOutOfBoundsException if access to the arrays is out
+     *                                   of bounds.
+     */
+    public static <T> void countSort(
+            T[] srcArray, int offset, int length, T[] destArray,
+            int destOffset, Comparator<T> comparator)
+            throws
+            IndexOutOfBoundsException {
+        BigCounterSet<T> bcs = new BigCounterSet<>();
+        bcs.addArray(srcArray, offset, length);
+        final IntWrapper iwOffset = IntWrapper.of(offset);
+        final IntWrapper iwDestOffset = IntWrapper.of(destOffset);
+        bcs.sortedMap(comparator).entrySet().forEach(e -> {
+            T key = e.getKey();
+            BigCounter counter = e.getValue();
+            int off = iwOffset.intValue();
+            int doff = iwDestOffset.intValue();
+            while (!counter.isZero()) {
+                destArray[doff++] = key;
+                counter.decrement();
+            }
+            iwOffset.set(off);
+            iwDestOffset.set(doff);
+        });
+    }
+
+    /**
+     * Sorts length elements of the given array and places it in the
+     * destination array using natural sorting.
+     *
+     * @param srcArray   source array
+     * @param offset     offset in the array
+     * @param length     number of elements from offset
+     * @param destArray  destination array
+     * @param destOffset offset in the destination array
+     * @param <T>        type of elements in the array
+     * @throws IndexOutOfBoundsException if access to the arrays is out
+     *                                   of bounds
+     */
+    public static <T> void countSort(
+            T[] srcArray, int offset, int length, T[] destArray,
+            int destOffset)
+            throws
+            IndexOutOfBoundsException {
+        BigCounterSet<T> bcs = new BigCounterSet<>();
+        bcs.addArray(srcArray, offset, length);
+        final IntWrapper iwOffset = IntWrapper.of(offset);
+        final IntWrapper iwDestOffset = IntWrapper.of(destOffset);
+        bcs.sortedMap().entrySet().forEach(e -> {
+            T key = e.getKey();
+            BigCounter counter = e.getValue();
+            int off = iwOffset.intValue();
+            int doff = iwDestOffset.intValue();
+            while (!counter.isZero()) {
+                destArray[doff++] = key;
+                counter.decrement();
+            }
+            iwOffset.set(off);
+            iwDestOffset.set(doff);
+        });
+    }
+
+    /**
+     * Like {@link SortSupport#countSort(Object[], int, int, Object[], int)}
+     * but sorts the entire array
+     *
+     * @param srcArray   the source array
+     * @param destArray  the destination array
+     * @param comparator the comparator
+     * @param <T>        type of elements in the array
+     * @throws IndexOutOfBoundsException if access to the arrays is
+     *                                   out of bounds
+     */
+    public static <T> void countSort(
+            T[] srcArray, T[] destArray, Comparator<T> comparator)
+            throws
+            IndexOutOfBoundsException {
+        countSort(srcArray, 0, srcArray.length, destArray, 0);
+    }
+
+    /**
+     * Like {@link SortSupport#countSort(Object[], Object[], Comparator)}
+     * using the natural ordering.
+     *
+     * @param srcArray  the source array
+     * @param destArray the destination array
+     * @param <T>       type of elements in the array
+     */
+    public static <T> void countSort(T[] srcArray, T[] destArray) {
+        countSort(srcArray, 0, srcArray.length, destArray, 0);
+    }
+
+    /**
+     * Like {@link SortSupport#countSort(Object[], int, int, Object[], int)}
+     * but the destination is the same as the source array, in-place
+     * sorting.
+     *
+     * @param srcArray   the source array
+     * @param offset     the offset
+     * @param length     the number of elements
+     * @param comparator the comparator
+     * @param <T>        type of elements in the array
+     */
+    public static <T> void countSort(
+            T[] srcArray, int offset, int length,
+            Comparator<T> comparator) {
+        countSort(srcArray, offset, length, srcArray, offset);
+    }
+
+    /**
+     * Like {@link SortSupport#countSort(Object[], int, int, Comparator)}
+     * but using natural ordering.
+     *
+     * @param srcArray the source array
+     * @param offset   the offset
+     * @param length   the number of elements
+     * @param <T>      type of elements in the array
+     */
+    public static <T> void countSort(
+            T[] srcArray, int offset, int length) {
+        countSort(srcArray, offset, length, srcArray, offset);
+    }
+
+    /**
+     * Like {@link SortSupport#countSort(Object[], int, int, Comparator)}
+     * using the entire array
+     *
+     * @param srcArray   the source array
+     * @param comparator the comparator
+     * @param <T>        type of elements in the array
+     */
+    public static <T> void countSort(
+            T[] srcArray, Comparator<T> comparator) {
+        countSort(srcArray, 0, srcArray.length, srcArray, 0, comparator);
+    }
+
+    /**
+     * Like {@link SortSupport#countSort(Object[], Comparator)} using
+     * natural ordering.
+     *
+     * @param srcArray the source array
+     * @param <T>      type of elements in the array
+     */
+    public static <T> void countSort(T[] srcArray) {
+        countSort(srcArray, 0, srcArray.length, srcArray, 0);
     }
 
 }
