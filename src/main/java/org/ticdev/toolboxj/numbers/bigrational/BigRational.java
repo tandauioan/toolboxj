@@ -1,7 +1,7 @@
 package org.ticdev.toolboxj.numbers.bigrational;
 
 import org.ticdev.toolboxj.numbers.Rational;
-import org.ticdev.toolboxj.tuplesnew.Pair;
+import org.ticdev.toolboxj.tuples.Pair;
 
 import java.math.BigInteger;
 

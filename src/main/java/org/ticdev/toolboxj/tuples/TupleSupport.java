@@ -1,6 +1,6 @@
-package org.ticdev.toolboxj.tuplesnew;
+package org.ticdev.toolboxj.tuples;
 
-import org.ticdev.toolboxj.tuplesnew.impl.*;
+import org.ticdev.toolboxj.tuples.impl.*;
 
 import java.util.Objects;
 

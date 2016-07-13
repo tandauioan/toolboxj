@@ -10,8 +10,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.ticdev.toolboxj.allocation.AllocatorWithParameter;
 import org.ticdev.toolboxj.primitives.IntWrapper;
-import org.ticdev.toolboxj.tuplesnew.Pair;
-import org.ticdev.toolboxj.tuplesnew.TupleSupport;
+import org.ticdev.toolboxj.tuples.Pair;
+import org.ticdev.toolboxj.tuples.TupleSupport;
 
 /**
  * Test class for {@link RingBufferIdx}.

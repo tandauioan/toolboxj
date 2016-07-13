@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 import org.ticdev.toolboxj.collections.Graph;
-import org.ticdev.toolboxj.tuplesnew.Single;
-import org.ticdev.toolboxj.tuplesnew.TupleSupport;
+import org.ticdev.toolboxj.tuples.Single;
+import org.ticdev.toolboxj.tuples.TupleSupport;
 
 /**
  * A trivial graph implementation, containing a single vertex and no edges.

@@ -7,9 +7,6 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.ticdev.toolboxj.support.ObjectSupport;
-import org.ticdev.toolboxj.tuplesnew.MutableSingle;
-import org.ticdev.toolboxj.tuplesnew.Single;
-import org.ticdev.toolboxj.tuplesnew.TupleSupport;
 
 /**
  * Test {@link MutableSingle}.

@@ -1,11 +1,9 @@
 package org.ticdev.toolboxj.numbers.bigrational;
 
-import org.ticdev.toolboxj.tuplesnew.Pair;
-import org.ticdev.toolboxj.tuplesnew.TupleSupport;
+import org.ticdev.toolboxj.tuples.Pair;
+import org.ticdev.toolboxj.tuples.TupleSupport;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.MathContext;
 
 /**
  * Regular concrete BigRational implementation.

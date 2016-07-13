@@ -1,10 +1,8 @@
 package org.ticdev.toolboxj.numbers;
 
-import org.ticdev.toolboxj.tuplesnew.Pair;
+import org.ticdev.toolboxj.tuples.Pair;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 
 /**
  * Rational number interface.

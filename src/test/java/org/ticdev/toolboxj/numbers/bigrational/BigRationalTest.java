@@ -3,14 +3,9 @@ package org.ticdev.toolboxj.numbers.bigrational;
 import org.junit.Assert;
 import org.junit.Test;
 import org.ticdev.toolboxj.collections.ReusableArrayIterator;
-import org.ticdev.toolboxj.tuplesnew.Pair;
-import org.ticdev.toolboxj.tuplesnew.TupleSupport;
+import org.ticdev.toolboxj.tuples.TupleSupport;
 
-import javax.naming.NameNotFoundException;
-import javax.print.attribute.standard.MediaSize;
 import java.math.BigInteger;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>

@@ -1,13 +1,11 @@
 package org.ticdev.toolboxj.numbers.bigrational;
 
 import org.ticdev.toolboxj.numbers.Rational;
-import org.ticdev.toolboxj.tuplesnew.Pair;
-import org.ticdev.toolboxj.tuplesnew.TupleSupport;
+import org.ticdev.toolboxj.tuples.Pair;
+import org.ticdev.toolboxj.tuples.TupleSupport;
 
 import java.math.BigInteger;
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 

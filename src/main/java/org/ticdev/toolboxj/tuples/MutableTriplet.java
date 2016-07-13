@@ -1,4 +1,4 @@
-package org.ticdev.toolboxj.tuplesnew;
+package org.ticdev.toolboxj.tuples;
 
 /**
  * Mutable triplet interface.

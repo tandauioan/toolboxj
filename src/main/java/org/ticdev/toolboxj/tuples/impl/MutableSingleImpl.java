@@ -1,8 +1,8 @@
-package org.ticdev.toolboxj.tuplesnew.impl;
+package org.ticdev.toolboxj.tuples.impl;
 
-import org.ticdev.toolboxj.tuplesnew.MutableSingle;
-import org.ticdev.toolboxj.tuplesnew.Single;
-import org.ticdev.toolboxj.tuplesnew.TupleSupport;
+import org.ticdev.toolboxj.tuples.MutableSingle;
+import org.ticdev.toolboxj.tuples.Single;
+import org.ticdev.toolboxj.tuples.TupleSupport;
 
 /**
  * Concrete mutable single implementation.
