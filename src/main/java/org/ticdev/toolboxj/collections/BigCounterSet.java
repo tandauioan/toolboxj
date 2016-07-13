@@ -278,6 +278,13 @@ public final class BigCounterSet<K>
         return result;
     }
 
+    /**
+     * Returns a new iterator that returns the set's keys sorted using
+     * the given comparator.
+     *
+     * @param comparator the comparator
+     * @return a new iterator
+     */
     public Iterator<K> sortedIterator(Comparator<K> comparator) {
         return new Iterator<K>() {
 
@@ -316,6 +323,12 @@ public final class BigCounterSet<K>
         };
     }
 
+    /**
+     * Returns a new iterator that returns the set's keys sorted using
+     * natural ordering.
+     *
+     * @return a new iterator
+     */
     public Iterator<K> sortedIterator() {
         return new Iterator<K>() {
 
@@ -354,16 +367,40 @@ public final class BigCounterSet<K>
         };
     }
 
+    /**
+     * Returns a sorted stream of elements using the given comparator.
+     * Each elements appears as many times as its associated counter.
+     *
+     * @param comparator the comparator
+     * @return a new sorted stream
+     */
     public Stream<K> sortedStream(Comparator<K> comparator) {
         return StreamSupport.stream(Spliterators.spliteratorUnknownSize(
                 sortedIterator(comparator), Spliterator.SORTED), false);
     }
 
+    /**
+     * Returns a sorted stream of elements using natural ordering.
+     * Each element appears as many times as its associated counter.
+     *
+     * @return a new sorted stream
+     */
     public Stream<K> sortedStream() {
         return StreamSupport.stream(Spliterators.spliteratorUnknownSize(
                 sortedIterator(), Spliterator.SORTED), false);
     }
 
+    /**
+     * Returns a sorted stream of all the elements in the given stream (
+     * parallel streams are ok) using the given comparator. Internally,
+     * this method is counting the keys (count sort) so its efficiency
+     * is dependent on the size of the key set and internal mapping.
+     *
+     * @param stream     the stream
+     * @param comparator the comparator
+     * @param <T>        the type of elements in the stream
+     * @return a new sorted stream
+     */
     public static <T> Stream<T> sortedStream(
             Stream<T> stream, Comparator<T> comparator) {
         return stream.collect(BigCounterSet<T>::new, BigCounterSet::add,
@@ -371,6 +408,16 @@ public final class BigCounterSet<K>
                      .sortedStream(comparator);
     }
 
+    /**
+     * Returns a sorted stream of all the elements in the given stream
+     * (parallel streams are ok) using natural ordering. Internally, this
+     * method is counting the keys (count sort) so its efficiency
+     * is dependent on the size of the key set and internal mapping.
+     *
+     * @param stream the stream
+     * @param <T>    the type of elements in the stream
+     * @return a new sorted stream
+     */
     public static <T> Stream<T> sortedStream(Stream<T> stream) {
         return stream.collect(BigCounterSet<T>::new, BigCounterSet::add,
                               BigCounterSet::addAll).sortedStream();
