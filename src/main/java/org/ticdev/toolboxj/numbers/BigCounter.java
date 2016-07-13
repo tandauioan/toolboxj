@@ -293,4 +293,10 @@ public final class BigCounter
         }
         return 0;
     }
+
+    @Override
+    public String toString() {
+        return maxLongCounter.multiply(LONG_MAX_VALUE)
+                             .add(BigInteger.valueOf(counter)).toString();
+    }
 }
