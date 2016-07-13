@@ -3,7 +3,6 @@ package org.ticdev.toolboxj.collections;
 import java.util.Arrays;
 
 /**
- *
  * Arrays support methods.
  *
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
@@ -73,28 +72,32 @@ public class ArraySupport {
      * parameters. Index 0 corresponds to the left argument, and the size
      * corresponds to right-left+1, since both left and right are inclusive.
      *
-     * @param <T> the type of elements in the array
+     * @param <T>   the type of elements in the array
      * @param array the wrapped array
-     * @param left the left index
+     * @param left  the left index
      * @param right the right index
      * @return the new {@link IntIndexedGetterSetter} instance
-     * @throws NullPointerException if the array is null
+     * @throws NullPointerException     if the array is null
      * @throws IllegalArgumentException if either left or right are outside the
-     * bounds of the array, or if the right index is smaller than the right
-     * index
+     *                                  bounds of the array, or if the right index is smaller than the right
+     *                                  index
      */
     public static <T> IntIndexedGetterSetter<T> indexedGetterSetterOf(
             final T[] array,
             final int left,
-            final int right) throws
+            final int right)
+            throws
             NullPointerException,
             IllegalArgumentException {
         if (array == null) {
             throw new NullPointerException();
         }
         if (left < 0 || left >= array.length) {
-            throw new IllegalArgumentException(String.format("Left index must "
-                    + "be within the bounds of the array. Actual: %d", left));
+            throw new IllegalArgumentException(
+                    String.format("Left index must "
+                                  +
+                                  "be within the bounds of the array. Actual: %d",
+                                  left));
         }
         if (right < 0 || right >= array.length || right < left) {
             throw new IllegalArgumentException(String.format(
@@ -113,7 +116,9 @@ public class ArraySupport {
                 private final int size = right - left + 1;
 
                 @Override
-                public T get(int index) throws IndexOutOfBoundsException {
+                public T get(int index)
+                        throws
+                        IndexOutOfBoundsException {
                     return array[offset + index];
                 }
 
@@ -134,7 +139,9 @@ public class ArraySupport {
             private final int size = right + 1;
 
             @Override
-            public T get(int index) throws IndexOutOfBoundsException {
+            public T get(int index)
+                    throws
+                    IndexOutOfBoundsException {
                 return array[index];
             }
 
@@ -155,16 +162,38 @@ public class ArraySupport {
     /**
      * Wraps the entire array into an {@link IntIndexedGetterSetter}.
      *
-     * @param <T> the type of elements in the array
+     * @param <T>   the type of elements in the array
      * @param array the wrapped array
      * @return the new {@link IntIndexedGetterSetter} instance
-     * @throws NullPointerException if the array is null
+     * @throws NullPointerException     if the array is null
      * @throws IllegalArgumentException if the length of the array is 0.
      */
     public static <T> IntIndexedGetterSetter<T> indexedGetterSetterOf(
-            final T[] array) throws NullPointerException,
-                                    IllegalArgumentException {
+            final T[] array)
+            throws
+            NullPointerException,
+            IllegalArgumentException {
         return indexedGetterSetterOf(array, 0, array.length - 1);
+    }
+
+    /**
+     * Checks that the offset and length are valid for an array of the
+     * given length.
+     *
+     * @param arrayLength the length of the array
+     * @param offset      the offset
+     * @param length      the length from the offset
+     * @throws IndexOutOfBoundsException if offset is negative,
+     *                                   length is negative, or length is
+     *                                   greater than arrayLength-offset.
+     */
+    public static void validateArrayOffsetLength(
+            int arrayLength, int offset, int length)
+            throws
+            IndexOutOfBoundsException {
+        if (offset < 0 || length < 0 || arrayLength - offset < length) {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
 }
