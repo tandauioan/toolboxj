@@ -1,9 +1,15 @@
 package org.ticdev.toolboxj.collections;
 
+import org.ticdev.toolboxj.algorithms.sort.SortSupport;
 import org.ticdev.toolboxj.numbers.BigCounter;
+import org.ticdev.toolboxj.primitives.LongWrapper;
+import org.ticdev.toolboxj.support.ExecutionSupport;
 
 import java.math.BigInteger;
 import java.util.*;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * Implementation of a set-like container (not a {@link Set} though) that
@@ -139,6 +145,40 @@ public final class BigCounterSet<K>
     }
 
     /**
+     * Adds length elements from the given array starting at offset
+     *
+     * @param arr    the array
+     * @param offset the offset
+     * @param length the length
+     * @return true if the current set was modified and false otherwise.
+     */
+    public boolean addArray(K[] arr, int offset, int length)
+            throws
+            IndexOutOfBoundsException {
+        ArraySupport
+                .validateArrayOffsetLength(arr.length, offset, length);
+        boolean changed = false;
+        while (length-- > 0) {
+            changed = changed | add(arr[offset++]);
+        }
+        return changed;
+    }
+
+    /**
+     * Adds all the elements from the given array.
+     *
+     * @param arr the array
+     * @return true if the current set was modified and false otherwise.
+     */
+    public boolean addArray(K[] arr) {
+        boolean changed = false;
+        for (K k : arr) {
+            changed = changed | add(k);
+        }
+        return changed;
+    }
+
+    /**
      * Removes an entry from the set.
      *
      * @param o the element to remove
@@ -238,5 +278,102 @@ public final class BigCounterSet<K>
         return result;
     }
 
+    public Iterator<K> sortedIterator(Comparator<K> comparator) {
+        return new Iterator<K>() {
+
+            Iterator<Map.Entry<K, BigCounter>> it =
+                    sortedMap(comparator).entrySet().iterator();
+
+            private K currentValue = null;
+
+            private BigCounter currentCounter = null;
+
+            private boolean ensure_has_next_() {
+                if (currentCounter == null || currentCounter.isZero()) {
+                    if (!it.hasNext()) {
+                        return false;
+                    }
+                    Map.Entry<K, BigCounter> entry = it.next();
+                    currentValue = entry.getKey();
+                    currentCounter = entry.getValue();
+                }
+                return true;
+            }
+
+            @Override
+            public boolean hasNext() {
+                return ensure_has_next_();
+            }
+
+            @Override
+            public K next() {
+                if (!ensure_has_next_()) {
+                    throw new NoSuchElementException();
+                }
+                currentCounter.decrement();
+                return currentValue;
+            }
+        };
+    }
+
+    public Iterator<K> sortedIterator() {
+        return new Iterator<K>() {
+
+            Iterator<Map.Entry<K, BigCounter>> it =
+                    sortedMap().entrySet().iterator();
+
+            private K currentValue = null;
+
+            private BigCounter currentCounter = null;
+
+            private boolean ensure_has_next_() {
+                if (currentCounter == null || currentCounter.isZero()) {
+                    if (!it.hasNext()) {
+                        return false;
+                    }
+                    Map.Entry<K, BigCounter> entry = it.next();
+                    currentValue = entry.getKey();
+                    currentCounter = entry.getValue();
+                }
+                return true;
+            }
+
+            @Override
+            public boolean hasNext() {
+                return ensure_has_next_();
+            }
+
+            @Override
+            public K next() {
+                if (!ensure_has_next_()) {
+                    throw new NoSuchElementException();
+                }
+                currentCounter.decrement();
+                return currentValue;
+            }
+        };
+    }
+
+    public Stream<K> sortedStream(Comparator<K> comparator) {
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(
+                sortedIterator(comparator), Spliterator.SORTED), false);
+    }
+
+    public Stream<K> sortedStream() {
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(
+                sortedIterator(), Spliterator.SORTED), false);
+    }
+
+    public static <T> Stream<T> sortedStream(
+            Stream<T> stream, Comparator<T> comparator) {
+        return stream.collect(BigCounterSet<T>::new, BigCounterSet::add,
+                              BigCounterSet::addAll)
+                     .sortedStream(comparator);
+    }
+
+    public static <T> Stream<T> sortedStream(Stream<T> stream) {
+        return stream.collect(BigCounterSet<T>::new, BigCounterSet::add,
+                              BigCounterSet::addAll).sortedStream();
+    }
 
 }
