@@ -151,6 +151,7 @@ public class Base10RationalLimits {
      * Returns the absolute value of a long numerator
      *
      * @param numerator the numerator
+     * @return the absolutve value of the numerator
      */
     public static long abs(long numerator) {
         return numerator < 0 ? -numerator : numerator;

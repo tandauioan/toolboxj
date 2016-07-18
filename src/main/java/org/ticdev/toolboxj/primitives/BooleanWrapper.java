@@ -2,7 +2,6 @@ package org.ticdev.toolboxj.primitives;
 
 /**
  * Mutable boolean primitive holder.
- * <p/>
  * <p>
  * Non boolean specific integer methods (byte, short, int, long) are accepted
  * with the rule that a value of zero resolved to false, and a value different
@@ -10,7 +9,6 @@ package org.ticdev.toolboxj.primitives;
  * for false and 1 for true. All the other methods will throw an unsupported
  * operation exception.
  * </p>
- * <p/>
  * <p>
  * {@link #hashCode()} and {@link #equals(Object)} adjust to the current value
  * of the holder.
