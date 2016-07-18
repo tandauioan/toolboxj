@@ -2,27 +2,24 @@ package org.ticdev.toolboxj.primitives;
 
 /**
  * Mutable short primitive holder.
- * 
  * <p>
  * Java primitive conversions are used for all numeric types. Boolean values are
  * false if 0 and true if non-zero. Boolean getter will return 0 for false and 1
  * for true.
  * </p>
- * 
  * <p>
  * {@link #hashCode()} and {@link #equals(Object)} adjust to the current value
  * of the holder.
  * </p>
- * 
- * 
+ *
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
 public class ShortWrapper
-    extends
-    Number
-    implements
-    PrimitiveSetter<ShortWrapper>,
-    PrimitiveGetter<ShortWrapper> {
+        extends
+        Number
+        implements
+        PrimitiveSetter<ShortWrapper>,
+        PrimitiveGetter<ShortWrapper> {
 
     /**
      * serial version
@@ -36,12 +33,11 @@ public class ShortWrapper
 
     /**
      * Class constructor. Initializes the value to the initial value.
-     * 
-     * @param initialValue
-     *            the initial value of the primitive.
+     *
+     * @param initialValue the initial value of the primitive.
      */
     public ShortWrapper(
-        short initialValue) {
+            short initialValue) {
         this.value = initialValue;
     }
 
@@ -157,9 +153,8 @@ public class ShortWrapper
 
     /**
      * Creates a new instance of the ShortHolder from the given value.
-     * 
-     * @param value
-     *            the value
+     *
+     * @param value the value
      * @return the new instance
      */
     public static ShortWrapper of(short value) {
@@ -168,13 +163,12 @@ public class ShortWrapper
 
     /**
      * Creates a new instance of ShortHolder from the given PrimitiveGetter.
-     * 
-     * @param primitiveGetter
-     *            the primitive getter
+     *
+     * @param primitiveGetter the primitive getter
      * @return the new instance
      */
     public static ShortWrapper
-        of(PrimitiveGetter<?> primitiveGetter) {
+    of(PrimitiveGetter<?> primitiveGetter) {
         return of(primitiveGetter.shortValue());
     }
 
@@ -187,7 +181,7 @@ public class ShortWrapper
     public boolean equals(Object obj) {
         try {
             return (obj instanceof PrimitiveGetter<?>
-                && value == ((PrimitiveGetter<?>) obj).shortValue());
+                    && value == ((PrimitiveGetter<?>) obj).shortValue());
         } catch (Exception ex) {
             return false;
         }
@@ -197,5 +191,102 @@ public class ShortWrapper
     public String toString() {
         return value + "";
     }
+
+    /**
+     * Increments the value by one.
+     *
+     * @return this instance
+     */
+    public ShortWrapper increment() {
+        value++;
+        return this;
+    }
+
+    /**
+     * Decrements the value by one.
+     *
+     * @return this instance
+     */
+    public ShortWrapper decrement() {
+        value--;
+        return this;
+    }
+
+    /**
+     * Adds the given amount to this value.
+     *
+     * @param amount the amount
+     * @return this instance
+     */
+    public ShortWrapper add(short amount) {
+        value += amount;
+        return this;
+    }
+
+    /**
+     * Returns the current value then increments it.
+     *
+     * @return the value before incrementing it.
+     */
+    public short getThenIncrement() {
+        short result = value;
+        value++;
+        return result;
+    }
+
+    /**
+     * Increments the current value and returns it
+     *
+     * @return the incremented value
+     */
+    public short incrementThenGet() {
+        value++;
+        return value;
+    }
+
+    /**
+     * Returns the current value then decrements it.
+     *
+     * @return the value before decrementing it.
+     */
+    public short getThenDecrement() {
+        short result = value;
+        value--;
+        return result;
+    }
+
+    /**
+     * Decrements the current value and returns it.
+     *
+     * @return the decremented value.
+     */
+    public short decrementThenGet() {
+        value--;
+        return value;
+    }
+
+    /**
+     * Returns the current value then adds the given amount.
+     *
+     * @param amount the amount to add
+     * @return the value before adding the amount
+     */
+    public short getThenAdd(short amount) {
+        short result = value;
+        value += amount;
+        return result;
+    }
+
+    /**
+     * Adds the given amount to the current value and returns it.
+     *
+     * @param amount the amount to add
+     * @return the value after adding the given amount
+     */
+    public short addThenGet(short amount) {
+        value += amount;
+        return value;
+    }
+
 
 }

@@ -2,26 +2,22 @@ package org.ticdev.toolboxj.primitives;
 
 /**
  * Mutable byte primitive holder.
- * 
  * <p>
  * Java primitive conversions are used for all numeric types. Boolean values are
  * false if 0 and true if non-zero. Boolean getter will return 0 for false and 1
  * for true.
  * </p>
- * 
- * <p>
  * {@link #hashCode()} and {@link #equals(Object)} adjust to the current value
  * of the holder.
- * 
- * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  *
+ * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
 public class ByteWrapper
-    extends
-    Number
-    implements
-    PrimitiveSetter<ByteWrapper>,
-    PrimitiveGetter<ByteWrapper> {
+        extends
+        Number
+        implements
+        PrimitiveSetter<ByteWrapper>,
+        PrimitiveGetter<ByteWrapper> {
 
     /**
      * serial version
@@ -35,12 +31,11 @@ public class ByteWrapper
 
     /**
      * Class constructor. Initializes the value to the initial value.
-     * 
-     * @param initialValue
-     *            the initial value of the primitive.
+     *
+     * @param initialValue the initial value of the primitive.
      */
     public ByteWrapper(
-        byte initialValue) {
+            byte initialValue) {
         this.value = initialValue;
     }
 
@@ -156,24 +151,22 @@ public class ByteWrapper
 
     /**
      * Creates a new instance of the ByteHolder from the given value.
-     * 
-     * @param value
-     *            the value
+     *
+     * @param value the value
      * @return the new instance
      */
-    public static  ByteWrapper of(byte value) {
+    public static ByteWrapper of(byte value) {
         return new ByteWrapper(value);
     }
 
     /**
      * Creates a new instance of ByteHolder from the given PrimitiveGetter.
-     * 
-     * @param primitiveGetter
-     *            the primitive getter
+     *
+     * @param primitiveGetter the primitive getter
      * @return the new instance
      */
-    public static  ByteWrapper
-        of(PrimitiveGetter<?> primitiveGetter) {
+    public static ByteWrapper
+    of(PrimitiveGetter<?> primitiveGetter) {
         return of(primitiveGetter.byteValue());
     }
 
@@ -186,7 +179,7 @@ public class ByteWrapper
     public boolean equals(Object obj) {
         try {
             return (obj instanceof PrimitiveGetter<?>
-                && value == ((PrimitiveGetter<?>) obj).byteValue());
+                    && value == ((PrimitiveGetter<?>) obj).byteValue());
         } catch (Exception ex) {
             return false;
         }
@@ -196,5 +189,102 @@ public class ByteWrapper
     public String toString() {
         return value + "";
     }
+
+    /**
+     * Increments the value by one.
+     *
+     * @return this instance
+     */
+    public ByteWrapper increment() {
+        value++;
+        return this;
+    }
+
+    /**
+     * Decrements the value by one.
+     *
+     * @return this instance
+     */
+    public ByteWrapper decrement() {
+        value--;
+        return this;
+    }
+
+    /**
+     * Adds the given amount to this value.
+     *
+     * @param amount the amount
+     * @return this instance
+     */
+    public ByteWrapper add(byte amount) {
+        value += amount;
+        return this;
+    }
+
+    /**
+     * Returns the current value then increments it.
+     *
+     * @return the value before incrementing it.
+     */
+    public byte getThenIncrement() {
+        byte result = value;
+        value++;
+        return result;
+    }
+
+    /**
+     * Increments the current value and returns it
+     *
+     * @return the incremented value
+     */
+    public byte incrementThenGet() {
+        value++;
+        return value;
+    }
+
+    /**
+     * Returns the current value then decrements it.
+     *
+     * @return the value before decrementing it.
+     */
+    public byte getThenDecrement() {
+        byte result = value;
+        value--;
+        return result;
+    }
+
+    /**
+     * Decrements the current value and returns it.
+     *
+     * @return the decremented value.
+     */
+    public byte decrementThenGet() {
+        value--;
+        return value;
+    }
+
+    /**
+     * Returns the current value then adds the given amount.
+     *
+     * @param amount the amount to add
+     * @return the value before adding the amount
+     */
+    public byte getThenAdd(byte amount) {
+        byte result = value;
+        value += amount;
+        return result;
+    }
+
+    /**
+     * Adds the given amount to the current value and returns it.
+     *
+     * @param amount the amount to add
+     * @return the value after adding the given amount
+     */
+    public byte addThenGet(byte amount) {
+        value += amount;
+        return value;
+    }
+
 
 }

@@ -197,4 +197,101 @@ public class IntWrapper
         return value + "";
     }
 
+    /**
+     * Increments the value by one.
+     *
+     * @return this instance
+     */
+    public IntWrapper increment() {
+        value++;
+        return this;
+    }
+
+    /**
+     * Decrements the value by one.
+     *
+     * @return this instance
+     */
+    public IntWrapper decrement() {
+        value--;
+        return this;
+    }
+
+    /**
+     * Adds the given amount to this value.
+     *
+     * @param amount the amount
+     * @return this instance
+     */
+    public IntWrapper add(int amount) {
+        value += amount;
+        return this;
+    }
+
+    /**
+     * Returns the current value then increments it.
+     *
+     * @return the value before incrementing it.
+     */
+    public int getThenIncrement() {
+        int result = value;
+        value++;
+        return result;
+    }
+
+    /**
+     * Increments the current value and returns it
+     *
+     * @return the incremented value
+     */
+    public int incrementThenGet() {
+        value++;
+        return value;
+    }
+
+    /**
+     * Returns the current value then decrements it.
+     *
+     * @return the value before decrementing it.
+     */
+    public int getThenDecrement() {
+        int result = value;
+        value--;
+        return result;
+    }
+
+    /**
+     * Decrements the current value and returns it.
+     *
+     * @return the decremented value.
+     */
+    public int decrementThenGet() {
+        value--;
+        return value;
+    }
+
+    /**
+     * Returns the current value then adds the given amount.
+     *
+     * @param amount the amount to add
+     * @return the value before adding the amount
+     */
+    public int getThenAdd(int amount) {
+        int result = value;
+        value += amount;
+        return result;
+    }
+
+    /**
+     * Adds the given amount to the current value and returns it.
+     *
+     * @param amount the amount to add
+     * @return the value after adding the given amount
+     */
+    public int addThenGet(int amount) {
+        value += amount;
+        return value;
+    }
+
+
 }
