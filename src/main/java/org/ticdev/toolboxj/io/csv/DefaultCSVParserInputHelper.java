@@ -6,7 +6,6 @@ import java.io.Reader;
 /**
  * Default implementation of {@link CSVParserInputHelper}.
  * <p>
- * <p>
  * The following end-of-line patterns are recognized by this class: \r, \n,
  * \r\n, \n\r. Any other sequence is treated as separate lines.
  * </p>

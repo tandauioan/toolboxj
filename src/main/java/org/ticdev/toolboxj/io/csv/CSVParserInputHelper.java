@@ -7,7 +7,6 @@ import java.io.Reader;
 /**
  * Interface for classes that provide specific ways of handling end-of-line.
  * <p>
- * <p>
  * Since there is no restriction on how many lines are available from a reader,
  * it is possible, although highly unlikely, that the line number type (long)
  * cannot hold the correct line number as it may wrap (may actually be
@@ -15,7 +14,6 @@ import java.io.Reader;
  * guaranteed that there will be no situation where there could be more than
  * {@link Long#MAX_VALUE} lines.
  * </p>
- * <p>
  * <p>
  * It's always better to use a {@link BufferedReader} with this method as the
  * default {#link {@link Reader#read()} implementation can add huge overhead
