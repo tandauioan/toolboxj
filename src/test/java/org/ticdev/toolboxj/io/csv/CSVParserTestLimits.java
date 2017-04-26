@@ -29,9 +29,9 @@ public class CSVParserTestLimits {
         String eol = "\n";
         String stringToParse = String.join(delimiter + "", fields);
         CSVParser parser = CSVParserBuilder.newInstance()
-            .setMaxRecordCharSize(stringToParse.length())
-            .addDelimiter(delimiter).setTextDelimiter(textDelimiter)
-            .setMultiLineEOL(eol).build();
+            .maxRecordCharSize(stringToParse.length())
+            .addDelimiter(delimiter).textDelimiter(textDelimiter)
+            .multiLineEOL(eol).build();
         try {
             List<String> record =
                 parser.parseRecord(new StringReader(stringToParse), null);
@@ -50,7 +50,7 @@ public class CSVParserTestLimits {
         char delimiter = ',';
         String stringToParse = String.join(",", fields);
         CSVParser parser = CSVParserBuilder.newInstance()
-            .setMaxRecordCharSize(fields.length).addDelimiter(delimiter)
+            .maxRecordCharSize(fields.length).addDelimiter(delimiter)
             .build();
         try {
             List<String> record =
@@ -80,9 +80,9 @@ public class CSVParserTestLimits {
          */
         int limit = 3;
         CSVParser parser = CSVParserBuilder.newInstance()
-            .setMaxRecordCharSize(limit)
-            .addDelimiter(delimiter).setTextDelimiter(textDelimiter)
-            .setMultiLineEOL(eol).build();
+            .maxRecordCharSize(limit)
+            .addDelimiter(delimiter).textDelimiter(textDelimiter)
+            .multiLineEOL(eol).build();
         try {
             List<String> record =
                 parser.parseRecord(new StringReader(stringToParse), null);
@@ -105,7 +105,7 @@ public class CSVParserTestLimits {
         String stringToParse = String.join(",", fields);
         int limit = fields.length - 1;
         CSVParser parser = CSVParserBuilder.newInstance()
-            .setMaxRecordCharSize(limit).addDelimiter(delimiter).build();
+            .maxRecordCharSize(limit).addDelimiter(delimiter).build();
         try {
             List<String> record =
                 parser.parseRecord(new StringReader(stringToParse), null);
@@ -130,8 +130,8 @@ public class CSVParserTestLimits {
         String stringToParse = String.join(delimiter + "", fields);
         int limit = 3;
         CSVParser parser = CSVParserBuilder.newInstance()
-            .setMaxFieldSize(limit).addDelimiter(delimiter)
-            .setTextDelimiter(textDelimiter).setMultiLineEOL(eol).build();
+            .maxFieldSize(limit).addDelimiter(delimiter)
+            .textDelimiter(textDelimiter).multiLineEOL(eol).build();
         try {
             List<String> record =
                 parser.parseRecord(new StringReader(stringToParse), null);
@@ -156,7 +156,7 @@ public class CSVParserTestLimits {
         char delimiter = ',';
         String stringToParse = String.join(",", fields);
         CSVParser parser = CSVParserBuilder.newInstance()
-            .setMaxFieldSize(limit).addDelimiter(delimiter)
+            .maxFieldSize(limit).addDelimiter(delimiter)
             .build();
         try {
             List<String> record =
@@ -181,8 +181,8 @@ public class CSVParserTestLimits {
         String stringToParse = String.join(delimiter + "", fields);
         int limit = 2;
         CSVParser parser = CSVParserBuilder.newInstance()
-            .setMaxFieldSize(limit).addDelimiter(delimiter)
-            .setTextDelimiter(textDelimiter).setMultiLineEOL(eol).build();
+            .maxFieldSize(limit).addDelimiter(delimiter)
+            .textDelimiter(textDelimiter).multiLineEOL(eol).build();
         try {
             List<String> record =
                 parser.parseRecord(new StringReader(stringToParse), null);
@@ -211,7 +211,7 @@ public class CSVParserTestLimits {
         char delimiter = ',';
         String stringToParse = String.join(",", fields);
         CSVParser parser = CSVParserBuilder.newInstance()
-            .setMaxFieldSize(limit).addDelimiter(delimiter)
+            .maxFieldSize(limit).addDelimiter(delimiter)
             .build();
         try {
             List<String> record =
@@ -239,8 +239,8 @@ public class CSVParserTestLimits {
         String eol = "\n";
         String stringToParse = String.join(delimiter + "", fields);
         CSVParser parser = CSVParserBuilder.newInstance()
-            .setMaxFieldsPerRecord(limit).addDelimiter(delimiter)
-            .setTextDelimiter(textDelimiter).setMultiLineEOL(eol).build();
+            .maxFieldsPerRecord(limit).addDelimiter(delimiter)
+            .textDelimiter(textDelimiter).multiLineEOL(eol).build();
         try {
             List<String> record =
                 parser.parseRecord(new StringReader(stringToParse), null);
@@ -260,7 +260,7 @@ public class CSVParserTestLimits {
         char delimiter = ',';
         String stringToParse = String.join(delimiter + "", fields);
         CSVParser parser = CSVParserBuilder.newInstance()
-            .setMaxFieldsPerRecord(limit).addDelimiter(delimiter)
+            .maxFieldsPerRecord(limit).addDelimiter(delimiter)
             .build();
         try {
             List<String> record =
@@ -289,8 +289,8 @@ public class CSVParserTestLimits {
         String eol = "\n";
         String stringToParse = String.join(delimiter + "", fields);
         CSVParser parser = CSVParserBuilder.newInstance()
-            .setMaxFieldsPerRecord(limit).addDelimiter(delimiter)
-            .setTextDelimiter(textDelimiter).setMultiLineEOL(eol).build();
+            .maxFieldsPerRecord(limit).addDelimiter(delimiter)
+            .textDelimiter(textDelimiter).multiLineEOL(eol).build();
         try {
             List<String> record =
                 parser.parseRecord(new StringReader(stringToParse), null);
@@ -313,7 +313,7 @@ public class CSVParserTestLimits {
         char delimiter = ',';
         String stringToParse = String.join(delimiter + "", fields);
         CSVParser parser = CSVParserBuilder.newInstance()
-            .setMaxFieldsPerRecord(limit).addDelimiter(delimiter)
+            .maxFieldsPerRecord(limit).addDelimiter(delimiter)
             .build();
         try {
             List<String> record =

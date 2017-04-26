@@ -45,8 +45,6 @@ public interface CSVParser {
      *             if an IO exception has occurred while reading the record
      * @throws InterruptedException
      *             if the thread is interrupted during parsing
-     * @throws Exception
-     *             if any other exception occurred
      */
     List<String>
         parseRecord(Reader reader, List<String> destination)
@@ -55,7 +53,7 @@ public interface CSVParser {
             CSVParserTooManyFieldsException,
             IOException,
             InterruptedException,
-            Exception;
+            CSVParserFieldTooLargeException;
 
     /**
      * Given a list of fields in a CSV record, this method will build the string
@@ -71,5 +69,6 @@ public interface CSVParser {
      *         newly created instance containing the formatted line, otherwise.
      */
     StringBuilder format(List<String> fields, StringBuilder destination);
+
 
 }

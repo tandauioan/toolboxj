@@ -7,7 +7,7 @@ package org.ticdev.toolboxj.io.csv;
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  *
  */
-public abstract class AbstractCSVParserLimitException
+class AbstractCSVParserLimitException
     extends
     Exception {
 
@@ -48,7 +48,7 @@ public abstract class AbstractCSVParserLimitException
      * 
      * @return the restriction limit.
      */
-    public int getRestriction() {
+    int getRestriction() {
         return restriction;
     }
 
@@ -57,7 +57,7 @@ public abstract class AbstractCSVParserLimitException
      * 
      * @return the line number.
      */
-    public long getLineNumber() {
+    long getLineNumber() {
         return lineNumber;
     }
 

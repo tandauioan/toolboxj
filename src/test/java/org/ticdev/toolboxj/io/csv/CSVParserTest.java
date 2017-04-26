@@ -31,23 +31,23 @@ public class CSVParserTest {
         }
 
         Assert.assertEquals(Arrays.asList(separators),
-            builder.getDelimiters());
+            builder.delimiters());
 
-        Assert.assertNull(builder.getTextDelimiter());
+        Assert.assertNull(builder.textDelimiter());
 
         Character textDelimiter = '"';
 
         Assert.assertEquals(textDelimiter,
-            builder.setTextDelimiter(textDelimiter).getTextDelimiter());
+            builder.textDelimiter(textDelimiter).textDelimiter());
 
         Assert.assertEquals(CSVParserBuilder.MAX_FIELD_SIZE,
-            builder.getMaxFieldSize());
+            builder.maxFieldSize());
 
         Assert.assertEquals(CSVParserBuilder.MAX_FIELDS_PER_RECORD,
-            builder.getMaxFieldsPerRecord());
+            builder.maxFieldsPerRecord());
 
         Assert.assertEquals(CSVParserBuilder.MAX_RECORD_CHAR_SIZE,
-            builder.getMaxRecordCharSize());
+            builder.maxRecordCharSize());
 
         int maxFieldSize = 10;
 
@@ -56,15 +56,15 @@ public class CSVParserTest {
         int maxRecordCharSize = 12;
 
         Assert.assertEquals(maxFieldSize,
-            builder.setMaxFieldSize(maxFieldSize).getMaxFieldSize());
+            builder.maxFieldSize(maxFieldSize).maxFieldSize());
 
         Assert.assertEquals(maxFieldsPerRecord,
-            builder.setMaxFieldsPerRecord(maxFieldsPerRecord)
-                .getMaxFieldsPerRecord());
+            builder.maxFieldsPerRecord(maxFieldsPerRecord)
+                .maxFieldsPerRecord());
 
         Assert.assertEquals(maxRecordCharSize,
-            builder.setMaxRecordCharSize(maxRecordCharSize)
-                .getMaxRecordCharSize());
+            builder.maxRecordCharSize(maxRecordCharSize)
+                .maxRecordCharSize());
 
     }
 

@@ -1,301 +1,362 @@
 package org.ticdev.toolboxj.io.csv;
 
-import java.util.LinkedList;
-import java.util.List;
+import org.ticdev.toolboxj.io.csv.impl.DefaultCSVParser;
 
-import org.ticdev.toolboxj.io.csv.impl.CSVParserNonTextDelimiterImpl;
-import org.ticdev.toolboxj.io.csv.impl.CSVParserTextDelimiterImpl;
+import java.io.BufferedReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
 /**
- * Builder class for {@link CSVParser}.
- * 
+ * CSV configuration builder.
  * <p>
- * The end-of-line marker that can be set using {@link #setMultiLineEOL(String)}
- * defaults to %n. Any String or {@link String#format(String, Object...)}
- * non-argument pattern is accepted.
+ * Delimiters are stored in a list on the order they were provided,
+ * without removing duplicates. This allows for implementations that
+ * impose a specific order and number of delimiters when parsing
+ * records.
  * </p>
- * 
  * <p>
- * Delimiters are stored in a list in the order they were provided, without
- * removing duplicates. This allows for implementations that impose a specific
- * order and number of delimiters when parsing records.
+ * By default the text delimiter escapes itself.
  * </p>
- * 
- * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  *
+ * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
-public class CSVParserBuilder {
+public class CSVParserBuilder
+        implements CSVParserConfiguration {
 
     /**
-     * Maximum number of characters to parse for one record
+     * maximum number of characters per record
      */
-    public static final int MAX_RECORD_CHAR_SIZE = Integer.MAX_VALUE - 1;
+    private int maxRecordCharSize =
+            CSVParserConfiguration.MAX_RECORD_CHAR_SIZE;
 
     /**
-     * Maximum number of characters in one field belonging to a record
+     * maximum number of characters per record
      */
-    public static final int MAX_FIELD_SIZE = Integer.MAX_VALUE - 1;
+    private int maxFieldSize = CSVParserConfiguration.MAX_FIELD_SIZE;
 
     /**
-     * Default end-of-line marker when parsing multi-line records.
+     * maximum number of fields in a record
      */
-    public static final String DEFAULT_MULTILINE_EOL = "%n";
+    private int maxFieldsPerRecord =
+            CSVParserConfiguration.MAX_FIELDS_PER_RECORD;
 
     /**
-     * Maximum number of fields in one record
+     * multi-line EOL expansion
      */
-    public static final int MAX_FIELDS_PER_RECORD = Integer.MAX_VALUE - 1;
+    private String multiLineEOL = CSVParserConfiguration.MULTILINE_EOL;
 
     /**
-     * The maximum number of characters allowed in one record for this builder
-     * instance. Defaults to {@link #MAX_RECORD_CHAR_SIZE}.
-     */
-    private int maxRecordCharSize = MAX_RECORD_CHAR_SIZE;
-
-    /**
-     * The maximum number of characters in one field belonging to a record for
-     * this builder instance. Defaults to {@link #MAX_FIELD_SIZE}.
-     */
-    private int maxFieldSize = MAX_FIELD_SIZE;
-
-    /**
-     * The maximum number of fields in one record for this builder instance.
-     * Defaults to {@link #MAX_FIELDS_PER_RECORD}.
-     */
-    private int maxFieldsPerRecord = MAX_FIELDS_PER_RECORD;
-
-    /**
-     * The end-of-line marker when parsing multi-line records
-     */
-    private String multiLineEOL = DEFAULT_MULTILINE_EOL;
-
-    /**
-     * Field delimiters defined for a parser.
+     * list of delimiters
      */
     private final List<Character> delimiters = new LinkedList<>();
 
     /**
-     * Text delimiter defaults to null.
+     * text delimiter
      */
     private Character textDelimiter = null;
 
     /**
-     * Default class constructor.
+     * text delimiter escapes itself
+     */
+    private boolean textDelimiterEscapesItself = true;
+
+    /**
+     * escape character, if any
+     */
+    private Character escapeCharacter = null;
+
+    /**
+     * escape character expansion
+     */
+    private Map<Character, String> escapeCharacterExpansion =
+            new HashMap<>();
+
+    /**
+     * is EOL escaped
+     */
+    private boolean isEOLEscaped = true;
+
+    /**
+     * Default constructor
      */
     public CSVParserBuilder() {
     }
 
     /**
-     * Builder instance factory method.
-     * 
-     * @return a new builder.
+     * Returns a new builder instance.
+     *
+     * @return a new builder instance.
      */
     public static CSVParserBuilder newInstance() {
         return new CSVParserBuilder();
     }
 
     /**
-     * Sets the maximum number of characters allowed in one record for this
-     * builder instance. The default value is {@link #MAX_RECORD_CHAR_SIZE}.
-     * 
-     * @param maxRecordCharSize
-     *            the maximum number of characters allowed in one record for
-     *            this builder instance.
+     * Sets the maximum number of characters allowed in one record.
+     *
+     * @param maxRecordCharSize the new value
      * @return this instance
      */
-    public CSVParserBuilder
-        setMaxRecordCharSize(int maxRecordCharSize) {
+    public CSVParserBuilder maxRecordCharSize(
+            int maxRecordCharSize) {
         this.maxRecordCharSize = maxRecordCharSize;
         return this;
     }
 
-    /**
-     * Returns the maximum number of characters allowed in one record for this
-     * builder instance.
-     * 
-     * @return the maximum number of characters allowed in one record for this
-     *         builder instance.
-     */
-    public int getMaxRecordCharSize() {
+    @Override
+    public int maxRecordCharSize() {
         return maxRecordCharSize;
     }
 
     /**
-     * Sets the maximum number of characters in one field belonging to a record
-     * for this builder instance. The default value is {@link #MAX_FIELD_SIZE}.
-     * 
-     * @param maxFieldSize
-     *            the maximum number of characters in one field belonging to a
-     *            record for this builder instance
+     * Sets the maximum number of characters allowed in one field of one
+     * record.
+     *
+     * @param maxFieldSize the new value
      * @return this instance
      */
-    public CSVParserBuilder setMaxFieldSize(int maxFieldSize) {
+    public CSVParserBuilder maxFieldSize(int maxFieldSize) {
         this.maxFieldSize = maxFieldSize;
         return this;
     }
 
-    /**
-     * Returns the maximum number of characters in one field belonging to a
-     * record for this builder instance.
-     * 
-     * @return the maximum number of characters in one field belonging to a
-     *         record for this builder instance.
-     */
-    public int getMaxFieldSize() {
+    @Override
+    public int maxFieldSize() {
         return maxFieldSize;
     }
 
     /**
-     * Sets the maximum number of fields in one record for this builder
-     * instance. The default value is {@link #MAX_FIELDS_PER_RECORD}.
-     * 
-     * @param maxFieldsPerRecord
-     *            the maximum number of fields in one record for this builder
-     *            instance.
+     * Sets the maximum number of fields allowed in a record
+     *
+     * @param maxFieldsPerRecord the new value
      * @return this instance
      */
-    public CSVParserBuilder
-        setMaxFieldsPerRecord(int maxFieldsPerRecord) {
+    public CSVParserBuilder maxFieldsPerRecord(
+            int maxFieldsPerRecord) {
         this.maxFieldsPerRecord = maxFieldsPerRecord;
         return this;
     }
 
-    /**
-     * Returns the maximum number of fields in one record for this builder
-     * instance.
-     * 
-     * @return the maximum number of fields in one record for this builder
-     *         instance.
-     */
-    public int getMaxFieldsPerRecord() {
+    @Override
+    public int maxFieldsPerRecord() {
         return maxFieldsPerRecord;
     }
 
     /**
-     * Adds the delimiter to the list of delimiters if it doesn't already exist.
-     * 
-     * @param delimiter
-     *            the delimiter to add
+     * Adds a new delimiter to the delimiters list.
+     *
+     * @param delimiter the delimiter
      * @return this instance
      */
     public CSVParserBuilder addDelimiter(Character delimiter) {
-        delimiters.add(delimiter);
+        this.delimiters.add(delimiter);
         return this;
     }
 
-    /**
-     * Returns a copy of the list of delimiters in this builder.
-     * 
-     * @return a copy of the list of delimiters in this builder.
-     */
-    public List<Character> getDelimiters() {
-        return new LinkedList<>(delimiters);
+    @Override
+    public List<Character> delimiters() {
+        return delimiters;
     }
 
     /**
-     * Sets the text field delimiter character. If null then no text delimiter
-     * is considered.
-     * 
-     * @param textDelimiter
-     *            the text delimiter character.
+     * Sets the text delimiter. If the argument is null it clears the text
+     * delimiter.
+     *
+     * @param textDelimiter the text delimiter
      * @return this instance
      */
-    public CSVParserBuilder setTextDelimiter(Character textDelimiter) {
+    public CSVParserBuilder textDelimiter(Character textDelimiter) {
         this.textDelimiter = textDelimiter;
         return this;
     }
 
-    /**
-     * Returns the text field delimiter. If none is set then null is returned.
-     * 
-     * @return the text field delimiter or null if none set.
-     */
-    public Character getTextDelimiter() {
+    @Override
+    public Character textDelimiter() {
         return textDelimiter;
     }
 
     /**
-     * Sets the end-of-line marker when parsing multi-line records. By default
-     * it is set to {@link #DEFAULT_MULTILINE_EOL}.
-     * 
-     * @param multiLineEOL
-     *            the marker
+     * Set to true if the text delimiter should escape itself and to
+     * false otherwise.
+     *
+     * @param textDelimiterEscapesItself the new value
      * @return this instance
      */
-    public CSVParserBuilder setMultiLineEOL(String multiLineEOL) {
+    public CSVParserBuilder textDelimiterEscapesItself(
+            boolean textDelimiterEscapesItself) {
+        this.textDelimiterEscapesItself = textDelimiterEscapesItself;
+        return this;
+    }
+
+    @Override
+    public boolean textDelimiterEscapesItself() {
+        return textDelimiterEscapesItself;
+    }
+
+    /**
+     * Sets the multi-line EOL expansion
+     *
+     * @param multiLineEOL the expansion
+     * @return this instance
+     */
+    public CSVParserBuilder multiLineEOL(String multiLineEOL) {
         this.multiLineEOL = multiLineEOL;
         return this;
     }
 
-    /**
-     * Returns the end-of-line marker when parsing multi-line records.
-     * 
-     * @return the marker
-     */
-    public String getMultiLineEOL() {
+    @Override
+    public String multiLineEOL() {
         return multiLineEOL;
     }
 
     /**
-     * Returns a parser matching the configuration of this builder.
-     * 
-     * @param inputHelper
-     *            the reader input helper
-     * @return a new parser with this builder's characteristics.
+     * Sets the escape character. If the argument is null it clears the
+     * escape character.
+     *
+     * @param escapeCharacter the escape character
+     * @return this instance
+     */
+    public CSVParserBuilder escapeCharacter(
+            Character escapeCharacter) {
+        this.escapeCharacter = escapeCharacter;
+        return this;
+    }
+
+    @Override
+    public Character escapeCharacter() {
+        return escapeCharacter;
+    }
+
+    /**
+     * Set to true if EOL is expected to be escaped and false otherwise.
+     *
+     * @param isEOLEscaped the new value
+     * @return this instance
+     */
+    public CSVParserBuilder eolEscaped(boolean isEOLEscaped) {
+        this.isEOLEscaped = isEOLEscaped;
+        return this;
+    }
+
+    @Override
+    public boolean isEOLEscaped() {
+        return isEOLEscaped;
+    }
+
+
+    /**
+     * Adds a new escape character expansion mapping.
+     *
+     * @param escapedCharacter the escaped character
+     * @param expansion        the expansion
+     * @return this instance
+     */
+    public CSVParserBuilder addEscapeCharacterExpansionMapping(
+            Character escapedCharacter, String expansion) {
+        escapeCharacterExpansion.put(escapedCharacter, expansion);
+        return this;
+    }
+
+    @Override
+    public Map<Character, String> escapedCharacterExpansion() {
+        return escapeCharacterExpansion;
+    }
+
+    /**
+     * Returns a new parser matching the configuration of this builder and
+     * using the given input helper to read characters.
+     *
+     * @param inputHelper the input helper
+     * @return the new parser
      */
     public CSVParser build(CSVParserInputHelper inputHelper) {
-        return getTextDelimiter() == null
-            ? new CSVParserNonTextDelimiterImpl(this, inputHelper)
-            : new CSVParserTextDelimiterImpl(this, inputHelper);
+        return new DefaultCSVParser(CSVParserConfiguration.of(this),
+                                    inputHelper);
     }
 
     /**
      * Returns a parser matching the configuration of this builder and an
      * instance of {@link DefaultCSVParserInputHelper}.
-     * 
+     *
      * @return a parser with this builder's characteristics and a default input
-     *         helper instance.
+     * helper instance.
      */
     public CSVParser build() {
         return build(new DefaultCSVParserInputHelper());
     }
 
     /**
-     * Quickly create a new {@link CSVParser} using maximal values for character
-     * and field count restrictions.
-     * 
-     * @param delimiter
-     *            the field delimiter
-     * @param textDelimiter
-     *            the text delimiter, or null if a text delimiter should not be
-     *            considered
-     * @param inputHelper
-     *            an input helper
-     * @return a new {@link CSVParser}
+     * Returns a new parser matching the given configuration and an
+     * instance of {@link CSVParserInputHelper}.
+     *
+     * @param configuration the parser configuration
+     * @param inputHelper   the input helper
+     * @return a parser with the given configuration characteristics
+     * and the given input helper instance
      */
-    public static CSVParser newParser(
-        char delimiter,
-        Character textDelimiter,
-        CSVParserInputHelper inputHelper) {
-        return CSVParserBuilder.newInstance().addDelimiter(delimiter)
-            .setTextDelimiter(textDelimiter).build(inputHelper);
+    public static CSVParser createParser(
+            CSVParserConfiguration configuration,
+            CSVParserInputHelper inputHelper) {
+        return new DefaultCSVParser(configuration, inputHelper);
     }
 
     /**
-     * Quickly create a new {@link CSVParser} using maximal values for character
-     * and field count restrictions and the default CSV input helper.
-     * 
-     * @param delimiter
-     *            the field delimiter
-     * @param textDelimiter
-     *            the text delimiter, or null if a text delimiter should not be
-     *            considered
-     * @return a new {@link CSVParser}
+     * Returns a new parser matching the given configuration, and using an
+     * instance of {@link DefaultCSVParserInputHelper}.
+     *
+     * @param configuration the parser configuration
+     * @return a parser with the given configuration characteristics and
+     * the default input helper.
      */
-    public static CSVParser
-        newParser(char delimiter, Character textDelimiter) {
-        return newParser(delimiter, textDelimiter,
-            new DefaultCSVParserInputHelper());
+    public static CSVParser createParser(
+            CSVParserConfiguration configuration) {
+        return new DefaultCSVParser(configuration,
+                                    new DefaultCSVParserInputHelper());
+    }
+
+    public static void main(String[] args)
+            throws
+            Exception {
+
+        CSVParser parser =
+                CSVParserBuilder.newInstance().escapeCharacter('\\')
+                                .eolEscaped(true).addDelimiter(',')
+                                .textDelimiter('"')
+                                .textDelimiterEscapesItself(false).build();
+
+        try (
+                BufferedReader br = Files.newBufferedReader(Paths.get("" +
+                                                                      "/Users/nelutu/a.csv"))
+
+        ) {
+
+            int min = Integer.MAX_VALUE;
+            int max = 0;
+            long record = 0;
+
+            ArrayList<String> fields = new ArrayList<>(100);
+            while (parser.parseRecord(br, fields) != null) {
+                record++;
+                int sz = fields.size();
+                if (min > sz) {
+                    min = sz;
+                    System.out
+                            .printf("Min: %d. Record: %d%n", min, record);
+                }
+                if (max < sz) {
+                    max = sz;
+                    System.out
+                            .printf("Max: %d. Record: %d%n", max, record);
+                }
+                fields.clear();
+                if (record % 1000000 == 0) {
+                    System.out.println(record + "");
+                }
+            }
+
+        }
+
     }
 
 }
