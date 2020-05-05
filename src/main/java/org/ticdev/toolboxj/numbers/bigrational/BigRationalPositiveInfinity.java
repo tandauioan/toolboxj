@@ -1,6 +1,7 @@
 package org.ticdev.toolboxj.numbers.bigrational;
 
 import org.ticdev.toolboxj.tuples.Pair;
+import org.ticdev.toolboxj.tuples.PairView;
 import org.ticdev.toolboxj.tuples.TupleSupport;
 
 import java.math.BigInteger;
@@ -138,8 +139,8 @@ public class BigRationalPositiveInfinity
 
     @Override
     public boolean equals(Object obj) {
-        return this == obj || (obj instanceof Pair<?, ?> && TupleSupport
-                .pairEquals(this, (Pair<?, ?>) obj));
+        return this == obj || (obj instanceof PairView && TupleSupport
+                .pairEquals(this, (PairView<?, ?>) obj));
     }
 
     @Override

@@ -454,8 +454,9 @@ public class MutableBigRational
 
   @Override
   public boolean equals(Object obj) {
-    return (obj instanceof Pair<?, ?>) &&
-        TupleSupport.pairEquals(this, (Pair<?, ?>) obj);
+    return this == obj
+        || (obj instanceof PairView<?, ?>)
+        && TupleSupport.pairEquals(this, (PairView<?, ?>) obj);
   }
 
   /**

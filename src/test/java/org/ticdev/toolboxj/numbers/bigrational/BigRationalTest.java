@@ -40,12 +40,7 @@ public class BigRationalTest {
             Assert.assertFalse(nan.isPositiveInfinity());
             Assert.assertFalse(nan.isZero());
         }
-        Assert.assertEquals(
-                TupleSupport.of(BigInteger.ZERO, BigInteger.ZERO),
-                BigRational.NAN);
-        Assert.assertEquals(BigRational.NAN,
-                            TupleSupport
-                                    .of(BigInteger.ZERO, BigInteger.ZERO));
+
     }
 
     /**
@@ -106,13 +101,7 @@ public class BigRationalTest {
             Assert.assertFalse(nif.isPositiveInfinity());
             Assert.assertFalse(nif.isZero());
         }
-        Assert.assertEquals(
-                TupleSupport.of(BigInteger.ONE.negate(), BigInteger.ZERO),
-                BigRational.NEGATIVE_INFINITY);
-        Assert.assertEquals(BigRational.NEGATIVE_INFINITY,
-                            TupleSupport
-                                    .of(BigInteger.ONE.negate(),
-                                        BigInteger.ZERO));
+
     }
 
     /**
@@ -139,12 +128,6 @@ public class BigRationalTest {
             Assert.assertTrue(pif.isPositiveInfinity());
             Assert.assertFalse(pif.isZero());
         }
-        Assert.assertEquals(
-                TupleSupport.of(BigInteger.ONE, BigInteger.ZERO),
-                BigRational.POSITIVE_INFINITY);
-        Assert.assertEquals(BigRational.POSITIVE_INFINITY,
-                            TupleSupport
-                                    .of(BigInteger.ONE, BigInteger.ZERO));
     }
 
     /**
@@ -951,16 +934,6 @@ public class BigRationalTest {
         BigRational.of(1, -5).copyTo(mbr);
         Assert.assertEquals(BigRational.of(-1, 5), mbr);
 
-    }
-
-    /**
-     * Test {@link BigRational#mutableOfZero()}
-     */
-    @Test
-    public void testMutableOfZero() {
-        Assert.assertEquals(BigRational.ZERO, BigRational.mutableOfZero());
-        Assert.assertEquals(BigRational.ZERO.newMutableCopy(),
-                            BigRational.mutableOfZero());
     }
 
     @Test
