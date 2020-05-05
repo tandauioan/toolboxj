@@ -23,8 +23,8 @@ public class SortSupportTest {
     /**
      * String comparator for sorting - ascending order
      */
-    private final static Comparator<String> VALUES_COMPARATOR = (s1, s2) -> s1.
-            compareTo(s2);
+    private final static Comparator<String> VALUES_COMPARATOR =
+        Comparator.naturalOrder();
 
     /**
      * Unique strings supplier
@@ -239,8 +239,8 @@ public class SortSupportTest {
         /*
          * array has same value
          */
-        ORIGINAL_SAME_VALUE.stream().
-                forEach((original) -> {
+        ORIGINAL_SAME_VALUE
+                .forEach((original) -> {
                     final String[] expected = Arrays.copyOf(original,
                             original.length);
                     String[] actual = Arrays.copyOf(original, original.length);
@@ -254,8 +254,8 @@ public class SortSupportTest {
         /*
          * array has some duplicates
          */
-        ORIGINAL_DUPLICATES.stream().
-                forEach((original) -> {
+        ORIGINAL_DUPLICATES
+                .forEach((original) -> {
                     final String[] expected = Arrays.copyOf(original,
                             original.length);
                     String[] actual = Arrays.copyOf(original, original.length);
@@ -269,8 +269,8 @@ public class SortSupportTest {
         /*
          * array has unique values
          */
-        ORIGINAL_UNIQUES.stream().
-                forEach((original) -> {
+        ORIGINAL_UNIQUES
+                .forEach((original) -> {
                     final String[] expected = Arrays.copyOf(original,
                             original.length);
                     String[] actual = Arrays.copyOf(original, original.length);

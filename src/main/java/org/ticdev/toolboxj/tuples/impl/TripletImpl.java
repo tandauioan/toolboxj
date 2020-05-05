@@ -1,6 +1,7 @@
 package org.ticdev.toolboxj.tuples.impl;
 
 import org.ticdev.toolboxj.tuples.Triplet;
+import org.ticdev.toolboxj.tuples.TripletView;
 import org.ticdev.toolboxj.tuples.TupleSupport;
 
 /**
@@ -57,7 +58,7 @@ public class TripletImpl<T1, T2, T3>
      *
      * @param source the triplet from which to copy the value
      */
-    public TripletImpl(Triplet<T1, T2, T3> source) {
+    public TripletImpl(TripletView<T1, T2, T3> source) {
         this(source.item1(), source.item2(), source.item3());
     }
 
@@ -87,8 +88,12 @@ public class TripletImpl<T1, T2, T3>
 
     @Override
     public boolean equals(Object obj) {
-        return (obj instanceof Triplet<?, ?, ?>) &&
-               TupleSupport.tripletEquals(this, (Triplet<?, ?, ?>) obj);
+        return (obj instanceof TripletView<?, ?, ?>) &&
+               TupleSupport.tripletEquals(this, (TripletView<?, ?, ?>) obj);
     }
 
+    @Override
+    public Triplet<T1, T2, T3> self() {
+        return this;
+    }
 }

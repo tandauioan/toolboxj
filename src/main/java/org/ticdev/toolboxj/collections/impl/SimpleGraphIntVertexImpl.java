@@ -77,11 +77,10 @@ public class SimpleGraphIntVertexImpl<EDGE> implements Graph<Integer, EDGE> {
             assertHasVertex(vertex2);
             if (vertex1 < vertex2) {
                 adjacency.get(vertex2).set(vertex1, edge);
-                return true;
             } else {
                 adjacency.get(vertex1).set(vertex2, edge);
-                return true;
             }
+            return true;
         }
         return false;
     }

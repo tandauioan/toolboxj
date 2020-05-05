@@ -2,6 +2,7 @@ package org.ticdev.toolboxj.primitives;
 
 import java.io.Serializable;
 
+import org.ticdev.toolboxj.self.Self;
 import org.ticdev.toolboxj.self.SelfConditionalConsumer;
 import org.ticdev.toolboxj.self.SelfConsumer;
 import org.ticdev.toolboxj.self.SelfFilter;
@@ -18,10 +19,7 @@ import org.ticdev.toolboxj.self.SelfMapper;
  */
 public interface PrimitiveSetter<T extends PrimitiveSetter<T>>
     extends
-    SelfConsumer<T>,
-    SelfConditionalConsumer<T>,
-    SelfMapper<T>,
-    SelfFilter<T>,
+    Self<T>,
     Serializable {
 
     /**

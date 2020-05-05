@@ -23,12 +23,12 @@ public class CircularDequeCappedImpl<E> implements Deque<E> {
     /**
      * The ring buffer idx object
      */
-    private RingBufferIdx rbi;
+    private final RingBufferIdx rbi;
 
     /**
      * The elements
      */
-    private Object[] elements;
+    private final Object[] elements;
 
     /**
      * Class constructor.
@@ -103,6 +103,7 @@ public class CircularDequeCappedImpl<E> implements Deque<E> {
             throw new NoSuchElementException();
         }
         int cursor = rbi.removeHead();
+        @SuppressWarnings("unchecked")
         E result = (E) elements[cursor];
         elements[cursor] = null;
         return result;
@@ -114,6 +115,7 @@ public class CircularDequeCappedImpl<E> implements Deque<E> {
             throw new NoSuchElementException();
         }
         int cursor = rbi.removeTail();
+        @SuppressWarnings("unchecked")
         E result = (E) elements[cursor];
         elements[cursor] = null;
         return result;
@@ -125,6 +127,7 @@ public class CircularDequeCappedImpl<E> implements Deque<E> {
             return null;
         }
         int cursor = rbi.removeHead();
+        @SuppressWarnings("unchecked")
         E result = (E) elements[cursor];
         elements[cursor] = null;
         return result;
@@ -136,12 +139,14 @@ public class CircularDequeCappedImpl<E> implements Deque<E> {
             return null;
         }
         int cursor = rbi.removeTail();
+        @SuppressWarnings("unchecked")
         E result = (E) elements[cursor];
         elements[cursor] = null;
         return result;
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public E getFirst() {
         if (rbi.isEmpty()) {
             throw new NoSuchElementException();
@@ -150,6 +155,7 @@ public class CircularDequeCappedImpl<E> implements Deque<E> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public E getLast() {
         if (rbi.isEmpty()) {
             throw new NoSuchElementException();
@@ -158,6 +164,7 @@ public class CircularDequeCappedImpl<E> implements Deque<E> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public E peekFirst() {
         if (rbi.isEmpty()) {
             return null;
@@ -166,6 +173,7 @@ public class CircularDequeCappedImpl<E> implements Deque<E> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public E peekLast() {
         if (rbi.isEmpty()) {
             return null;
@@ -264,6 +272,7 @@ public class CircularDequeCappedImpl<E> implements Deque<E> {
             }
 
             @Override
+            @SuppressWarnings("unchecked")
             public E next() {
                 return (E) elements[rbIterator.next()];
             }
@@ -288,6 +297,7 @@ public class CircularDequeCappedImpl<E> implements Deque<E> {
             }
 
             @Override
+            @SuppressWarnings("unchecked")
             public E next() {
                 return (E) elements[rbIterator.next()];
             }
@@ -315,6 +325,7 @@ public class CircularDequeCappedImpl<E> implements Deque<E> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T[] toArray(T[] a) {
         if (a.length < rbi.size()) {
             a = (T[]) Array.newInstance(a.getClass().getComponentType(), rbi.
@@ -342,7 +353,7 @@ public class CircularDequeCappedImpl<E> implements Deque<E> {
         if (c.size() > rbi.capacity() - rbi.size()) {
             throw new IllegalArgumentException();
         }
-        c.stream().forEach(this::add);
+        c.forEach(this::add);
         return true;
     }
 

@@ -55,7 +55,7 @@ public class SimpleDirectedGraphIntVertexImpl<EDGE> implements Graph<Integer, ED
         for (int i = 0; i <= newVertex; i++) {
             edges.add(null);
         }
-        adjacency.stream().forEach(e -> e.add(null));
+        adjacency.forEach(e -> e.add(null));
         adjacency.add(edges);
         Integer result = newVertex;
         vertices.add(result);

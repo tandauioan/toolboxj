@@ -1,5 +1,6 @@
 package org.ticdev.toolboxj.numbers.bigrational;
 
+import org.ticdev.toolboxj.self.Self;
 import org.ticdev.toolboxj.tuples.Pair;
 import org.ticdev.toolboxj.tuples.TupleSupport;
 
@@ -11,7 +12,8 @@ import java.math.BigInteger;
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
 public class BigRationalNegativeInfinity
-        implements BigRational {
+        implements
+    BigRational {
 
     /**
      * The value of -{@link BigInteger#ONE}.
@@ -160,4 +162,8 @@ public class BigRationalNegativeInfinity
     }
 
 
+    @Override
+    public BigRationalNegativeInfinity self() {
+        return this;
+    }
 }

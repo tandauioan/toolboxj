@@ -42,7 +42,7 @@ public class SelfMapperTest {
 
         /* test return hash code as map */
         Assert.assertEquals(smi.hashCode(),
-            smi.map(smi1 -> smi1.hashCode()).intValue());
+            smi.map(Object::hashCode).intValue());
 
     }
 

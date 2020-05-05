@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Set;
 import org.ticdev.toolboxj.collections.Graph;
 import org.ticdev.toolboxj.tuples.Single;
+import org.ticdev.toolboxj.tuples.SingleView;
 import org.ticdev.toolboxj.tuples.TupleSupport;
 
 /**
@@ -13,7 +14,7 @@ import org.ticdev.toolboxj.tuples.TupleSupport;
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  * @param <VERTEX> the type of the vertex
  */
-public class TrivialGraphImpl<VERTEX> implements Single<VERTEX>, Graph<VERTEX, Void> {
+public class TrivialGraphImpl<VERTEX> implements SingleView<VERTEX>, Graph<VERTEX, Void> {
 
     /**
      * The vertex holder single

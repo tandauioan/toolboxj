@@ -69,7 +69,7 @@ public class CSVParserBuilder
     /**
      * escape character expansion
      */
-    private Map<Character, String> escapeCharacterExpansion =
+    private final Map<Character, String> escapeCharacterExpansion =
             new HashMap<>();
 
     /**

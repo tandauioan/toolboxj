@@ -20,7 +20,7 @@ public class Base10RationalLimits {
      * The minimum value for the numerator, equal to
      * -{@link Base10RationalLimits#MAX_NUMERATOR}.
      */
-    public static long MIN_NUMERATOR = -MAX_NUMERATOR;
+    public static final long MIN_NUMERATOR = -MAX_NUMERATOR;
 
     /**
      * Maximum base 10 exponent

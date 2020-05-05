@@ -1,6 +1,13 @@
 package org.ticdev.toolboxj.tuples;
 
+import org.ticdev.toolboxj.collections.IntIndexedGetter;
+import org.ticdev.toolboxj.collections.IntSized;
+import org.ticdev.toolboxj.self.Self;
+import org.ticdev.toolboxj.tuples.impl.TupleIndexedLookup;
+
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * Pair tuple interface.
@@ -10,20 +17,15 @@ import java.io.Serializable;
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
 public interface Pair<T1, T2>
-        extends Serializable {
+    extends
+    PairView<T1, T2>,
+    Self<Pair<T1, T2>> {
 
-    /**
-     * Returns the first element
-     *
-     * @return the first element
-     */
-    T1 item1();
-
-    /**
-     * Returns the second element
-     *
-     * @return the second element
-     */
-    T2 item2();
+  static <T1, T2> Pair<T1, T2> of(
+      final T1 item1,
+      final T2 item2
+  ) {
+    return TupleSupport.of(item1, item2);
+  }
 
 }

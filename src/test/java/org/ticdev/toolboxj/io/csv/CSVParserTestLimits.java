@@ -218,7 +218,7 @@ public class CSVParserTestLimits {
                 parser.parseRecord(new StringReader(stringToParse), null);
             Assert.fail(String.format(
                 "Limit: %d. Should have failed for at least: %d", limit,
-                record.stream().map(s -> s.length())
+                record.stream().map(String::length)
                     .max(Integer::compare).get()));
         } catch (CSVParserFieldTooLargeException ex) {
             Assert.assertEquals(limit, ex.getRestriction());

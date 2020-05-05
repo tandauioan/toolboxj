@@ -52,7 +52,7 @@ public class GraphSupport {
         /*
          * indexed access to the vertices of the graph
          */
-        IndexedVertexGraph<VERTEX, EDGE> ivg = new IndexedVertexGraph(graph);
+        IndexedVertexGraph<VERTEX, EDGE> ivg = new IndexedVertexGraph<>(graph);
 
         int vertexCount = ivg.vertexCount();
 

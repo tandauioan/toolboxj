@@ -1,6 +1,7 @@
 package org.ticdev.toolboxj.numbers;
 
 import org.ticdev.toolboxj.tuples.Pair;
+import org.ticdev.toolboxj.tuples.PairView;
 
 import java.math.BigDecimal;
 
@@ -25,7 +26,7 @@ import java.math.BigDecimal;
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
 public interface Rational<ARGS, R extends Rational<ARGS, R>>
-        extends Pair<ARGS, ARGS>,
+        extends PairView<ARGS, ARGS>,
         Comparable<R> {
 
     /**

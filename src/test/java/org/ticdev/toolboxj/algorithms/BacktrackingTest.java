@@ -49,7 +49,7 @@ public class BacktrackingTest {
         try {
             Backtracking permutations =
                 BacktrackingSupport.permutations(3);
-            int arr[];
+            int[] arr;
             while ((arr = permutations.findNext()) != null) {
                 Integer[] iarr = new Integer[arr.length];
                 for (int i = 0; i < arr.length; i++) {

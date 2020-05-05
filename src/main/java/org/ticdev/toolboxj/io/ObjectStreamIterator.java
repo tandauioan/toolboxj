@@ -80,11 +80,13 @@ public class ObjectStreamIterator<T>
     /**
      * Caches the next record.
      * 
-     * @throws Exception
-     *             if an exception occurs
+     * @throws IOException if an {@link IOException} occurs.
+     * @throws ClassNotFoundException if the deserialization fails to find
+     * the class.
+     * @throws OptionalDataException see {@link OptionalDataException}.
      */
     private void cache_next_()
-        throws Exception {
+        throws IOException, ClassNotFoundException, OptionalDataException {
         try {
             nextObject = clazz.cast(inputStream.readObject());
         } catch (EOFException ex) {
@@ -95,8 +97,6 @@ public class ObjectStreamIterator<T>
             } else {
                 throw ex;
             }
-        } catch (IOException | ClassNotFoundException ex) {
-            throw ex;
         }
     }
 

@@ -6,11 +6,8 @@ package org.ticdev.toolboxj.allocation;
  * 
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  *
- * @param <T>
- *            the type of instance returned by the allocator
- * @param
- *            <P>
- *            the allocation parameter
+ * @param <T> the type of instance returned by the allocator
+ * @param <P> the allocation parameter
  */
 public interface AllocatorWithParameter<T, P> {
 

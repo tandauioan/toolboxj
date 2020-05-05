@@ -135,40 +135,38 @@ public final class DefaultCSVParser
         while (true) {
             int token = inputHelper.next(reader);
             currentRecordParsedChars++;
-            switch (token) {
-                case CSVParserInputHelper.EOF:
+            if (token == CSVParserInputHelper.EOF) {
+                if (pendingExit) {
+                    return;
+                }
+                throw new CSVParserException("Unexpected end of file.",
+                    inputHelper.lineNumber());
+            } else {
+                if (token == text_delimiter_) {
                     if (pendingExit) {
-                        return;
-                    }
-                    throw new CSVParserException("Unexpected end of file.",
-                                                 inputHelper.lineNumber());
-
-                default:
-                    if (token == text_delimiter_) {
-                        if (pendingExit) {
-                            add_char_((char) text_delimiter_,
-                                      stringBuilder);
-                            pendingExit = false;
-                        } else {
-                            if (config.textDelimiterEscapesItself()) {
-                                pendingExit = true;
-                            } else {
-                                return;
-                            }
-
-                        }
-                    } else if (pendingExit) {
-                        inputHelper.unget(token);
-                        currentRecordParsedChars--;
-                        return;
-                    } else if (token == escape_character_) {
-                        parse_escaped_character(reader, stringBuilder);
-                    } else if (token == CSVParserInputHelper.EOL) {
-                        add_string_(config.multiLineEOL(),
-                                    stringBuilder);
+                        add_char_((char) text_delimiter_,
+                            stringBuilder);
+                        pendingExit = false;
                     } else {
-                        add_char_((char) token, stringBuilder);
+                        if (config.textDelimiterEscapesItself()) {
+                            pendingExit = true;
+                        } else {
+                            return;
+                        }
+
                     }
+                } else if (pendingExit) {
+                    inputHelper.unget(token);
+                    currentRecordParsedChars--;
+                    return;
+                } else if (token == escape_character_) {
+                    parse_escaped_character(reader, stringBuilder);
+                } else if (token == CSVParserInputHelper.EOL) {
+                    add_string_(config.multiLineEOL(),
+                        stringBuilder);
+                } else {
+                    add_char_((char) token, stringBuilder);
+                }
             }
 
         }
@@ -209,7 +207,7 @@ public final class DefaultCSVParser
                     }
                     break;
                 default:
-                    Character ctoken = (char) token;
+                    char ctoken = (char) token;
                     String expansion =
                             config.escapedCharacterExpansion()
                                   .get(ctoken);

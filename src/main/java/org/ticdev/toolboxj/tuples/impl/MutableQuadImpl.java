@@ -2,6 +2,7 @@ package org.ticdev.toolboxj.tuples.impl;
 
 import org.ticdev.toolboxj.tuples.MutableQuad;
 import org.ticdev.toolboxj.tuples.Quad;
+import org.ticdev.toolboxj.tuples.QuadView;
 import org.ticdev.toolboxj.tuples.TupleSupport;
 
 /**
@@ -61,7 +62,7 @@ public class MutableQuadImpl<T1, T2, T3, T4>
      *
      * @param source the quad from which to copy the values.
      */
-    public MutableQuadImpl(Quad<T1, T2, T3, T4> source) {
+    public MutableQuadImpl(QuadView<T1, T2, T3, T4> source) {
         this(source.item1(), source.item2(), source.item3(),
              source.item4());
     }
@@ -129,5 +130,10 @@ public class MutableQuadImpl<T1, T2, T3, T4>
     public boolean equals(Object obj) {
         return (obj instanceof Quad<?, ?, ?, ?>) &&
                TupleSupport.quadEquals(this, (Quad<?, ?, ?, ?>) obj);
+    }
+
+    @Override
+    public MutableQuad<T1, T2, T3, T4> self() {
+        return this;
     }
 }

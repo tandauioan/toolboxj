@@ -37,7 +37,7 @@ public class SingleTest {
         expectedContent.add(null);
 
         /* none null */
-        inputTuples.stream().forEach(Assert::assertNotNull);
+        inputTuples.forEach(Assert::assertNotNull);
 
         /* correct content */
         final Iterator<String> expectedContentIterator =

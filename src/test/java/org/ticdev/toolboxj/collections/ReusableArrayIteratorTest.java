@@ -17,7 +17,7 @@ public class ReusableArrayIteratorTest {
     /**
      * Global test array
      */
-    static String[] testArray=new String[23];
+    static final String[] testArray=new String[23];
 
     /**
      * Initialize test array

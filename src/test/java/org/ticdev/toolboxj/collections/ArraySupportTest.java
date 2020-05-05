@@ -32,7 +32,7 @@ public class ArraySupportTest {
     };
 
     /**
-     * Test for {@link ArraySupport#reverseCopy(T[])}
+     * Test for {@link ArraySupport#reverseCopy(Object[])}.
      */
     @Test
     public void test_reverseCopy() {
@@ -58,7 +58,7 @@ public class ArraySupportTest {
     }
 
     /**
-     * Test {@link ArraySupport#reverse(T[])}
+     * Test {@link ArraySupport#reverse(Object[])}
      */
     @Test
     public void test_reverse() {
@@ -91,7 +91,7 @@ public class ArraySupportTest {
     }
 
     /**
-     * Test {@link ArraySupport#indexedGetterSetterOf(T[], int, int)}
+     * Test {@link ArraySupport#indexedGetterSetterOf(Object[], int, int)}
      */
     @Test
     public void test_indexedGetterSetterOf_fail_on_null() {
@@ -115,8 +115,8 @@ public class ArraySupportTest {
     }
 
     /**
-     * Test {@link ArraySupport#indexedGetterSetterOf(T[], int, int)} with
-     * illegal indexes.
+     * Test {@link ArraySupport#indexedGetterSetterOf(Object[], int, int)}
+     * with illegal indexes.
      */
     @Test
     public void test_indexedGetterSetterOf_fail_on_bad_indexes() {
@@ -190,7 +190,7 @@ public class ArraySupportTest {
     }
 
     /**
-     * Testing {@link ArraySupport#indexedGetterSetterOf(T[])}
+     * Testing {@link ArraySupport#indexedGetterSetterOf(Object[])}.
      */
     @Test
     public void test_indexedGetterSetterOf() {
@@ -229,7 +229,7 @@ public class ArraySupportTest {
     }
 
     /**
-     * Test {@link ArraySupport#indexedGetterSetterOf(T[], int, int)}
+     * Test {@link ArraySupport#indexedGetterSetterOf(Object[], int, int)}.
      */
     @Test
     public void test_indexedGetterSetterOf_ranged() {

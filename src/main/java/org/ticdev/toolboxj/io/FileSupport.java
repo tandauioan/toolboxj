@@ -63,14 +63,7 @@ public class FileSupport {
             }
         });
     }
-
-    /**
-     * Recursively deletes all the files and folders in the given folder, but
-     * not the folder itself.
-     *
-     * @param folder the folder whose content will be deleted
-     * @throws IOException if an exception occurs
-     */
+    
     /**
      * Recursively deletes all the files and folders in the given folder, and
      * deletes the folder itself at the end.

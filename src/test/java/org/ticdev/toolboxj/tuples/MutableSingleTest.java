@@ -50,12 +50,12 @@ public class MutableSingleTest {
         expectedContent.add(null);
 
         /* none null */
-        inputTuples.stream().forEach(Assert::assertNotNull);
+        inputTuples.forEach(Assert::assertNotNull);
 
         /* correct content */
         final Iterator<String> expectedContentIterator =
                 expectedContent.iterator();
-        inputTuples.stream().map(Single::item1).forEach(ims -> Assert
+        inputTuples.stream().map(SingleView::item1).forEach(ims -> Assert
                 .assertEquals(expectedContentIterator.next(), ims));
 
     }

@@ -17,7 +17,7 @@ package org.ticdev.toolboxj.functions;
 public interface TernaryFunction<A1, A2, A3, R> {
 
     /**
-     * Calls the function with the fiven arguments
+     * Calls the function with the given arguments
      * 
      * @param arg1
      *            the first argument

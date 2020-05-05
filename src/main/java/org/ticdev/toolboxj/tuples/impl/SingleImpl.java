@@ -1,6 +1,7 @@
 package org.ticdev.toolboxj.tuples.impl;
 
 import org.ticdev.toolboxj.tuples.Single;
+import org.ticdev.toolboxj.tuples.SingleView;
 import org.ticdev.toolboxj.tuples.TupleSupport;
 
 /**
@@ -41,7 +42,7 @@ public class SingleImpl<T1>
      *
      * @param source the single from which to copy the value.
      */
-    public SingleImpl(Single<T1> source) {
+    public SingleImpl(SingleView<T1> source) {
         this(source.item1());
     }
 
@@ -60,7 +61,12 @@ public class SingleImpl<T1>
 
     @Override
     public boolean equals(Object obj) {
-        return (obj instanceof Single<?>) &&
-               TupleSupport.singleEquals(this, (Single<?>) obj);
+        return (obj instanceof SingleView<?>) &&
+               TupleSupport.singleEquals(this, (SingleView<?>) obj);
+    }
+
+    @Override
+    public Single<T1> self() {
+        return this;
     }
 }

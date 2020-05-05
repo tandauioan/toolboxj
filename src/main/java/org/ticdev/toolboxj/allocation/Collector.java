@@ -68,19 +68,17 @@ public interface Collector<T> {
      * Like {@link #release(Object[], int, int, boolean)} without setting the
      * values to null.
      * 
-     * @param objArray
-     *            the object array
-     * @param off
-     *            the offset
-     * @param len
-     *            the length
+     * @param objArray the object array
+     * @param off the offset
+     * @param len the length
      */
     default void release(T[] objArray, int off, int len) {
         release(objArray, off, len, false);
     }
 
     /**
-     * Like {@link #release(Object[])} without setting the values to null.
+     * Like {@link #release(Object[], boolean)} without setting
+     * the values to null.
      * 
      * @param objArray
      *            the object array.
