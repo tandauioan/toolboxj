@@ -3,6 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.ticdev</groupId>
     <artifactId>toolboxj</artifactId>
+    <!-- <version>0.99.0-SNAPSHOT</version> -->
     <version>0.99.0-SNAPSHOT</version>
     <name>toolboxj</name>
     <description>JAVA ToolBox</description>
@@ -14,6 +15,29 @@
         <java.version>8</java.version>
         <java.javadoc.version>8</java.javadoc.version>
     </properties>
+
+    <scm>
+        <url>https://github.com/tandauioan/toolboxj</url>
+        <connection>scm:git:git://github.com/tandauioan/toolboxj.git</connection>
+        <developerConnection>scm:git:git@github.com:tandauioan/toolbox.git</developerConnection>
+    </scm>
+
+    <licenses>
+        <license>
+            <name>LGPL3</name>
+            <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <email>tandauioan@gmail.com</email>
+            <name>Ioan Tandau</name>
+            <url>https://github.com/tandauioan</url>
+            <id>tandauioan</id>
+        </developer>
+    </developers>
 
     <distributionManagement>
         <snapshotRepository>
