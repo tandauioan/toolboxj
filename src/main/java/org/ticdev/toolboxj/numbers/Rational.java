@@ -13,7 +13,7 @@ import java.math.BigDecimal;
  *</p>
  * <p>
  * The {@link Object#equals(Object)} and {@link Object#hashCode()} methods must be
- * implemented to match the {@link Pair} class.
+ * implemented to match the {@link PairView} class.
  * A direct result of this is that {@link Object#equals} and {@link Rational#compareTo(Object)}
  * may not return consistent values for equality, but consistent with the {@link BigDecimal}
  * behavior. For example, given 1/3 and 2/6, an implementation may return false for equality,
