@@ -3,7 +3,6 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.ticdev</groupId>
     <artifactId>toolboxj</artifactId>
-    <!-- <version>0.99.0-SNAPSHOT</version> -->
     <version>0.99.0-SNAPSHOT</version>
     <name>toolboxj</name>
     <description>JAVA ToolBox</description>
@@ -29,6 +28,8 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <url>https://github.com/tandauioan/toolboxj</url>
 
     <developers>
         <developer>
