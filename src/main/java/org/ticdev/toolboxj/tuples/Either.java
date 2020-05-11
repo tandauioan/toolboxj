@@ -297,7 +297,8 @@ public interface Either<LEFT, RIGHT>
       final TF throwingFunction,
       final BinaryFunction<TF, RIGHT, Either<LEFT, RIGHT_NEW>> exceptionRemapper
   ) {
-    return flatMapRight(right -> exceptionRemapper.apply(throwingFunction, right));
+    return flatMapRight(right ->
+        exceptionRemapper.apply(throwingFunction, right));
   }
 
   /**
@@ -342,10 +343,10 @@ final class Right<LEFT, RIGHT> implements Either<LEFT, RIGHT> {
   /**
    * Protected constructor.
    *
-   * @param right the value.
+   * @param rightValue the value.
    */
-  Right(final RIGHT right) {
-    this.right = right;
+  Right(final RIGHT rightValue) {
+    this.right = rightValue;
   }
 
   /**
@@ -360,8 +361,8 @@ final class Right<LEFT, RIGHT> implements Either<LEFT, RIGHT> {
 
   @Override
   public <R> R fold(
-      UnaryFunction<LEFT, R> leftMapper,
-      UnaryFunction<RIGHT, R> rightMapper) {
+      final UnaryFunction<LEFT, R> leftMapper,
+      final UnaryFunction<RIGHT, R> rightMapper) {
     return rightMapper.apply(right);
   }
 
@@ -374,7 +375,7 @@ final class Right<LEFT, RIGHT> implements Either<LEFT, RIGHT> {
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
     return this == o
         || o instanceof Either
         && ((Either<?, ?>) o).fold(
@@ -405,10 +406,10 @@ final class Left<LEFT, RIGHT> implements Either<LEFT, RIGHT> {
   /**
    * Protected constructor.
    *
-   * @param left the value.
+   * @param leftValue the value.
    */
-  Left(final LEFT left) {
-    this.left = left;
+  Left(final LEFT leftValue) {
+    this.left = leftValue;
   }
 
   @Override
@@ -418,8 +419,8 @@ final class Left<LEFT, RIGHT> implements Either<LEFT, RIGHT> {
 
   @Override
   public <R> R fold(
-      UnaryFunction<LEFT, R> leftMapper,
-      UnaryFunction<RIGHT, R> rightMapper) {
+      final UnaryFunction<LEFT, R> leftMapper,
+      final UnaryFunction<RIGHT, R> rightMapper) {
     return leftMapper.apply(left);
   }
 
@@ -437,7 +438,7 @@ final class Left<LEFT, RIGHT> implements Either<LEFT, RIGHT> {
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
     return this == o
         || o instanceof Either
         && ((Either<?, ?>) o).fold(

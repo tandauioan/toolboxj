@@ -10,31 +10,31 @@ import org.ticdev.toolboxj.tuples.TupleSupport;
  * @param <T1> the type of the first element.
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
-public class SingleImpl<T1>
+public final class SingleImpl<T1>
         implements Single<T1> {
 
     /**
-     * default serial version
+     * Default serial version.
      */
     private static final long serialVersionUID = 1L;
 
     /**
-     * The first element
+     * The first element.
      */
     private final T1 item1;
 
     /**
-     * the cached hash code
+     * The cached hash code.
      */
-    private int cached_hash_code_;
+    private int cachedHashCode;
 
     /**
      * Class constructor.
      *
-     * @param item1 the first element
+     * @param item1Value the first element
      */
-    public SingleImpl(T1 item1) {
-        this.item1 = item1;
+    public SingleImpl(final T1 item1Value) {
+        this.item1 = item1Value;
     }
 
     /**
@@ -42,7 +42,7 @@ public class SingleImpl<T1>
      *
      * @param source the single from which to copy the value.
      */
-    public SingleImpl(SingleView<T1> source) {
+    public SingleImpl(final SingleView<T1> source) {
         this(source.item1());
     }
 
@@ -53,16 +53,17 @@ public class SingleImpl<T1>
 
     @Override
     public int hashCode() {
-        if (cached_hash_code_ == 0) {
-            cached_hash_code_ = TupleSupport.hashCode(item1);
+        if (cachedHashCode == 0) {
+            cachedHashCode = TupleSupport.hashCode(item1);
         }
-        return cached_hash_code_;
+        return cachedHashCode;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return (obj instanceof SingleView<?>) &&
-               TupleSupport.singleEquals(this, (SingleView<?>) obj);
+    public boolean equals(final Object obj) {
+        return this == obj
+            || obj instanceof SingleView<?>
+            && TupleSupport.singleEquals(this, (SingleView<?>) obj);
     }
 
     @Override

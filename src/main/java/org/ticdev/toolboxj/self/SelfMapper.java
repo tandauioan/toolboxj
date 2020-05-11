@@ -8,7 +8,7 @@ import org.ticdev.toolboxj.functions.UnaryFunction;
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  *
  * @deprecated {@link Self} generalizations have been deprecated in favor
- * on default methods too keep the {@link Self} interface self-contained.
+ * of default methods too keep the {@link Self} interface self-contained.
  * @param <T> the self-referencing implementation
  */
 public interface SelfMapper<T extends SelfMapper<T>>

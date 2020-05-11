@@ -14,7 +14,7 @@ public interface MutableSingle<T1>
     Self<MutableSingle<T1>> {
 
   /**
-   * Sets the value of the first element
+   * Sets the value of the first element.
    *
    * @param item1 the value
    * @return this instance
@@ -29,6 +29,14 @@ public interface MutableSingle<T1>
    */
   MutableSingle<T1> copyFrom(Single<T1> source);
 
+  /**
+   * Creates a new instance of a mutable single with the given
+   * initial value.
+   *
+   * @param item1 the first element.
+   * @param <T1>  the type of the first element.
+   * @return the new instance of a mutable single.
+   */
   static <T1> MutableSingle<T1> of(final T1 item1) {
     return TupleSupport.mutableOf(item1);
   }
