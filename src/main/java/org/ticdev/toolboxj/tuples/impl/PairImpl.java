@@ -11,38 +11,40 @@ import org.ticdev.toolboxj.tuples.TupleSupport;
  * @param <T2> the type of the second element
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
-public class PairImpl<T1, T2>
+public final class PairImpl<T1, T2>
     implements Pair<T1, T2> {
 
   /**
-   * default serial version
+   * Default serial version.
    */
   private static final long serialVersionUID = 1L;
 
   /**
-   * the first element
+   * The first element.
    */
   private final T1 item1;
 
   /**
-   * the second element
+   * The second element.
    */
   private final T2 item2;
 
   /**
-   * cached hash code
+   * Cached hash code.
    */
-  private int cached_hash_code_;
+  private int cachedHashCode;
 
   /**
-   * Class constructor
+   * Class constructor.
    *
-   * @param item1 the first element
-   * @param item2 the second element
+   * @param item1Value the first element.
+   * @param item2Value the second element.
    */
-  public PairImpl(T1 item1, T2 item2) {
-    this.item1 = item1;
-    this.item2 = item2;
+  public PairImpl(
+      final T1 item1Value,
+      final T2 item2Value) {
+    this.item1 = item1Value;
+    this.item2 = item2Value;
   }
 
   /**
@@ -50,7 +52,7 @@ public class PairImpl<T1, T2>
    *
    * @param source the pair from which to copy the value
    */
-  public PairImpl(PairView<T1, T2> source) {
+  public PairImpl(final PairView<T1, T2> source) {
     this(source.item1(), source.item2());
   }
 
@@ -66,16 +68,17 @@ public class PairImpl<T1, T2>
 
   @Override
   public int hashCode() {
-    if (cached_hash_code_ == 0) {
-      cached_hash_code_ = TupleSupport.hashCode(item1, item2);
+    if (cachedHashCode == 0) {
+      cachedHashCode = TupleSupport.hashCode(item1, item2);
     }
-    return cached_hash_code_;
+    return cachedHashCode;
   }
 
   @Override
-  public boolean equals(Object obj) {
-    return (obj instanceof PairView<?, ?>) &&
-        TupleSupport.pairEquals(this, (PairView<?, ?>) obj);
+  public boolean equals(final Object obj) {
+    return this == obj
+        || obj instanceof PairView<?, ?>
+        && TupleSupport.pairEquals(this, (PairView<?, ?>) obj);
   }
 
   @Override

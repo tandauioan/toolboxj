@@ -7,47 +7,50 @@ import org.ticdev.toolboxj.tuples.TripletView;
 import org.ticdev.toolboxj.tuples.TupleSupport;
 
 /**
- * Concrete implementation of {@link MutableTriplet}
+ * Concrete implementation of {@link MutableTriplet}.
  *
  * @param <T1> the type of the first element
  * @param <T2> the type of the second element
  * @param <T3> the type of the third element
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
-public class MutableTripletImpl<T1, T2, T3>
+public final class MutableTripletImpl<T1, T2, T3>
     implements MutableTriplet<T1, T2, T3> {
 
   /**
-   * default serial version
+   * Default serial version.
    */
   private static final long serialVersionUID = 1L;
 
   /**
-   * the first element
+   * The first element.
    */
   private T1 item1;
 
   /**
-   * the second element
+   * The second element.
    */
   private T2 item2;
 
   /**
-   * the third element
+   * The third element.
    */
   private T3 item3;
 
   /**
    * Class constructor.
    *
-   * @param item1 the first element
-   * @param item2 the second element
-   * @param item3 the third element
+   * @param item1Value the first element
+   * @param item2Value the second element
+   * @param item3Value the third element
    */
-  public MutableTripletImpl(T1 item1, T2 item2, T3 item3) {
-    this.item1 = item1;
-    this.item2 = item2;
-    this.item3 = item3;
+  public MutableTripletImpl(
+      final T1 item1Value,
+      final T2 item2Value,
+      final T3 item3Value) {
+    this.item1 = item1Value;
+    this.item2 = item2Value;
+    this.item3 = item3Value;
   }
 
   /**
@@ -55,31 +58,31 @@ public class MutableTripletImpl<T1, T2, T3>
    *
    * @param source the triplet from which to copy the values
    */
-  public MutableTripletImpl(TripletView<T1, T2, T3> source) {
+  public MutableTripletImpl(final TripletView<T1, T2, T3> source) {
     this(source.item1(), source.item2(), source.item3());
   }
 
   @Override
-  public MutableTriplet<T1, T2, T3> item1(T1 item1) {
-    this.item1 = item1;
+  public MutableTriplet<T1, T2, T3> item1(final T1 item1Value) {
+    this.item1 = item1Value;
     return this;
   }
 
   @Override
-  public MutableTriplet<T1, T2, T3> item2(T2 item2) {
-    this.item2 = item2;
+  public MutableTriplet<T1, T2, T3> item2(final T2 item2Value) {
+    this.item2 = item2Value;
     return this;
   }
 
   @Override
-  public MutableTriplet<T1, T2, T3> item3(T3 item3) {
-    this.item3 = item3;
+  public MutableTriplet<T1, T2, T3> item3(final T3 item3Value) {
+    this.item3 = item3Value;
     return this;
   }
 
   @Override
   public MutableTriplet<T1, T2, T3> copyFrom(
-      Triplet<T1, T2, T3> source) {
+      final Triplet<T1, T2, T3> source) {
     this.item1 = source.item1();
     this.item2 = source.item2();
     this.item3 = source.item3();
@@ -107,9 +110,11 @@ public class MutableTripletImpl<T1, T2, T3>
   }
 
   @Override
-  public boolean equals(Object obj) {
-    return (obj instanceof TripletView<?, ?, ?>) &&
-        TupleSupport.tripletEquals(this, (TripletView<?, ?, ?>) obj);
+  public boolean equals(final Object obj) {
+    return this == obj
+        || obj instanceof TripletView<?, ?, ?>
+        && TupleSupport.tripletEquals(
+        this, (TripletView<?, ?, ?>) obj);
   }
 
   @Override
