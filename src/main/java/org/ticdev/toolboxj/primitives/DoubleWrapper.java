@@ -12,276 +12,277 @@ package org.ticdev.toolboxj.primitives;
  *
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
-public class DoubleWrapper
-        extends
-        Number
-        implements
-        PrimitiveSetter<DoubleWrapper>,
-        PrimitiveGetter<DoubleWrapper> {
+public final class DoubleWrapper
+    extends Number
+    implements
+    PrimitiveSetter<DoubleWrapper>,
+    PrimitiveGetter<DoubleWrapper> {
 
-    /**
-     * serial version
+  /**
+   * Serial version.
+   */
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * The double primitive value.
+   */
+  private double value;
+
+  /**
+   * Class constructor. Initializes the value to the initial value.
+   *
+   * @param initialValue the initial value of the primitive.
+   */
+  public DoubleWrapper(
+      final double initialValue) {
+    this.value = initialValue;
+  }
+
+  /**
+   * Default class constructor. Leaves the value to the default value set by
+   * Java
+   */
+  public DoubleWrapper() {
+    /*
+     * defaults to the JAVA initial value for a double primitive (0,
+     * currently)
      */
-    private static final long serialVersionUID = 1L;
+  }
 
-    /**
-     * the double primitive value
-     */
-    private double value;
+  @Override
+  public DoubleWrapper self() {
+    return this;
+  }
 
-    /**
-     * Class constructor. Initializes the value to the initial value.
-     *
-     * @param initialValue the initial value of the primitive.
-     */
-    public DoubleWrapper(
-            double initialValue) {
-        this.value = initialValue;
-    }
+  @Override
+  public boolean booleanValue() {
+    return value != 0;
+  }
 
-    /**
-     * Default class constructor. Leaves the value to the default value set by
-     * Java
-     */
-    public DoubleWrapper() {
-        /*
-         * defaults to the JAVA initial value for a double primitive (0,
-         * currently)
-         */
-    }
+  @Override
+  public byte byteValue() {
+    return (byte) value;
+  }
 
-    @Override
-    public DoubleWrapper self() {
-        return this;
-    }
+  @Override
+  public short shortValue() {
+    return (short) value;
+  }
 
-    @Override
-    public boolean booleanValue() {
-        return value != 0;
-    }
+  @Override
+  public int intValue() {
+    return (int) value;
+  }
 
-    @Override
-    public byte byteValue() {
-        return (byte) value;
-    }
+  @Override
+  public long longValue() {
+    return (long) value;
+  }
 
-    @Override
-    public short shortValue() {
-        return (short) value;
-    }
+  @Override
+  public float floatValue() {
+    return (float) value;
+  }
 
-    @Override
-    public int intValue() {
-        return (int) value;
-    }
+  @Override
+  public double doubleValue() {
+    return value;
+  }
 
-    @Override
-    public long longValue() {
-        return (long) value;
-    }
+  @Override
+  public char charValue() {
+    return (char) value;
+  }
 
-    @Override
-    public float floatValue() {
-        return (float) value;
-    }
+  @Override
+  public DoubleWrapper booleanValue(final boolean booleanValue) {
+    this.value = (booleanValue ? 1 : 0);
+    return this;
+  }
 
-    @Override
-    public double doubleValue() {
-        return value;
-    }
+  @Override
+  public DoubleWrapper byteValue(final byte byteValue) {
+    this.value = byteValue;
+    return this;
+  }
 
-    @Override
-    public char charValue() {
-        return (char) value;
-    }
+  @Override
+  public DoubleWrapper shortValue(final short shortValue) {
+    this.value = shortValue;
+    return this;
+  }
 
-    @Override
-    public DoubleWrapper booleanValue(boolean value) {
-        this.value = (value ? 1 : 0);
-        return this;
-    }
+  @Override
+  public DoubleWrapper intValue(final int intValue) {
+    this.value = intValue;
+    return this;
+  }
 
-    @Override
-    public DoubleWrapper byteValue(byte value) {
-        this.value = value;
-        return this;
-    }
+  @Override
+  public DoubleWrapper longValue(final long longValue) {
+    this.value = longValue;
+    return this;
+  }
 
-    @Override
-    public DoubleWrapper shortValue(short value) {
-        this.value = value;
-        return this;
-    }
+  @Override
+  public DoubleWrapper floatValue(final float floatValue) {
+    this.value = floatValue;
+    return this;
+  }
 
-    @Override
-    public DoubleWrapper intValue(int value) {
-        this.value = value;
-        return this;
-    }
+  @Override
+  public DoubleWrapper doubleValue(final double doubleValue) {
+    this.value = doubleValue;
+    return this;
+  }
 
-    @Override
-    public DoubleWrapper longValue(long value) {
-        this.value = value;
-        return this;
-    }
+  @Override
+  public DoubleWrapper charValue(final char charValue) {
+    this.value = charValue;
+    return this;
+  }
 
-    @Override
-    public DoubleWrapper floatValue(float value) {
-        this.value = value;
-        return this;
-    }
+  @Override
+  public DoubleWrapper copyFrom(
+      final PrimitiveGetter<?> primitiveGetter) {
+    this.value = primitiveGetter.doubleValue();
+    return this;
+  }
 
-    @Override
-    public DoubleWrapper doubleValue(double value) {
-        this.value = value;
-        return this;
-    }
+  /**
+   * Creates a new instance of the DoubleHolder from the given value.
+   *
+   * @param value the value
+   * @return the new instance
+   */
+  public static DoubleWrapper of(final double value) {
+    return new DoubleWrapper(value);
+  }
 
-    @Override
-    public DoubleWrapper charValue(char value) {
-        this.value = value;
-        return this;
-    }
+  /**
+   * Creates a new instance of DoubleHolder from the given PrimitiveGetter.
+   *
+   * @param primitiveGetter the primitive getter
+   * @return the new instance
+   */
+  public static DoubleWrapper
+  of(final PrimitiveGetter<?> primitiveGetter) {
+    return of(primitiveGetter.doubleValue());
+  }
 
-    @Override
-    public DoubleWrapper copyFrom(PrimitiveGetter<?> primitiveGetter) {
-        this.value = primitiveGetter.doubleValue();
-        return this;
-    }
+  @Override
+  public int hashCode() {
+    return (int) value;
+  }
 
-    /**
-     * Creates a new instance of the DoubleHolder from the given value.
-     *
-     * @param value the value
-     * @return the new instance
-     */
-    public static DoubleWrapper of(double value) {
-        return new DoubleWrapper(value);
-    }
+  @Override
+  public boolean equals(final Object obj) {
+    return this == obj
+        || (obj instanceof PrimitiveGetter<?>
+        && Double
+        .compare(value, ((PrimitiveGetter<?>) obj).doubleValue()) == 0);
+  }
 
-    /**
-     * Creates a new instance of DoubleHolder from the given PrimitiveGetter.
-     *
-     * @param primitiveGetter the primitive getter
-     * @return the new instance
-     */
-    public static DoubleWrapper
-    of(PrimitiveGetter<?> primitiveGetter) {
-        return of(primitiveGetter.doubleValue());
-    }
+  @Override
+  public String toString() {
+    return value + "";
+  }
 
-    @Override
-    public int hashCode() {
-        return (int) value;
-    }
+  /**
+   * Increments the value by one.
+   *
+   * @return this instance
+   */
+  public DoubleWrapper increment() {
+    value++;
+    return this;
+  }
 
-    @Override
-    public boolean equals(Object obj) {
-        return (obj instanceof PrimitiveGetter<?>
-                && Double.compare(value, ((PrimitiveGetter<?>) obj)
-                .doubleValue()) == 0);
-    }
+  /**
+   * Decrements the value by one.
+   *
+   * @return this instance
+   */
+  public DoubleWrapper decrement() {
+    value--;
+    return this;
+  }
 
-    @Override
-    public String toString() {
-        return value + "";
-    }
+  /**
+   * Adds the given amount to this value.
+   *
+   * @param amount the amount
+   * @return this instance
+   */
+  public DoubleWrapper add(final double amount) {
+    value += amount;
+    return this;
+  }
 
-    /**
-     * Increments the value by one.
-     *
-     * @return this instance
-     */
-    public DoubleWrapper increment() {
-        value++;
-        return this;
-    }
+  /**
+   * Returns the current value then increments it.
+   *
+   * @return the value before incrementing it.
+   */
+  public double getThenIncrement() {
+    double result = value;
+    value++;
+    return result;
+  }
 
-    /**
-     * Decrements the value by one.
-     *
-     * @return this instance
-     */
-    public DoubleWrapper decrement() {
-        value--;
-        return this;
-    }
+  /**
+   * Increments the current value and returns it.
+   *
+   * @return the incremented value
+   */
+  public double incrementThenGet() {
+    value++;
+    return value;
+  }
 
-    /**
-     * Adds the given amount to this value.
-     *
-     * @param amount the amount
-     * @return this instance
-     */
-    public DoubleWrapper add(double amount) {
-        value += amount;
-        return this;
-    }
+  /**
+   * Returns the current value then decrements it.
+   *
+   * @return the value before decrementing it.
+   */
+  public double getThenDecrement() {
+    double result = value;
+    value--;
+    return result;
+  }
 
-    /**
-     * Returns the current value then increments it.
-     *
-     * @return the value before incrementing it.
-     */
-    public double getThenIncrement() {
-        double result = value;
-        value++;
-        return result;
-    }
+  /**
+   * Decrements the current value and returns it.
+   *
+   * @return the decremented value.
+   */
+  public double decrementThenGet() {
+    value--;
+    return value;
+  }
 
-    /**
-     * Increments the current value and returns it
-     *
-     * @return the incremented value
-     */
-    public double incrementThenGet() {
-        value++;
-        return value;
-    }
+  /**
+   * Returns the current value then adds the given amount.
+   *
+   * @param amount the amount to add
+   * @return the value before adding the amount
+   */
+  public double getThenAdd(final double amount) {
+    double result = value;
+    value += amount;
+    return result;
+  }
 
-    /**
-     * Returns the current value then decrements it.
-     *
-     * @return the value before decrementing it.
-     */
-    public double getThenDecrement() {
-        double result = value;
-        value--;
-        return result;
-    }
-
-    /**
-     * Decrements the current value and returns it.
-     *
-     * @return the decremented value.
-     */
-    public double decrementThenGet() {
-        value--;
-        return value;
-    }
-
-    /**
-     * Returns the current value then adds the given amount.
-     *
-     * @param amount the amount to add
-     * @return the value before adding the amount
-     */
-    public double getThenAdd(double amount) {
-        double result = value;
-        value += amount;
-        return result;
-    }
-
-    /**
-     * Adds the given amount to the current value and returns it.
-     *
-     * @param amount the amount to add
-     * @return the value after adding the given amount
-     */
-    public double addThenGet(double amount) {
-        value += amount;
-        return value;
-    }
+  /**
+   * Adds the given amount to the current value and returns it.
+   *
+   * @param amount the amount to add
+   * @return the value after adding the given amount
+   */
+  public double addThenGet(final double amount) {
+    value += amount;
+    return value;
+  }
 
 
 }

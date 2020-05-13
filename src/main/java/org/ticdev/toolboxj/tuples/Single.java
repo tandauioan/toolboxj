@@ -1,13 +1,6 @@
 package org.ticdev.toolboxj.tuples;
 
-import org.ticdev.toolboxj.collections.IntIndexedGetter;
-import org.ticdev.toolboxj.collections.IntSized;
 import org.ticdev.toolboxj.self.Self;
-import org.ticdev.toolboxj.tuples.impl.TupleIndexedLookup;
-
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.Iterator;
 
 /**
  * Single tuple interface.
@@ -20,6 +13,13 @@ public interface Single<T1>
     SingleView<T1>,
     Self<Single<T1>> {
 
+  /**
+   * Creates a new single instance with the given element.
+   *
+   * @param item1 the element.
+   * @param <T1>  the type of the element.
+   * @return the new single instance.
+   */
   static <T1> Single<T1> of(final T1 item1) {
     return TupleSupport.of(item1);
   }

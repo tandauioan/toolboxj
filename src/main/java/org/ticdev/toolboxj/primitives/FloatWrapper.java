@@ -12,277 +12,276 @@ package org.ticdev.toolboxj.primitives;
  *
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
-public class FloatWrapper
-        extends
-        Number
-        implements
-        PrimitiveSetter<FloatWrapper>,
-        PrimitiveGetter<FloatWrapper> {
+public final class FloatWrapper
+    extends Number
+    implements
+    PrimitiveSetter<FloatWrapper>,
+    PrimitiveGetter<FloatWrapper> {
 
-    /**
-     * serial version
+  /**
+   * Serial version.
+   */
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * The float primitive value.
+   */
+  private float value;
+
+  /**
+   * Class constructor. Initializes the value to the initial value.
+   *
+   * @param initialValue the initial value of the primitive.
+   */
+  public FloatWrapper(
+      final float initialValue) {
+    this.value = initialValue;
+  }
+
+  /**
+   * Default class constructor. Leaves the value to the default
+   * value set by Java.
+   */
+  public FloatWrapper() {
+    /*
+     * defaults to the JAVA initial value for a float primitive (0,
+     * currently)
      */
-    private static final long serialVersionUID = 1L;
+  }
 
-    /**
-     * the float primitive value
-     */
-    private float value;
+  @Override
+  public FloatWrapper self() {
+    return this;
+  }
 
-    /**
-     * Class constructor. Initializes the value to the initial value.
-     *
-     * @param initialValue the initial value of the primitive.
-     */
-    public FloatWrapper(
-            float initialValue) {
-        this.value = initialValue;
-    }
+  @Override
+  public boolean booleanValue() {
+    return value != 0;
+  }
 
-    /**
-     * Default class constructor. Leaves the value to the default value set by
-     * Java
-     */
-    public FloatWrapper() {
-        /*
-         * defaults to the JAVA initial value for a float primitive (0,
-         * currently)
-         */
-    }
+  @Override
+  public byte byteValue() {
+    return (byte) value;
+  }
 
-    @Override
-    public FloatWrapper self() {
-        return this;
-    }
+  @Override
+  public short shortValue() {
+    return (short) value;
+  }
 
-    @Override
-    public boolean booleanValue() {
-        return value != 0;
-    }
+  @Override
+  public int intValue() {
+    return (int) value;
+  }
 
-    @Override
-    public byte byteValue() {
-        return (byte) value;
-    }
+  @Override
+  public long longValue() {
+    return (long) value;
+  }
 
-    @Override
-    public short shortValue() {
-        return (short) value;
-    }
+  @Override
+  public float floatValue() {
+    return value;
+  }
 
-    @Override
-    public int intValue() {
-        return (int) value;
-    }
+  @Override
+  public double doubleValue() {
+    return value;
+  }
 
-    @Override
-    public long longValue() {
-        return (long) value;
-    }
+  @Override
+  public char charValue() {
+    return (char) value;
+  }
 
-    @Override
-    public float floatValue() {
-        return value;
-    }
+  @Override
+  public FloatWrapper booleanValue(final boolean booleanValue) {
+    this.value = (booleanValue ? 1 : 0);
+    return this;
+  }
 
-    @Override
-    public double doubleValue() {
-        return value;
-    }
+  @Override
+  public FloatWrapper byteValue(final byte byteValue) {
+    this.value = byteValue;
+    return this;
+  }
 
-    @Override
-    public char charValue() {
-        return (char) value;
-    }
+  @Override
+  public FloatWrapper shortValue(final short shortValue) {
+    this.value = shortValue;
+    return this;
+  }
 
-    @Override
-    public FloatWrapper booleanValue(boolean value) {
-        this.value = (value ? 1 : 0);
-        return this;
-    }
+  @Override
+  public FloatWrapper intValue(final int intValue) {
+    this.value = intValue;
+    return this;
+  }
 
-    @Override
-    public FloatWrapper byteValue(byte value) {
-        this.value = value;
-        return this;
-    }
+  @Override
+  public FloatWrapper longValue(final long longValue) {
+    this.value = longValue;
+    return this;
+  }
 
-    @Override
-    public FloatWrapper shortValue(short value) {
-        this.value = value;
-        return this;
-    }
+  @Override
+  public FloatWrapper floatValue(final float floatValue) {
+    this.value = floatValue;
+    return this;
+  }
 
-    @Override
-    public FloatWrapper intValue(int value) {
-        this.value = value;
-        return this;
-    }
+  @Override
+  public FloatWrapper doubleValue(final double doubleValue) {
+    this.value = (float) doubleValue;
+    return this;
+  }
 
-    @Override
-    public FloatWrapper longValue(long value) {
-        this.value = value;
-        return this;
-    }
+  @Override
+  public FloatWrapper charValue(final char charValue) {
+    this.value = charValue;
+    return this;
+  }
 
-    @Override
-    public FloatWrapper floatValue(float value) {
-        this.value = value;
-        return this;
-    }
+  @Override
+  public FloatWrapper copyFrom(
+      final PrimitiveGetter<?> primitiveGetter) {
+    this.value = primitiveGetter.floatValue();
+    return this;
+  }
 
-    @Override
-    public FloatWrapper doubleValue(double value) {
-        this.value = (float) value;
-        return this;
-    }
+  /**
+   * Creates a new instance of the FloatHolder from the given value.
+   *
+   * @param value the value
+   * @return the new instance
+   */
+  public static FloatWrapper of(final float value) {
+    return new FloatWrapper(value);
+  }
 
-    @Override
-    public FloatWrapper charValue(char value) {
-        this.value = value;
-        return this;
-    }
+  /**
+   * Creates a new instance of FloatHolder from the given PrimitiveGetter.
+   *
+   * @param primitiveGetter the primitive getter
+   * @return the new instance
+   */
+  public static FloatWrapper
+  of(final PrimitiveGetter<?> primitiveGetter) {
+    return of(primitiveGetter.floatValue());
+  }
 
-    @Override
-    public FloatWrapper copyFrom(PrimitiveGetter<?> primitiveGetter) {
-        this.value = primitiveGetter.floatValue();
-        return this;
-    }
+  @Override
+  public int hashCode() {
+    return (int) value;
+  }
 
-    /**
-     * Creates a new instance of the FloatHolder from the given value.
-     *
-     * @param value the value
-     * @return the new instance
-     */
-    public static FloatWrapper of(float value) {
-        return new FloatWrapper(value);
-    }
+  @Override
+  public boolean equals(final Object obj) {
+    return this == obj
+        || (obj instanceof PrimitiveGetter<?>
+        && Float
+        .compare(value, ((PrimitiveGetter<?>) obj).floatValue()) == 0);
+  }
 
-    /**
-     * Creates a new instance of FloatHolder from the given PrimitiveGetter.
-     *
-     * @param primitiveGetter the primitive getter
-     * @return the new instance
-     */
-    public static FloatWrapper
-    of(PrimitiveGetter<?> primitiveGetter) {
-        return of(primitiveGetter.floatValue());
-    }
+  @Override
+  public String toString() {
+    return value + "";
+  }
 
-    @Override
-    public int hashCode() {
-        return (int) value;
-    }
+  /**
+   * Increments the value by one.
+   *
+   * @return this instance
+   */
+  public FloatWrapper increment() {
+    value++;
+    return this;
+  }
 
-    @Override
-    public boolean equals(Object obj) {
-        return (obj instanceof PrimitiveGetter<?>
-                && Float.compare(value, ((PrimitiveGetter<?>) obj).
-                                                                          floatValue()) ==
-                   0);
-    }
+  /**
+   * Decrements the value by one.
+   *
+   * @return this instance
+   */
+  public FloatWrapper decrement() {
+    value--;
+    return this;
+  }
 
-    @Override
-    public String toString() {
-        return value + "";
-    }
+  /**
+   * Adds the given amount to this value.
+   *
+   * @param amount the amount
+   * @return this instance
+   */
+  public FloatWrapper add(final float amount) {
+    value += amount;
+    return this;
+  }
 
-    /**
-     * Increments the value by one.
-     *
-     * @return this instance
-     */
-    public FloatWrapper increment() {
-        value++;
-        return this;
-    }
+  /**
+   * Returns the current value then increments it.
+   *
+   * @return the value before incrementing it.
+   */
+  public float getThenIncrement() {
+    float result = value;
+    value++;
+    return result;
+  }
 
-    /**
-     * Decrements the value by one.
-     *
-     * @return this instance
-     */
-    public FloatWrapper decrement() {
-        value--;
-        return this;
-    }
+  /**
+   * Increments the current value and returns it.
+   *
+   * @return the incremented value
+   */
+  public float incrementThenGet() {
+    value++;
+    return value;
+  }
 
-    /**
-     * Adds the given amount to this value.
-     *
-     * @param amount the amount
-     * @return this instance
-     */
-    public FloatWrapper add(float amount) {
-        value += amount;
-        return this;
-    }
+  /**
+   * Returns the current value then decrements it.
+   *
+   * @return the value before decrementing it.
+   */
+  public float getThenDecrement() {
+    float result = value;
+    value--;
+    return result;
+  }
 
-    /**
-     * Returns the current value then increments it.
-     *
-     * @return the value before incrementing it.
-     */
-    public float getThenIncrement() {
-        float result = value;
-        value++;
-        return result;
-    }
+  /**
+   * Decrements the current value and returns it.
+   *
+   * @return the decremented value.
+   */
+  public float decrementThenGet() {
+    value--;
+    return value;
+  }
 
-    /**
-     * Increments the current value and returns it
-     *
-     * @return the incremented value
-     */
-    public float incrementThenGet() {
-        value++;
-        return value;
-    }
+  /**
+   * Returns the current value then adds the given amount.
+   *
+   * @param amount the amount to add
+   * @return the value before adding the amount
+   */
+  public float getThenAdd(final float amount) {
+    float result = value;
+    value += amount;
+    return result;
+  }
 
-    /**
-     * Returns the current value then decrements it.
-     *
-     * @return the value before decrementing it.
-     */
-    public float getThenDecrement() {
-        float result = value;
-        value--;
-        return result;
-    }
-
-    /**
-     * Decrements the current value and returns it.
-     *
-     * @return the decremented value.
-     */
-    public float decrementThenGet() {
-        value--;
-        return value;
-    }
-
-    /**
-     * Returns the current value then adds the given amount.
-     *
-     * @param amount the amount to add
-     * @return the value before adding the amount
-     */
-    public float getThenAdd(float amount) {
-        float result = value;
-        value += amount;
-        return result;
-    }
-
-    /**
-     * Adds the given amount to the current value and returns it.
-     *
-     * @param amount the amount to add
-     * @return the value after adding the given amount
-     */
-    public float addThenGet(float amount) {
-        value += amount;
-        return value;
-    }
-
+  /**
+   * Adds the given amount to the current value and returns it.
+   *
+   * @param amount the amount to add
+   * @return the value after adding the given amount
+   */
+  public float addThenGet(final float amount) {
+    value += amount;
+    return value;
+  }
 
 }

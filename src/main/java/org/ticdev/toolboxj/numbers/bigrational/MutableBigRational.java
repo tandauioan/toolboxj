@@ -40,35 +40,36 @@ import java.util.stream.Stream;
  *
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
-public class MutableBigRational
-    implements Rational<BigInteger, MutableBigRational>,
+public final class MutableBigRational
+    implements
+    Rational<BigInteger, MutableBigRational>,
     Self<MutableBigRational> {
 
   /**
-   * the numerator
+   * The numerator.
    */
   private BigInteger numerator;
 
   /**
-   * the denominator
+   * The denominator.
    */
   private BigInteger denominator;
 
   /**
-   * The type
+   * The type.
    */
   private BigRational.Type type;
 
   /**
-   * Supplier of new instances of zero mutable rationals
+   * Supplier of new instances of zero mutable rationals.
    */
-  private static final Supplier<MutableBigRational> zeroSupplier =
+  private static final Supplier<MutableBigRational> ZERO_SUPPLIER =
       MutableBigRational::new;
 
   /**
-   * Supplier of new instances of one mutable rationals
+   * Supplier of new instances of one mutable rationals.
    */
-  private static final Supplier<MutableBigRational> oneSupplier =
+  private static final Supplier<MutableBigRational> ONE_SUPPLIER =
       () -> new MutableBigRational(BigInteger.ONE);
 
 
@@ -76,88 +77,94 @@ public class MutableBigRational
    * Default constructor. Sets the rational to zero.
    */
   public MutableBigRational() {
-    set_(BigInteger.ZERO, BigInteger.ONE).normalize_();
+    internalSet(BigInteger.ZERO, BigInteger.ONE).internalNormalize();
   }
 
   /**
    * Class constructor. Sets the rational to numerator/1.
    *
-   * @param numerator the numerator
+   * @param numeratorValue the numerator
    */
-  public MutableBigRational(BigInteger numerator) {
-    set_(numerator, BigInteger.ONE).normalize_();
+  public MutableBigRational(final BigInteger numeratorValue) {
+    internalSet(numeratorValue, BigInteger.ONE).internalNormalize();
   }
 
   /**
    * Class constructor. Sets the rational to numerator/denominator.
    *
-   * @param numerator   the numerator
-   * @param denominator the denominator
+   * @param numeratorValue   the numerator
+   * @param denominatorValue the denominator
    */
   public MutableBigRational(
-      BigInteger numerator, BigInteger denominator) {
-    set_(numerator, denominator).normalize_();
+      final BigInteger numeratorValue, final BigInteger denominatorValue) {
+    internalSet(numeratorValue, denominatorValue).internalNormalize();
   }
 
   /**
    * Class constructor. Sets the rational to numerator/denominator
    * after converting the long values to BigInteger.
    *
-   * @param numerator   the numerator
-   * @param denominator the denominator
+   * @param numeratorValue   the numerator
+   * @param denominatorValue the denominator
    */
-  public MutableBigRational(long numerator, long denominator) {
-    set_(BigInteger.valueOf(numerator),
-        BigInteger.valueOf(denominator)).normalize_();
+  public MutableBigRational(
+      final long numeratorValue,
+      final long denominatorValue) {
+    internalSet(BigInteger.valueOf(numeratorValue),
+        BigInteger.valueOf(denominatorValue)).internalNormalize();
   }
 
   /**
    * Class constructor. Sets the rational to numerator/1
    * after converting the long value to BigInteger.
    *
-   * @param numerator the numerator
+   * @param numeratorValue the numerator
    */
-  public MutableBigRational(long numerator) {
-    set_(BigInteger.valueOf(numerator), BigInteger.ONE).normalize_();
+  public MutableBigRational(final long numeratorValue) {
+    internalSet(BigInteger.valueOf(numeratorValue), BigInteger.ONE)
+        .internalNormalize();
   }
 
   /**
-   * Class constructor. Creates a new instance from a pair of BigRational numbers.
+   * Class constructor. Creates a new instance from a pair of BigRational
+   * numbers.
    *
    * @param pair the pair
    */
-  public MutableBigRational(PairView<BigInteger, BigInteger> pair) {
-    set_(pair).normalize_();
+  public MutableBigRational(final PairView<BigInteger, BigInteger> pair) {
+    internalSet(pair).internalNormalize();
   }
 
   /**
    * Internal set without normalization.
    *
-   * @param numerator   the numerator
-   * @param denominator the denominator
+   * @param numeratorValue   the numerator
+   * @param denominatorValue the denominator
    * @return this instance
    */
-  private MutableBigRational set_(
-      BigInteger numerator, BigInteger denominator) {
-    if (numerator == null || denominator == null) {
+  private MutableBigRational internalSet(
+      final BigInteger numeratorValue,
+      final BigInteger denominatorValue) {
+    if (numeratorValue == null || denominatorValue == null) {
       this.numerator = BigInteger.ZERO;
       this.denominator = BigInteger.ZERO;
     }
-    this.numerator = numerator;
-    this.denominator = denominator;
+    this.numerator = numeratorValue;
+    this.denominator = denominatorValue;
     return this;
   }
 
   /**
-   * Sets the numerator and denominator to the given values
+   * Sets the numerator and denominator to the given values.
    *
-   * @param numerator   the numerator
-   * @param denominator the denominator.
+   * @param numeratorValue   the numerator
+   * @param denominatorValue the denominator.
    * @return this
    */
   public MutableBigRational set(
-      BigInteger numerator, BigInteger denominator) {
-    return set_(numerator, denominator).normalize_();
+      final BigInteger numeratorValue,
+      final BigInteger denominatorValue) {
+    return internalSet(numeratorValue, denominatorValue).internalNormalize();
   }
 
   /**
@@ -166,20 +173,22 @@ public class MutableBigRational
    * @param pair the pair of BigInteger values
    * @return this instance
    */
-  private MutableBigRational set_(PairView<BigInteger, BigInteger> pair) {
-    return pair == null ? set_(null, null) :
-        set_(pair.item1(), pair.item2());
+  private MutableBigRational internalSet(
+      final PairView<BigInteger, BigInteger> pair) {
+    return pair == null
+        ? internalSet(null, null)
+        : internalSet(pair.item1(), pair.item2());
   }
 
   /**
-   * Sets the numerator and denominator to the given values
+   * Sets the numerator and denominator to the given values.
    *
    * @param pair the pair containing the numerator and denominator,
    *             in this order.
    * @return this instance
    */
-  public MutableBigRational set(Pair<BigInteger, BigInteger> pair) {
-    return set_(pair).normalize_();
+  public MutableBigRational set(final Pair<BigInteger, BigInteger> pair) {
+    return internalSet(pair).internalNormalize();
   }
 
   /**
@@ -187,7 +196,7 @@ public class MutableBigRational
    *
    * @return this instance
    */
-  private MutableBigRational set_nan_() {
+  private MutableBigRational internalSetNan() {
     this.numerator = BigInteger.ZERO;
     this.denominator = BigInteger.ZERO;
     return this;
@@ -196,89 +205,91 @@ public class MutableBigRational
   /**
    * Internal non-normalized set for numerator.
    *
-   * @param numerator the numerator
+   * @param numeratorValue the numerator
    * @return this instance
    */
-  private MutableBigRational set_(BigInteger numerator) {
-    if (numerator == null) {
-      return set_nan_();
+  private MutableBigRational internalSet(final BigInteger numeratorValue) {
+    if (numeratorValue == null) {
+      return internalSetNan();
     }
-    this.numerator = numerator;
+    this.numerator = numeratorValue;
     return this;
   }
 
   /**
    * Sets the numerator.
    *
-   * @param numerator the numerator
+   * @param numeratorValue the numerator
    * @return this instance
    */
-  public MutableBigRational set(BigInteger numerator) {
-    return set_(numerator).normalize_();
-  }
-
-  /**
-   * Sets the numerator
-   *
-   * @param numerator the numerator
-   * @return this instance
-   */
-  public MutableBigRational set(long numerator) {
-    return set(BigInteger.valueOf(numerator));
-  }
-
-  /**
-   * Sets the numerator
-   *
-   * @param numerator the numerator
-   * @return this instance
-   */
-  public MutableBigRational numerator(BigInteger numerator) {
-    return set_(numerator).normalize_();
+  public MutableBigRational set(final BigInteger numeratorValue) {
+    return internalSet(numeratorValue).internalNormalize();
   }
 
   /**
    * Sets the numerator.
    *
-   * @param numerator the numerator
+   * @param numeratorValue the numerator
    * @return this instance
    */
-  public MutableBigRational numerator(long numerator) {
-    return set(numerator);
+  public MutableBigRational set(final long numeratorValue) {
+    return set(BigInteger.valueOf(numeratorValue));
+  }
+
+  /**
+   * Sets the numerator.
+   *
+   * @param numeratorValue the numerator
+   * @return this instance
+   */
+  public MutableBigRational numerator(final BigInteger numeratorValue) {
+    return internalSet(numeratorValue).internalNormalize();
+  }
+
+  /**
+   * Sets the numerator.
+   *
+   * @param numeratorValue the numerator
+   * @return this instance
+   */
+  public MutableBigRational numerator(final long numeratorValue) {
+    return set(numeratorValue);
   }
 
   /**
    * Internal set denominator, not normalized.
    *
-   * @param denominator the denominator
+   * @param denominatorValue the denominator
    * @return this instance
    */
-  private MutableBigRational set_denominator_(BigInteger denominator) {
-    if (denominator == null) {
-      return set_nan_();
+  private MutableBigRational internalSetDenominator(
+      final BigInteger denominatorValue) {
+    if (denominatorValue == null) {
+      return internalSetNan();
     }
-    this.denominator = denominator;
+    this.denominator = denominatorValue;
     return this;
   }
 
   /**
    * Sets the denominator.
    *
-   * @param denominator the denominator
+   * @param denominatorValue the denominator
    * @return this instance
    */
-  public MutableBigRational denominator(BigInteger denominator) {
-    return set_denominator_(denominator).normalize_();
+  public MutableBigRational denominator(
+      final BigInteger denominatorValue) {
+    return internalSetDenominator(denominatorValue).internalNormalize();
   }
 
   /**
-   * Sets the denominator
+   * Sets the denominator.
    *
-   * @param denominator the denominator
+   * @param denominatorValue the denominator
    * @return this instance
    */
-  public MutableBigRational denominator(long denominator) {
-    return denominator(BigInteger.valueOf(denominator));
+  public MutableBigRational denominator(final long denominatorValue) {
+    return denominator(BigInteger.valueOf(denominatorValue));
   }
 
   /**
@@ -286,7 +297,7 @@ public class MutableBigRational
    *
    * @return this instance
    */
-  private MutableBigRational normalize_() {
+  private MutableBigRational internalNormalize() {
     if (numerator.equals(BigInteger.ZERO)) {
       if (denominator.equals(BigInteger.ZERO)) {
         type = BigRational.Type.NAN;
@@ -337,46 +348,47 @@ public class MutableBigRational
 
   @Override
   public MutableBigRational add(
-      MutableBigRational mutableBigRational) {
-    return add_not_normalized_(mutableBigRational).normalize_();
+      final MutableBigRational mutableBigRational) {
+    return addNotNormalized(mutableBigRational).internalNormalize();
   }
 
   @Override
   public MutableBigRational subtract(
-      MutableBigRational mutableBigRational) {
-    return subtract_not_normalized_(mutableBigRational)
-        .normalize_();
+      final MutableBigRational mutableBigRational) {
+    return subtractNotNormalized(mutableBigRational)
+        .internalNormalize();
   }
 
   @Override
   public MutableBigRational multiply(
-      MutableBigRational mutableBigRational) {
-    return multiply_not_normalized_(mutableBigRational)
-        .normalize_();
+      final MutableBigRational mutableBigRational) {
+    return multiplyNotNormalized(mutableBigRational)
+        .internalNormalize();
   }
 
   @Override
   public MutableBigRational divide(
-      MutableBigRational mutableBigRational) {
-    return divide_not_normalized_(mutableBigRational).normalize_();
+      final MutableBigRational mutableBigRational) {
+    return divideNotNormalized(mutableBigRational).internalNormalize();
   }
 
 
   @Override
   public MutableBigRational negate() {
     numerator = numerator.negate();
-    return normalize_();
+    return internalNormalize();
   }
 
   @Override
   public MutableBigRational reciprocal() {
-    return set_(denominator, numerator).normalize_();
+    return internalSet(denominator, numerator).internalNormalize();
   }
 
   @Override
   public MutableBigRational abs() {
-    return numerator.signum() < 0 ?
-        set_(numerator.negate()).normalize_() : this;
+    return numerator.signum() < 0
+        ? internalSet(numerator.negate()).internalNormalize()
+        : this;
   }
 
   @Override
@@ -385,8 +397,8 @@ public class MutableBigRational
     if (gcd.equals(BigInteger.ZERO) || gcd.equals(BigInteger.ONE)) {
       return this;
     }
-    return set_(numerator.divide(gcd), denominator.divide(gcd))
-        .normalize_();
+    return internalSet(numerator.divide(gcd), denominator.divide(gcd))
+        .internalNormalize();
   }
 
   @Override
@@ -405,11 +417,12 @@ public class MutableBigRational
   }
 
   @Override
-  public int compareTo(MutableBigRational o) {
+  public int compareTo(final MutableBigRational o) {
     switch (type) {
       case NAN:
-        return o.type == BigRational.Type.NEGATIVE_INFINITY ? 0 :
-            1;
+        return o.type == BigRational.Type.NEGATIVE_INFINITY
+            ? 0
+            : 1;
       case ZERO:
         if (o.isNaN()) {
           return -1;
@@ -419,8 +432,9 @@ public class MutableBigRational
         }
         return -o.numerator.signum();
       case NEGATIVE_INFINITY:
-        return o.type == BigRational.Type.NEGATIVE_INFINITY ? 0 :
-            -1;
+        return o.type == BigRational.Type.NEGATIVE_INFINITY
+            ? 0
+            : -1;
       case POSITIVE_INFINITY:
         if (o.type == BigRational.Type.POSITIVE_INFINITY) {
           return 0;
@@ -433,8 +447,8 @@ public class MutableBigRational
         if (o.type == BigRational.Type.NEGATIVE_INFINITY) {
           return 1;
         }
-        if (o.type == BigRational.Type.POSITIVE_INFINITY ||
-            o.type == BigRational.Type.NAN) {
+        if (o.type == BigRational.Type.POSITIVE_INFINITY
+            || o.type == BigRational.Type.NAN) {
           return -1;
         }
         return numerator.multiply(o.denominator).compareTo(
@@ -453,7 +467,7 @@ public class MutableBigRational
   }
 
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     return this == obj
         || (obj instanceof PairView<?, ?>)
         && TupleSupport.pairEquals(this, (PairView<?, ?>) obj);
@@ -469,14 +483,14 @@ public class MutableBigRational
   }
 
   /**
-   * Adds a rational to this rational without normalization
+   * Adds a rational to this rational without normalization.
    *
    * @param rational the rational to add
    * @return this instance
    */
-  private MutableBigRational add_not_normalized_(
-      Rational<BigInteger, ?> rational) {
-    return set_(numerator.multiply(rational.denominator())
+  private MutableBigRational addNotNormalized(
+      final Rational<BigInteger, ?> rational) {
+    return internalSet(numerator.multiply(rational.denominator())
             .add(denominator.multiply(
                 rational.numerator())),
         denominator.multiply(rational.denominator()));
@@ -489,8 +503,8 @@ public class MutableBigRational
    * @return this instance
    */
   public MutableBigRational addRational(
-      Rational<BigInteger, ?> rational) {
-    return add_not_normalized_(rational).normalize_();
+      final Rational<BigInteger, ?> rational) {
+    return addNotNormalized(rational).internalNormalize();
   }
 
   /**
@@ -501,11 +515,11 @@ public class MutableBigRational
    */
   @SafeVarargs
   public final MutableBigRational addRationals(
-      Rational<BigInteger, ?>... rationals) {
+      final Rational<BigInteger, ?>... rationals) {
     for (Rational<BigInteger, ?> rational : rationals) {
-      add_not_normalized_(rational);
+      addNotNormalized(rational);
     }
-    return normalize_();
+    return internalNormalize();
   }
 
   /**
@@ -514,10 +528,10 @@ public class MutableBigRational
    * @param rationals the rationals to add
    * @return this instance
    */
-  public final MutableBigRational addRationals(
-      Collection<? extends Rational<BigInteger, ?>> rationals) {
-    rationals.forEach(this::add_not_normalized_);
-    return normalize_();
+  public MutableBigRational addRationals(
+      final Collection<? extends Rational<BigInteger, ?>> rationals) {
+    rationals.forEach(this::addNotNormalized);
+    return internalNormalize();
   }
 
   /**
@@ -526,9 +540,9 @@ public class MutableBigRational
    * @param rational the rational to subtract
    * @return this instance
    */
-  private MutableBigRational subtract_not_normalized_(
-      Rational<BigInteger, ?> rational) {
-    return set_(numerator.multiply(rational.denominator())
+  private MutableBigRational subtractNotNormalized(
+      final Rational<BigInteger, ?> rational) {
+    return internalSet(numerator.multiply(rational.denominator())
             .subtract(denominator
                 .multiply(
                     rational.numerator())),
@@ -536,52 +550,52 @@ public class MutableBigRational
   }
 
   /**
-   * Subtracts the given rational from this rational
+   * Subtracts the given rational from this rational.
    *
    * @param rational the rational to subtract
    * @return this instance
    */
   public MutableBigRational subtractRational(
-      Rational<BigInteger, ?> rational) {
-    return subtract_not_normalized_(rational).normalize_();
+      final Rational<BigInteger, ?> rational) {
+    return subtractNotNormalized(rational).internalNormalize();
   }
 
   /**
-   * Subtracts the given sequence of rationals from this rational
+   * Subtracts the given sequence of rationals from this rational.
    *
    * @param rationals the rationals to subtract
    * @return this instance
    */
   @SafeVarargs
   public final MutableBigRational subtractRationals(
-      Rational<BigInteger, ?>... rationals) {
+      final Rational<BigInteger, ?>... rationals) {
     for (Rational<BigInteger, ?> rational : rationals) {
-      subtract_not_normalized_(rational);
+      subtractNotNormalized(rational);
     }
-    return normalize_();
+    return internalNormalize();
   }
 
   /**
-   * Subtracts the given rationals from this rational
+   * Subtracts the given rationals from this rational.
    *
    * @param rationals the rationals to subtract
    * @return this instance
    */
-  public final MutableBigRational subtractRationals(
-      Collection<? extends Rational<BigInteger, ?>> rationals) {
-    rationals.forEach(this::subtract_not_normalized_);
-    return normalize_();
+  public MutableBigRational subtractRationals(
+      final Collection<? extends Rational<BigInteger, ?>> rationals) {
+    rationals.forEach(this::subtractNotNormalized);
+    return internalNormalize();
   }
 
   /**
-   * Multiplies this rational by the given rational without normalization
+   * Multiplies this rational by the given rational without normalization.
    *
    * @param rational the rational to multiply by.
    * @return this instance
    */
-  private MutableBigRational multiply_not_normalized_(
-      Rational<BigInteger, ?> rational) {
-    return set_(numerator.multiply(rational.numerator()),
+  private MutableBigRational multiplyNotNormalized(
+      final Rational<BigInteger, ?> rational) {
+    return internalSet(numerator.multiply(rational.numerator()),
         denominator.multiply(rational.denominator()));
   }
 
@@ -592,8 +606,8 @@ public class MutableBigRational
    * @return this instance
    */
   public MutableBigRational multiplyRational(
-      Rational<BigInteger, ?> rational) {
-    return multiply_not_normalized_(rational).normalize_();
+      final Rational<BigInteger, ?> rational) {
+    return multiplyNotNormalized(rational).internalNormalize();
   }
 
   /**
@@ -604,46 +618,46 @@ public class MutableBigRational
    */
   @SafeVarargs
   public final MutableBigRational multiplyRationals(
-      Rational<BigInteger, ?>... rationals) {
+      final Rational<BigInteger, ?>... rationals) {
     for (Rational<BigInteger, ?> rational : rationals) {
-      multiply_not_normalized_(rational);
+      multiplyNotNormalized(rational);
     }
-    return normalize_();
+    return internalNormalize();
   }
 
   /**
-   * Multiplies this rational by the given rationals
+   * Multiplies this rational by the given rationals.
    *
    * @param rationals the rationals to multiply by
    * @return this instance
    */
-  public final MutableBigRational multiplyRationals(
-      Collection<? extends Rational<BigInteger, ?>> rationals) {
-    rationals.forEach(this::multiply_not_normalized_);
-    return normalize_();
+  public MutableBigRational multiplyRationals(
+      final Collection<? extends Rational<BigInteger, ?>> rationals) {
+    rationals.forEach(this::multiplyNotNormalized);
+    return internalNormalize();
   }
 
   /**
-   * Divides this rational by the given rational without normalization
+   * Divides this rational by the given rational without normalization.
    *
    * @param rational the rational to divide by
    * @return this instance
    */
-  private MutableBigRational divide_not_normalized_(
-      Rational<BigInteger, ?> rational) {
-    return set_(numerator.multiply(rational.denominator()),
+  private MutableBigRational divideNotNormalized(
+      final Rational<BigInteger, ?> rational) {
+    return internalSet(numerator.multiply(rational.denominator()),
         denominator.multiply(rational.numerator()));
   }
 
   /**
-   * Divides this rational by the given rational
+   * Divides this rational by the given rational.
    *
    * @param rational the rational to divide by
    * @return this instance
    */
   private MutableBigRational divideRational(
-      Rational<BigInteger, ?> rational) {
-    return divide_not_normalized_(rational).normalize_();
+      final Rational<BigInteger, ?> rational) {
+    return divideNotNormalized(rational).internalNormalize();
   }
 
   /**
@@ -654,11 +668,11 @@ public class MutableBigRational
    */
   @SafeVarargs
   public final MutableBigRational divideRationals(
-      Rational<BigInteger, ?>... rationals) {
+      final Rational<BigInteger, ?>... rationals) {
     for (Rational<BigInteger, ?> rational : rationals) {
-      divide_not_normalized_(rational);
+      divideNotNormalized(rational);
     }
-    return normalize_();
+    return internalNormalize();
   }
 
   /**
@@ -667,10 +681,10 @@ public class MutableBigRational
    * @param rationals the rationals to divide by
    * @return this instance
    */
-  public final MutableBigRational divideRationals(
-      Collection<? extends Rational<BigInteger, ?>> rationals) {
-    rationals.forEach(this::divide_not_normalized_);
-    return normalize_();
+  public MutableBigRational divideRationals(
+      final Collection<? extends Rational<BigInteger, ?>> rationals) {
+    rationals.forEach(this::divideNotNormalized);
+    return internalNormalize();
   }
 
   /**
@@ -679,11 +693,11 @@ public class MutableBigRational
    * @param stream the stream of rationals
    * @return this instance
    */
-  public final MutableBigRational addRationals(
-      Stream<? extends Rational<BigInteger, ?>> stream) {
-    return add(stream.collect(zeroSupplier,
-        MutableBigRational::add_not_normalized_,
-        MutableBigRational::add_not_normalized_));
+  public MutableBigRational addRationals(
+      final Stream<? extends Rational<BigInteger, ?>> stream) {
+    return add(stream.collect(ZERO_SUPPLIER,
+        MutableBigRational::addNotNormalized,
+        MutableBigRational::addNotNormalized));
   }
 
 
@@ -693,11 +707,11 @@ public class MutableBigRational
    * @param stream the stream of rationals
    * @return this instance
    */
-  public final MutableBigRational subtractRationals(
-      Stream<? extends Rational<BigInteger, ?>> stream) {
-    return subtract(stream.collect(zeroSupplier,
-        MutableBigRational::add_not_normalized_,
-        MutableBigRational::add_not_normalized_));
+  public MutableBigRational subtractRationals(
+      final Stream<? extends Rational<BigInteger, ?>> stream) {
+    return subtract(stream.collect(ZERO_SUPPLIER,
+        MutableBigRational::addNotNormalized,
+        MutableBigRational::addNotNormalized));
   }
 
   /**
@@ -706,11 +720,11 @@ public class MutableBigRational
    * @param stream the stream of rationals
    * @return this instance
    */
-  public final MutableBigRational multiplyRationals(
-      Stream<? extends Rational<BigInteger, ?>> stream) {
-    return multiply(stream.collect(oneSupplier,
-        MutableBigRational::multiply_not_normalized_,
-        MutableBigRational::multiply_not_normalized_));
+  public MutableBigRational multiplyRationals(
+      final Stream<? extends Rational<BigInteger, ?>> stream) {
+    return multiply(stream.collect(ONE_SUPPLIER,
+        MutableBigRational::multiplyNotNormalized,
+        MutableBigRational::multiplyNotNormalized));
   }
 
   /**
@@ -719,15 +733,15 @@ public class MutableBigRational
    * @param stream the stream of rationals
    * @return this instance
    */
-  public final MutableBigRational divideRationals(
-      Stream<? extends Rational<BigInteger, ?>> stream) {
-    return divide(stream.collect(oneSupplier,
-        MutableBigRational::multiply_not_normalized_,
-        MutableBigRational::multiply_not_normalized_));
+  public MutableBigRational divideRationals(
+      final Stream<? extends Rational<BigInteger, ?>> stream) {
+    return divide(stream.collect(ONE_SUPPLIER,
+        MutableBigRational::multiplyNotNormalized,
+        MutableBigRational::multiplyNotNormalized));
   }
 
-    @Override
-    public MutableBigRational self() {
-        return this;
-    }
+  @Override
+  public MutableBigRational self() {
+    return this;
+  }
 }
