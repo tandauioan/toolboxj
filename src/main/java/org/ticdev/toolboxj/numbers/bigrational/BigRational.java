@@ -3,7 +3,6 @@ package org.ticdev.toolboxj.numbers.bigrational;
 import org.ticdev.toolboxj.numbers.Rational;
 import org.ticdev.toolboxj.self.Self;
 import org.ticdev.toolboxj.tuples.Pair;
-import org.ticdev.toolboxj.tuples.PairView;
 
 import java.math.BigInteger;
 
@@ -30,42 +29,52 @@ public interface BigRational
    * BigRational types.
    */
   enum Type {
-    /* regular rational */
+    /**
+     * Regular rational.
+     */
     REGULAR,
-    /* not a number */
+    /**
+     * Not a number.
+     */
     NAN,
-    /* zero */
+    /**
+     * Zero.
+     */
     ZERO,
-    /* positive infinity */
+    /**
+     * Positive infinity.
+     */
     POSITIVE_INFINITY,
-    /* negative infinity */
+    /**
+     * Negative infinity.
+     */
     NEGATIVE_INFINITY
   }
 
   /**
-   * not-a-number instance
+   * Not-a-number instance.
    */
   BigRational NAN = BigRationalNaN.getInstance();
 
   /**
-   * zero instance
+   * Zero instance.
    */
   BigRational ZERO = BigRationalZero.getInstance();
 
   /**
-   * positive infinity
+   * Positive infinity.
    */
   BigRational POSITIVE_INFINITY =
       BigRationalPositiveInfinity.getInstance();
 
   /**
-   * negative infinity
+   * Negative infinity.
    */
   BigRational NEGATIVE_INFINITY =
       BigRationalNegativeInfinity.getInstance();
 
   /**
-   * Returns the {@link Type} of the {@link BigRational}
+   * Returns the {@link Type} of the {@link BigRational}.
    *
    * @return the {@link Type} of the {@link BigRational}
    */
@@ -95,13 +104,15 @@ public interface BigRational
    * @param pair the pair of big integers
    * @return a new rational
    */
-  static BigRational of(Pair<BigInteger, BigInteger> pair) {
-    return pair == null ? BigRational.NAN :
-        BigRational.of(pair.item1(), pair.item2());
+  static BigRational of(final Pair<BigInteger, BigInteger> pair) {
+    return pair == null
+        ? BigRational.NAN
+        : BigRational.of(pair.item1(), pair.item2());
   }
 
   /**
-   * Returns a rational with the given numerator and the denominator set to {@link BigInteger#ONE}.
+   * Returns a rational with the given numerator and the denominator.
+   * set to {@link BigInteger#ONE}.
    *
    * @param numerator the numerator.
    * @return the rational.
@@ -111,7 +122,8 @@ public interface BigRational
   }
 
   /**
-   * Returns a rational with the numerator and denominator given as long values.
+   * Returns a rational with the numerator and denominator
+   * given as long values.
    *
    * @param numerator   the numerator
    * @param denominator the denominator
@@ -123,7 +135,8 @@ public interface BigRational
   }
 
   /**
-   * Returns a rational with the numerator given as a long value and the denominator 1L.
+   * Returns a rational with the numerator given as a long value
+   * and the denominator 1L.
    *
    * @param numerator the numerator
    * @return the rational.
@@ -142,7 +155,7 @@ public interface BigRational
   }
 
   /**
-   * Copies this rational into the given mutable big rational
+   * Copies this rational into the given mutable big rational.
    *
    * @param destination the destination of the copy
    * @return this instance
@@ -153,7 +166,7 @@ public interface BigRational
   }
 
   /**
-   * See {@link MutableBigRational#MutableBigRational()}
+   * See {@link MutableBigRational#MutableBigRational()}.
    *
    * @return new mutable instance
    */
@@ -162,7 +175,8 @@ public interface BigRational
   }
 
   /**
-   * See {@link MutableBigRational#MutableBigRational(BigInteger, BigInteger)}
+   * See
+   * {@link MutableBigRational#MutableBigRational(BigInteger, BigInteger)}.
    *
    * @param numerator   numerator
    * @param denominator denominator
@@ -174,7 +188,7 @@ public interface BigRational
   }
 
   /**
-   * See {@link MutableBigRational#MutableBigRational(BigInteger)}
+   * See {@link MutableBigRational#MutableBigRational(BigInteger)}.
    *
    * @param numerator numerator
    * @return new mutable instance
@@ -184,7 +198,8 @@ public interface BigRational
   }
 
   /**
-   * See {@link MutableBigRational#MutableBigRational(PairView)}.
+   * See {@link MutableBigRational#MutableBigRational(
+   * org.ticdev.toolboxj.tuples.PairView)}.
    *
    * @param pair the pair of big integers
    * @return new mutable instance
@@ -195,7 +210,7 @@ public interface BigRational
   }
 
   /**
-   * See {@link MutableBigRational#MutableBigRational(long, long)}
+   * See {@link MutableBigRational#MutableBigRational(long, long)}.
    *
    * @param numerator   numerator
    * @param denominator denominator
@@ -206,7 +221,7 @@ public interface BigRational
   }
 
   /**
-   * See {@link MutableBigRational#MutableBigRational(long)}
+   * See {@link MutableBigRational#MutableBigRational(long)}.
    *
    * @param numerator numerator
    * @return new mutable instance
