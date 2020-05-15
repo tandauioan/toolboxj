@@ -3,24 +3,28 @@ package org.ticdev.toolboxj.algorithms.sort;
 import org.ticdev.toolboxj.collections.BigCounterSet;
 import org.ticdev.toolboxj.collections.IntIndexedGetterSetter;
 import org.ticdev.toolboxj.collections.LongIndexedGetterSetter;
-import org.ticdev.toolboxj.numbers.BigCounter;
 import org.ticdev.toolboxj.primitives.IntWrapper;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.RandomAccess;
 
 /**
  * Support methods for sorting algorithms.
  *
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
-public class SortSupport {
+public final class SortSupport {
 
   /**
-   * An integer sized collection cannot be larger than this value for binary
-   * search insertion point to work.
+   * Default private constructor.
+   */
+  private SortSupport() {
+  }
+
+  /**
+   * An integer sized collection cannot be larger than this value
+   * for binary search insertion point to work.
    */
   public static final int INT_BINARY_SEARCH_INSERTION_POINT_SIZE_LIMIT =
       Integer.MAX_VALUE - 2;
@@ -33,15 +37,19 @@ public class SortSupport {
 
 
   /**
-   * Binary search insertion point modes, when the element is in the collection.
-   * <p>Example: e[0]=1, e[1]=1, e[2]=1.
+   * Binary search insertion point modes, when the element
+   * is in the collection.
+   *
+   * <p>
+   * Example: e[0]=1, e[1]=1, e[2]=1.
    * If {@link BinarySearchInsertionMode#NONE} then return  1.
    * If {@link BinarySearchInsertionMode#FIRST} then return 0.
-   * If {@link BinarySearchInsertionMode#LAST} then return 3.</p>
+   * If {@link BinarySearchInsertionMode#LAST} then return 3.
+   * </p>
    */
   public enum BinarySearchInsertionMode {
     /**
-     * First found index is returned
+     * First found index is returned.
      */
     NONE,
     /**
@@ -58,17 +66,19 @@ public class SortSupport {
 
   /**
    * This method sorts the specified {@link IntIndexedGetterSetter} object
-   * using the Comparator object sent as argument. The method uses heap sort,
-   * thus it guarantees O(n*log n), is done in place, and it's not stable
-   * (does not retain the relative position of equal elements).
+   * using the Comparator object sent as argument.
+   * The method uses heap sort, thus it guarantees O(n*log n),
+   * is done in place, and it's not stable (does not retain the relative
+   * position of equal elements).
    *
-   * @param <T>  the type of the elements in the {@link IntIndexedGetterSetter}
+   * @param <T>  the type of the elements in the
+   *             {@link IntIndexedGetterSetter}
    * @param gs   the {@link IntIndexedGetterSetter} object.
    * @param comp the comparator used to perform the sorting.
    */
   public static <T> void heapSort(
-      IntIndexedGetterSetter<T> gs,
-      Comparator<T> comp) {
+      final IntIndexedGetterSetter<T> gs,
+      final Comparator<T> comp) {
     T tmp;
     int n = gs.size();
     int i = n / 2;
@@ -89,8 +99,8 @@ public class SortSupport {
       }
       w = 2 * v + 1;
       while (w < n) {
-        if (w + 1 < n &&
-            comp.compare(gs.get(w + 1), gs.get(w)) > 0) {
+        if (w + 1 < n
+            && comp.compare(gs.get(w + 1), gs.get(w)) > 0) {
           w++;
         }
         if (comp.compare(gs.get(v), gs.get(w)) >= 0) {
@@ -107,18 +117,19 @@ public class SortSupport {
   }
 
   /**
-   * This method sorts the specified {@link LongIndexedGetterSetter} object
-   * using the Comparator object sent as argument. The method uses heap sort,
-   * thus it guarantees O(n*log n), is done in place, and it's not stable
-   * (does not retain the relative position of equal elements).
+   * This method sorts the specified {@link LongIndexedGetterSetter}
+   * object using the Comparator object sent as argument. The method uses
+   * heap sort, thus it guarantees O(n*log n), is done in place, and it's
+   * not stable (does not retain the relative position of equal elements).
    *
-   * @param <T>  the type of the elements in the {@link IntIndexedGetterSetter}
+   * @param <T>  the type of the elements in the
+   *             {@link IntIndexedGetterSetter}
    * @param gs   the {@link IntIndexedGetterSetter} object.
    * @param comp the comparator used to perform the sorting.
    */
   public static <T> void heapSort(
-      LongIndexedGetterSetter<T> gs,
-      Comparator<T> comp) {
+      final LongIndexedGetterSetter<T> gs,
+      final Comparator<T> comp) {
     T tmp;
     long n = gs.size();
     long i = n / 2;
@@ -139,8 +150,8 @@ public class SortSupport {
       }
       w = 2 * v + 1;
       while (w < n) {
-        if (w + 1 < n &&
-            comp.compare(gs.get(w + 1), gs.get(w)) > 0) {
+        if (w + 1 < n
+            && comp.compare(gs.get(w + 1), gs.get(w)) > 0) {
           w++;
         }
         if (comp.compare(gs.get(v), gs.get(w)) >= 0) {
@@ -168,9 +179,11 @@ public class SortSupport {
    * @param <T>  the type of elements in the {@link List}
    * @param list the list
    * @param comp the comparator used to perform the sorting.
-   * @see RandomAccess
+   * @see java.util.RandomAccess
    */
-  public static <T> void heapSort(List<T> list, Comparator<T> comp) {
+  public static <T> void heapSort(
+      final List<T> list,
+      final Comparator<T> comp) {
     T tmp;
     int n = list.size();
     int i = n / 2;
@@ -191,8 +204,7 @@ public class SortSupport {
       }
       w = 2 * v + 1;
       while (w < n) {
-        if (w + 1 < n &&
-            comp.compare(list.get(w + 1), list.get(w)) > 0) {
+        if (w + 1 < n && comp.compare(list.get(w + 1), list.get(w)) > 0) {
           w++;
         }
         if (comp.compare(list.get(v), list.get(w)) >= 0) {
@@ -222,8 +234,9 @@ public class SortSupport {
    *     searched element was found, or -1 if the object was not found.
    */
   public static <T> int binarySearch(
-      IntIndexedGetterSetter<T> gs,
-      Comparator<T> comp, T search) {
+      final IntIndexedGetterSetter<T> gs,
+      final Comparator<T> comp,
+      final T search) {
     int l = 0;
     int r = gs.size() - 1;
     int mean;
@@ -266,15 +279,18 @@ public class SortSupport {
    * @param comp   the comparator instance
    * @param search the object to search for
    * @param mode   the insertion point search mode
-   * @return the insertion point as a positive value if the object was found
-   *     in the collection, and (-1 - insertion point) otherwise. If the value is
-   *     negative, the insertion point is obtained by taking the absolute value of
-   *     the result of adding 1 to the return value.
+   * @return the insertion point as a positive value if the object
+   *     was found in the collection, and (-1 - insertion point)
+   *     otherwise. If the value is negative, the insertion point is
+   *     obtained by taking the absolute value of the result of adding
+   *     1 to the return value.
    * @throws IllegalStateException if the size assertions on insertion failed.
    */
   public static <T> int binarySearchInsertionPoint(
-      IntIndexedGetterSetter<T> gs, Comparator<T> comp, T search,
-      BinarySearchInsertionMode mode)
+      final IntIndexedGetterSetter<T> gs,
+      final Comparator<T> comp,
+      final T search,
+      final BinarySearchInsertionMode mode)
       throws
       IllegalStateException {
 
@@ -293,8 +309,8 @@ public class SortSupport {
       int c = comp.compare(search, gs.get(mean));
       if (c > 0) {
         if (mean == INT_BINARY_SEARCH_INSERTION_POINT_SIZE_LIMIT) {
-          return -1 -
-              INT_BINARY_SEARCH_INSERTION_POINT_SIZE_LIMIT;
+          return
+              -1 - INT_BINARY_SEARCH_INSERTION_POINT_SIZE_LIMIT;
         }
         l = mean + 1;
         ins = l;
@@ -305,25 +321,19 @@ public class SortSupport {
         r = mean - 1;
         ins = r;
       } else {
-        switch (mode) {
-          case FIRST:
-            T mObj = gs.get(mean);
-            while (mean > 0 && Objects.
-                equals(mObj,
-                    gs.get(mean -
-                        1))) {
-              mean--;
-            }
-            break;
-          case LAST:
-            mObj = gs.get(mean);
-            int sz = gs.size() - 1;
-            while (mean < sz && Objects.equals(mObj, gs.
-                get(mean +
-                    1))) {
-              mean++;
-            }
-            break;
+        if (mode == BinarySearchInsertionMode.FIRST) {
+          T mObj = gs.get(mean);
+          while (mean > 0 && Objects.
+              equals(mObj, gs.get(mean - 1))) {
+            mean--;
+          }
+        } else {
+          T mObj;
+          mObj = gs.get(mean);
+          int sz = gs.size() - 1;
+          while (mean < sz && Objects.equals(mObj, gs.get(mean + 1))) {
+            mean++;
+          }
         }
         return mean;
       }
@@ -354,15 +364,18 @@ public class SortSupport {
    * @param comp   the comparator instance
    * @param search the object to search for
    * @param mode   the insertion point search mode
-   * @return the insertion point as a positive value if the object was found
-   *     in the collection, and (-1 - insertion point) otherwise. If the value is
-   *     negative, the insertion point is obtained by taking the absolute value of
-   *     the result of adding 1 to the return value.
+   * @return the insertion point as a positive value if the object
+   *     was found in the collection, and (-1 - insertion point)
+   *     otherwise. If the value is negative, the insertion point
+   *     is obtained by taking the absolute value of the result of
+   *     adding 1 to the return value.
    * @throws IllegalStateException if the size assertions on insertion failed.
    */
   public static <T> long binarySearchInsertionPoint(
-      LongIndexedGetterSetter<T> gs, Comparator<T> comp, T search,
-      BinarySearchInsertionMode mode)
+      final LongIndexedGetterSetter<T> gs,
+      final Comparator<T> comp,
+      final T search,
+      final BinarySearchInsertionMode mode)
       throws
       IllegalStateException {
 
@@ -381,8 +394,7 @@ public class SortSupport {
       int c = comp.compare(search, gs.get(mean));
       if (c > 0) {
         if (mean == INT_BINARY_SEARCH_INSERTION_POINT_SIZE_LIMIT) {
-          return -1 -
-              INT_BINARY_SEARCH_INSERTION_POINT_SIZE_LIMIT;
+          return -1 - INT_BINARY_SEARCH_INSERTION_POINT_SIZE_LIMIT;
         }
         l = mean + 1;
         ins = l;
@@ -393,25 +405,18 @@ public class SortSupport {
         r = mean - 1;
         ins = r;
       } else {
-        switch (mode) {
-          case FIRST:
-            T mObj = gs.get(mean);
-            while (mean > 0 && Objects.
-                equals(mObj,
-                    gs.get(mean -
-                        1))) {
-              mean--;
-            }
-            break;
-          case LAST:
-            mObj = gs.get(mean);
-            long sz = gs.size() - 1;
-            while (mean < sz && Objects.equals(mObj, gs.
-                get(mean +
-                    1))) {
-              mean++;
-            }
-            break;
+        if (mode == BinarySearchInsertionMode.FIRST) {
+          T mObj = gs.get(mean);
+          while (mean > 0 && Objects.equals(mObj, gs.get(mean - 1))) {
+            mean--;
+          }
+        } else {
+          T mObj;
+          mObj = gs.get(mean);
+          long sz = gs.size() - 1;
+          while (mean < sz && Objects.equals(mObj, gs.get(mean + 1))) {
+            mean++;
+          }
         }
         return mean;
       }
@@ -442,15 +447,18 @@ public class SortSupport {
    * @param comp   the comparator instance
    * @param search the object to search for
    * @param mode   the insertion point search mode
-   * @return the insertion point as a positive value if the object was found
-   *     in the collection, and (-1 - insertion point) otherwise. If the value is
-   *     negative, the insertion point is obtained by taking the absolute value of
-   *     the result of adding 1 to the return value.
+   * @return the insertion point as a positive value if the object
+   *     was found in the collection, and (-1 - insertion point)
+   *     otherwise. If the value is negative, the insertion point
+   *     is obtained by taking the absolute value of the result of adding
+   *     1 to the return value.
    * @throws IllegalStateException if the size assertions on insertion failed.
    */
   public static <T> long binarySearchInsertionPoint(
-      List<T> list, Comparator<T> comp, T search,
-      BinarySearchInsertionMode mode)
+      final List<T> list,
+      final Comparator<T> comp,
+      final T search,
+      final BinarySearchInsertionMode mode)
       throws
       IllegalStateException {
 
@@ -469,8 +477,7 @@ public class SortSupport {
       int c = comp.compare(search, list.get(mean));
       if (c > 0) {
         if (mean == INT_BINARY_SEARCH_INSERTION_POINT_SIZE_LIMIT) {
-          return -1 -
-              INT_BINARY_SEARCH_INSERTION_POINT_SIZE_LIMIT;
+          return -1 - INT_BINARY_SEARCH_INSERTION_POINT_SIZE_LIMIT;
         }
         l = mean + 1;
         ins = l;
@@ -481,26 +488,20 @@ public class SortSupport {
         r = mean - 1;
         ins = r;
       } else {
-        switch (mode) {
-          case FIRST:
-            T mObj = list.get(mean);
-            while (mean > 0 && Objects.
-                equals(mObj,
-                    list.get(
-                        mean -
-                            1))) {
-              mean--;
-            }
-            break;
-          case LAST:
-            mObj = list.get(mean);
-            long sz = list.size() - 1;
-            while (mean < sz && Objects.equals(mObj, list.
-                get(mean +
-                    1))) {
-              mean++;
-            }
-            break;
+        if (mode == BinarySearchInsertionMode.FIRST) {
+          T mObj = list.get(mean);
+          while (mean > 0 && Objects.
+              equals(mObj,
+                  list.get(mean - 1))) {
+            mean--;
+          }
+        } else {
+          T mObj;
+          mObj = list.get(mean);
+          long sz = list.size() - 1;
+          while (mean < sz && Objects.equals(mObj, list.get(mean + 1))) {
+            mean++;
+          }
         }
         return mean;
       }
@@ -527,11 +528,12 @@ public class SortSupport {
    * @param search the object to search for
    * @return either a positive value representing the position where the
    *     searched element was found, or -1 if the object was not found.
-   * @see RandomAccess
+   * @see java.util.RandomAccess
    */
   public static <T> int binarySearch(
-      List<T> list,
-      Comparator<T> comp, T search) {
+      final List<T> list,
+      final Comparator<T> comp,
+      final T search) {
     int l = 0;
     int r = list.size() - 1;
     int mean;
@@ -569,8 +571,9 @@ public class SortSupport {
    *     searched element was found, or -1 if the object was not found.
    */
   public static <T> long binarySearch(
-      LongIndexedGetterSetter<T> gs,
-      Comparator<T> comp, T search) {
+      final LongIndexedGetterSetter<T> gs,
+      final Comparator<T> comp,
+      final T search) {
     long l = 0;
     long r = gs.size() - 1;
     long mean;
@@ -609,8 +612,12 @@ public class SortSupport {
    *                                   of bounds.
    */
   public static <T> void countSort(
-      T[] srcArray, int offset, int length, T[] destArray,
-      int destOffset, Comparator<T> comparator)
+      final T[] srcArray,
+      final int offset,
+      final int length,
+      final T[] destArray,
+      final int destOffset,
+      final Comparator<T> comparator)
       throws
       IndexOutOfBoundsException {
     BigCounterSet<T> bcs = new BigCounterSet<>();
@@ -618,14 +625,14 @@ public class SortSupport {
     final IntWrapper iwOffset = IntWrapper.of(offset);
     final IntWrapper iwDestOffset = IntWrapper.of(destOffset);
     bcs.sortedMap(comparator).forEach((key, counter) -> {
-        int off = iwOffset.intValue();
-        int doff = iwDestOffset.intValue();
-        while (!counter.isZero()) {
-            destArray[doff++] = key;
-            counter.decrement();
-        }
-        iwOffset.set(off);
-        iwDestOffset.set(doff);
+      int off = iwOffset.intValue();
+      int doff = iwDestOffset.intValue();
+      while (!counter.isZero()) {
+        destArray[doff++] = key;
+        counter.decrement();
+      }
+      iwOffset.set(off);
+      iwDestOffset.set(doff);
     });
   }
 
@@ -643,8 +650,11 @@ public class SortSupport {
    *                                   of bounds
    */
   public static <T> void countSort(
-      T[] srcArray, int offset, int length, T[] destArray,
-      int destOffset)
+      final T[] srcArray,
+      final int offset,
+      final int length,
+      final T[] destArray,
+      final int destOffset)
       throws
       IndexOutOfBoundsException {
     BigCounterSet<T> bcs = new BigCounterSet<>();
@@ -652,20 +662,20 @@ public class SortSupport {
     final IntWrapper iwOffset = IntWrapper.of(offset);
     final IntWrapper iwDestOffset = IntWrapper.of(destOffset);
     bcs.sortedMap().forEach((key, counter) -> {
-        int off = iwOffset.intValue();
-        int doff = iwDestOffset.intValue();
-        while (!counter.isZero()) {
-            destArray[doff++] = key;
-            counter.decrement();
-        }
-        iwOffset.set(off);
-        iwDestOffset.set(doff);
+      int off = iwOffset.intValue();
+      int doff = iwDestOffset.intValue();
+      while (!counter.isZero()) {
+        destArray[doff++] = key;
+        counter.decrement();
+      }
+      iwOffset.set(off);
+      iwDestOffset.set(doff);
     });
   }
 
   /**
    * Like {@link SortSupport#countSort(Object[], int, int, Object[], int)}
-   * but sorts the entire array
+   * but sorts the entire array.
    *
    * @param srcArray   the source array
    * @param destArray  the destination array
@@ -675,7 +685,9 @@ public class SortSupport {
    *                                   out of bounds
    */
   public static <T> void countSort(
-      T[] srcArray, T[] destArray, Comparator<T> comparator)
+      final T[] srcArray,
+      final T[] destArray,
+      final Comparator<T> comparator)
       throws
       IndexOutOfBoundsException {
     countSort(srcArray, 0, srcArray.length, destArray, 0);
@@ -689,7 +701,9 @@ public class SortSupport {
    * @param destArray the destination array
    * @param <T>       type of elements in the array
    */
-  public static <T> void countSort(T[] srcArray, T[] destArray) {
+  public static <T> void countSort(
+      final T[] srcArray,
+      final T[] destArray) {
     countSort(srcArray, 0, srcArray.length, destArray, 0);
   }
 
@@ -705,8 +719,10 @@ public class SortSupport {
    * @param <T>        type of elements in the array
    */
   public static <T> void countSort(
-      T[] srcArray, int offset, int length,
-      Comparator<T> comparator) {
+      final T[] srcArray,
+      final int offset,
+      final int length,
+      final Comparator<T> comparator) {
     countSort(srcArray, offset, length, srcArray, offset);
   }
 
@@ -720,21 +736,30 @@ public class SortSupport {
    * @param <T>      type of elements in the array
    */
   public static <T> void countSort(
-      T[] srcArray, int offset, int length) {
+      final T[] srcArray,
+      final int offset,
+      final int length) {
     countSort(srcArray, offset, length, srcArray, offset);
   }
 
   /**
    * Like {@link SortSupport#countSort(Object[], int, int, Comparator)}
-   * using the entire array
+   * using the entire array.
    *
    * @param srcArray   the source array
    * @param comparator the comparator
    * @param <T>        type of elements in the array
    */
   public static <T> void countSort(
-      T[] srcArray, Comparator<T> comparator) {
-    countSort(srcArray, 0, srcArray.length, srcArray, 0, comparator);
+      final T[] srcArray,
+      final Comparator<T> comparator) {
+    countSort(
+        srcArray,
+        0,
+        srcArray.length,
+        srcArray,
+        0,
+        comparator);
   }
 
   /**
@@ -744,7 +769,7 @@ public class SortSupport {
    * @param srcArray the source array
    * @param <T>      type of elements in the array
    */
-  public static <T> void countSort(T[] srcArray) {
+  public static <T> void countSort(final T[] srcArray) {
     countSort(srcArray, 0, srcArray.length, srcArray, 0);
   }
 
