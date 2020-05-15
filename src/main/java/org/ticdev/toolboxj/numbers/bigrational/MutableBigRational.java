@@ -126,7 +126,7 @@ public final class MutableBigRational
   }
 
   /**
-   * Class constructor. Creates a new instance from a pair of BigRational
+   * Class constructor. Creates a new instance from a pair of BigInteger
    * numbers.
    *
    * @param pair the pair
