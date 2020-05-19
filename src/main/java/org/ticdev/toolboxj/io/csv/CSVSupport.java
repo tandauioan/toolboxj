@@ -18,7 +18,7 @@ import java.util.stream.StreamSupport;
  *
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
-public class CSVSupport {
+public interface CSVSupport {
 
   /**
    * Returns a new stream that provides records using the given parser and
@@ -28,7 +28,7 @@ public class CSVSupport {
    * @param reader the reader
    * @return the new stream
    */
-  public static Stream<List<String>>
+  static Stream<List<String>>
   newStream(
       final CSVParser parser,
       final Reader reader) {
@@ -63,7 +63,7 @@ public class CSVSupport {
    * @throws CSVParserLineTooLongException   if the line is too long
    * @throws CSVParserException              if a parsing exception occurred
    */
-  public static List<List<String>> parseReader(
+  static List<List<String>> parseReader(
       Reader reader, CSVParserConfiguration configuration,
       CSVParserInputHelper inputHelper)
       throws
@@ -84,7 +84,8 @@ public class CSVSupport {
   }
 
   /**
-   * Like {@link #parseReader(Reader, CSVParserConfiguration, CSVParserInputHelper)}
+   * Like {@link #parseReader(Reader, CSVParserConfiguration,
+   * CSVParserInputHelper)}
    * but uses a default input helper.
    *
    * @param reader        the reader
@@ -97,7 +98,7 @@ public class CSVSupport {
    * @throws CSVParserException              if a parsing exception occurred
    * @throws IOException                     if an {@link IOException} occurred
    */
-  public static List<List<String>> parseReader(
+  static List<List<String>> parseReader(
       Reader reader, CSVParserConfiguration configuration)
       throws
       InterruptedException,
@@ -126,7 +127,7 @@ public class CSVSupport {
    * @throws CSVParserException              if a parser exception occurred
    * @throws IOException                     if an {@link IOException} occurred
    */
-  public static List<List<String>> parseReader(
+  static List<List<String>> parseReader(
       Reader reader, char fieldDelimiter, Character textDelimiter,
       String multiLineEOL, CSVParserInputHelper inputHelper)
       throws
@@ -151,7 +152,8 @@ public class CSVSupport {
   }
 
   /**
-   * Like {@link #parseReader(Reader, char, Character, String, CSVParserInputHelper)}
+   * Like {@link #parseReader(Reader, char, Character, String,
+   * CSVParserInputHelper)}
    * but uses a default input helper.
    *
    * @param reader         the reader
@@ -166,7 +168,7 @@ public class CSVSupport {
    * @throws CSVParserException              if a parser exception occurred
    * @throws IOException                     if an {@link IOException} occurred
    */
-  public static List<List<String>> parseReader(
+  static List<List<String>> parseReader(
       Reader reader, char fieldDelimiter, Character textDelimiter,
       String multiLineEOL)
       throws
@@ -182,7 +184,8 @@ public class CSVSupport {
   }
 
   /**
-   * Like {@link #parseReader(Reader, char, Character, String, CSVParserInputHelper)}
+   * Like {@link #parseReader(Reader, char, Character, String,
+   * CSVParserInputHelper)}
    * but reading from a file.
    *
    * @param file           the file
@@ -199,7 +202,7 @@ public class CSVSupport {
    * @throws CSVParserException              if a parser exception occurred
    * @throws IOException                     if an {@link IOException} occurred
    */
-  public static List<List<String>> parseFile(
+  static List<List<String>> parseFile(
       Path file, Charset charset, CSVParserInputHelper inputHelper,
       char fieldDelimiter, Character textDelimiter,
       String multiLineEOL)
@@ -229,7 +232,7 @@ public class CSVSupport {
    * @return the list of all records found in the file
    * @throws Exception if an exception occurred
    */
-  public static List<List<String>> parseFile(
+  static List<List<String>> parseFile(
       File file,
       Charset charset,
       CSVParserInputHelper inputHelper,
@@ -243,6 +246,5 @@ public class CSVSupport {
         fieldDelimiter, textDelimiter, multiLineEOL);
 
   }
-
 
 }

@@ -2,61 +2,57 @@ package org.ticdev.toolboxj.io.csv;
 
 /**
  * Parsing exception thrown by a {@link CSVParser}.
- * 
- * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  *
+ * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
-public class CSVParserException
-    extends
-    Exception {
+public class CSVParserException extends Exception {
 
-    /**
-     * default serial version
-     */
-    private static final long serialVersionUID = 1L;
+  /**
+   * Default serial version.
+   */
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Exception detail/explanation
-     */
-    private final String details;
+  /**
+   * Exception detail/explanation.
+   */
+  private final String details;
 
-    /**
-     * Exception line number
-     */
-    private final long lineNumber;
+  /**
+   * Exception line number.
+   */
+  private final long lineNumber;
 
-    /**
-     * Class constructor.
-     * 
-     * @param details
-     *            exception details
-     * @param lineNumber
-     *            parser line number for exception
-     */
-    public CSVParserException(
-        String details,
-        long lineNumber) {
-        super(String.format("Line: %d. Detail: %s", lineNumber, details));
-        this.details = details;
-        this.lineNumber = lineNumber;
-    }
+  /**
+   * Class constructor.
+   *
+   * @param detailsValue    exception details
+   * @param lineNumberValue parser line number for exception
+   */
+  public CSVParserException(
+      final String detailsValue,
+      final long lineNumberValue) {
+    super(String.format("Line: %d. Detail: %s",
+        lineNumberValue, detailsValue));
+    this.details = detailsValue;
+    this.lineNumber = lineNumberValue;
+  }
 
-    /**
-     * Returns the exception details
-     * 
-     * @return the exception details
-     */
-    public String getDetails() {
-        return details;
-    }
+  /**
+   * Returns the exception details.
+   *
+   * @return the exception details
+   */
+  public String getDetails() {
+    return details;
+  }
 
-    /**
-     * Returns the parser line number
-     * 
-     * @return the parser line number
-     */
-    public long getLineNumber() {
-        return lineNumber;
-    }
+  /**
+   * Returns the parser line number.
+   *
+   * @return the parser line number
+   */
+  public long getLineNumber() {
+    return lineNumber;
+  }
 
 }

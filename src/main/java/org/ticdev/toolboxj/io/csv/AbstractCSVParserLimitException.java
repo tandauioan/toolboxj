@@ -27,7 +27,8 @@ class AbstractCSVParserLimitException extends Exception {
    * Class constructor.
    *
    * @param restrictionValue the restriction limit.
-   * @param lineNumberValue  the line number where the violation/exception occurred.
+   * @param lineNumberValue  the line number where the
+   *                         violation/exception occurred.
    */
   protected AbstractCSVParserLimitException(
       final int restrictionValue,

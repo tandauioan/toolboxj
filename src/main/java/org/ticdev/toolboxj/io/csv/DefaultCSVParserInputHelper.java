@@ -12,93 +12,88 @@ import java.io.Reader;
  *
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
-public class DefaultCSVParserInputHelper
-        implements
-        CSVParserInputHelper {
+public final class DefaultCSVParserInputHelper
+    implements CSVParserInputHelper {
 
-    /**
-     * if next is line-feed, skip it
-     */
-    private boolean skipLF = false;
+  /**
+   * If next is line-feed, skip it.
+   */
+  private boolean skipLF = false;
 
-    /**
-     * if next is carriage-return, skip it
-     */
-    private boolean skipCR = false;
+  /**
+   * If next is carriage-return, skip it.
+   */
+  private boolean skipCR = false;
 
-    /**
-     * Current line number.
-     */
-    private long lineNumber = 1;
+  /**
+   * Current line number.
+   */
+  private long lineNumber = 1;
 
-    /**
-     * the next character is available in unget as it was put back
-     */
-    private boolean hasUnget = false;
+  /**
+   * The next character is available in unget as it was put back.
+   */
+  private boolean hasUnget = false;
 
-    /**
-     * if a character was put back then it will be stored here
-     */
-    private int unget = EOL;
+  /**
+   * If a character was put back then it will be stored here.
+   */
+  private int unget = EOL;
 
-    @Override
-    public int next(Reader reader)
-            throws
-            IOException {
-        if (hasUnget) {
-            hasUnget = false;
-            if (unget == EOL) {
-                lineNumber++;
-            }
-            return unget;
-        }
-        while (true) {
-            int next = reader.read();
-            switch (next) {
-                case '\r':
-                    if (!skipCR) {
-                        lineNumber++;
-                        skipLF = true;
-                        return EOL;
-                    }
-                    skipCR = false;
-                    break;
-                case '\n':
-                    if (!skipLF) {
-                        lineNumber++;
-                        skipCR = true;
-                        return EOL;
-                    }
-                    skipLF = false;
-                    break;
-                case -1:
-                    return EOF;
-                default:
-                    skipLF = false;
-                    skipCR = false;
-                    return next;
-            }
-        }
+  @Override
+  public int next(final Reader reader) throws IOException {
+    if (hasUnget) {
+      hasUnget = false;
+      if (unget == EOL) {
+        lineNumber++;
+      }
+      return unget;
     }
-
-    @Override
-    public void unget(int character)
-            throws
-            RuntimeException {
-        if (hasUnget) {
-            throw new RuntimeException(
-                    "Cannot unget more than once between two reads.");
-        }
-        hasUnget = true;
-        unget = character;
-        if (unget == EOL) {
-            lineNumber--;
-        }
+    while (true) {
+      int next = reader.read();
+      switch (next) {
+        case '\r':
+          if (!skipCR) {
+            lineNumber++;
+            skipLF = true;
+            return EOL;
+          }
+          skipCR = false;
+          break;
+        case '\n':
+          if (!skipLF) {
+            lineNumber++;
+            skipCR = true;
+            return EOL;
+          }
+          skipLF = false;
+          break;
+        case -1:
+          return EOF;
+        default:
+          skipLF = false;
+          skipCR = false;
+          return next;
+      }
     }
+  }
 
-    @Override
-    public long lineNumber() {
-        return lineNumber;
+  @Override
+  public void unget(final int character) throws RuntimeException {
+    if (hasUnget) {
+      throw new RuntimeException(
+          "Cannot unget more than once between two reads.");
     }
+    hasUnget = true;
+    unget = character;
+    if (unget == EOL) {
+      lineNumber--;
+    }
+  }
+
+  @Override
+  public long lineNumber() {
+    return lineNumber;
+  }
 
 }
