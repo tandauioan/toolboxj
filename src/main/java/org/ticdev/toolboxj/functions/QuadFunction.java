@@ -7,6 +7,7 @@ package org.ticdev.toolboxj.functions;
  * @param <A2> the type of the second argument.
  * @param <A3> the type of the third argument.
  * @param <A4> the type of the fourth argument.
+ * @param <R>  the type of the result.
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
 public interface QuadFunction<A1, A2, A3, A4, R> {

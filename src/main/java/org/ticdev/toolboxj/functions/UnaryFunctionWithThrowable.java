@@ -43,7 +43,8 @@ public interface UnaryFunctionWithThrowable<A1, R> {
    * @param function the underlying function.
    * @param <A>      the type of the function argument.
    * @param <R>      the type of the function result.
-   * @return the new instance of {@link UnaryFunctionWithThrowable} as a wrapper.
+   * @return the new instance of {@link UnaryFunctionWithThrowable}
+   *     as a wrapper.
    */
   static <A, R> UnaryFunctionWithThrowable<A, R> of(
       final Function<A, R> function) {
@@ -59,7 +60,8 @@ public interface UnaryFunctionWithThrowable<A1, R> {
    * @param function the underlying unary function.
    * @param <A>      the type of the function argument.
    * @param <R>      the type of the function result.
-   * @return the new instance of {@link UnaryFunctionWithThrowable} as a wrapper.
+   * @return the new instance of {@link UnaryFunctionWithThrowable}
+   *     as a wrapper.
    */
   static <A, R> UnaryFunctionWithThrowable<A, R> of(
       final UnaryFunction<A, R> function) {

@@ -8,45 +8,42 @@ import java.io.InputStream;
  * always return EOF (-1). This class is implemented as a singleton. The
  * {@link InputStream#close()} method has no effect on the single instance of
  * this class. The {@link InputStream#available()} method always returns 0.
- * 
- * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  *
+ * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
-public class EOFInputStream
-    extends
-    InputStream {
+public final class EOFInputStream extends InputStream {
 
-    /**
-     * Singleton instance
-     */
-    private static final EOFInputStream INSTANCE =
-        new EOFInputStream();
+  /**
+   * Singleton instance.
+   */
+  private static final EOFInputStream INSTANCE =
+      new EOFInputStream();
 
-    /**
-     * Default singleton constructor.
-     */
-    private EOFInputStream() {
-    }
+  /**
+   * Default singleton constructor.
+   */
+  private EOFInputStream() {
+  }
 
-    /**
-     * Returns the singleton instance.
-     * 
-     * @return the singleton instance.
-     */
-    public static EOFInputStream getInstance() {
-        return INSTANCE;
-    }
-    
-    @Override
-    public int read()
-        throws IOException {
-        return -1;
-    }
-    
-    @Override
-    public int available()
-        throws IOException {
-        return 0;
-    }
+  /**
+   * Returns the singleton instance.
+   *
+   * @return the singleton instance.
+   */
+  public static EOFInputStream getInstance() {
+    return INSTANCE;
+  }
+
+  @Override
+  public int read()
+      throws IOException {
+    return -1;
+  }
+
+  @Override
+  public int available()
+      throws IOException {
+    return 0;
+  }
 
 }

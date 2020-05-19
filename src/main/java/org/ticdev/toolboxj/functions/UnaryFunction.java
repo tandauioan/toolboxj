@@ -10,8 +10,9 @@ import java.util.function.Function;
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
  */
 public interface UnaryFunction<A1, R> {
+
   /**
-   * Calls the function on the given argument
+   * Calls the function on the given argument.
    *
    * @param arg1 the argument
    * @return the result
