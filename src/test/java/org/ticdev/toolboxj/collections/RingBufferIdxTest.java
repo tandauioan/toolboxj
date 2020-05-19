@@ -1158,7 +1158,7 @@ public class RingBufferIdxTest {
                     delpos = 0;
                 }
                 Assert.assertEquals(lastSize - 1, rbi.size());
-                Assert.assertEquals(rbi.size(), rbi.compute_size_());
+                Assert.assertEquals(rbi.size(), rbi.computeSize());
             }
         }
     }

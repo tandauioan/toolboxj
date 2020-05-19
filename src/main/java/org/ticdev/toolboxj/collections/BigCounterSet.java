@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -18,10 +17,10 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 /**
- * Implementation of a set-like container (not a {@link Set} though) that
- * maps a key to the number of times it was added to the set. The counter
- * for each key is a {@link BigCounter} so there are no concrete maximum
- * limits for the value (other than memory limitations).
+ * Implementation of a set-like container (not a {@link java.util.Set}
+ * though) that  maps a key to the number of times it was added to the set.
+ * The counter for each key is a {@link BigCounter} so there are no
+ * concrete maximum limits for the value (other than memory limitations).
  *
  * @param <K> the key type
  * @author <a href="mailto:tandauioan@gmail.com">Ioan - Ciprian Tandau</a>
@@ -30,7 +29,7 @@ public final class BigCounterSet<K>
     implements Iterable<K> {
 
   /**
-   * The number of elements
+   * The number of elements.
    */
   private final BigCounter size = new BigCounter();
 
@@ -40,7 +39,7 @@ public final class BigCounterSet<K>
   private final Map<K, BigCounter> map = new HashMap<>();
 
   /**
-   * Returns the number of elements
+   * Returns the number of elements.
    *
    * @return the number of elements
    */
@@ -49,12 +48,12 @@ public final class BigCounterSet<K>
   }
 
   /**
-   * Returns the number of times an element was added to the set
+   * Returns the number of times an element was added to the set.
    *
    * @param o the element
    * @return the number of times the element was added to the set
    */
-  public BigInteger count(Object o) {
+  public BigInteger count(final Object o) {
     BigCounter c = map.get(o);
     return c == null ? BigInteger.ZERO : c.getCounter();
   }
@@ -78,7 +77,7 @@ public final class BigCounterSet<K>
    * @return true if the given object is contained in this set, and
    *     false otherwise.
    */
-  public boolean contains(Object o) {
+  public boolean contains(final Object o) {
     return map.containsKey(o);
   }
 
@@ -99,7 +98,7 @@ public final class BigCounterSet<K>
    * @param k the element
    * @return true if the set was modified and false otherwise.
    */
-  public boolean add(K k) {
+  public boolean add(final K k) {
     BigCounter c = map.get(k);
     if (c == null) {
       map.put(k, new BigCounter(1));
@@ -120,7 +119,7 @@ public final class BigCounterSet<K>
    * @param count the count
    * @return true if the set was modified and false otherwise.
    */
-  private boolean add_(K k, BigCounter count) {
+  private boolean add(final K k, final BigCounter count) {
     if (count.isZero()) {
       return false;
     }
@@ -142,30 +141,36 @@ public final class BigCounterSet<K>
    * @param other the given set
    * @return true if the current set was modified and false otherwise
    */
-  public boolean addAll(BigCounterSet<K> other) {
+  public boolean addAll(final BigCounterSet<K> other) {
     boolean result = false;
     for (Map.Entry<K, BigCounter> entry : other.map.entrySet()) {
-      result = result | add_(entry.getKey(), entry.getValue());
+      result = result | add(entry.getKey(), entry.getValue());
     }
     return result;
   }
 
   /**
-   * Adds length elements from the given array starting at offset
+   * Adds length elements from the given array starting at offset.
    *
    * @param arr    the array
    * @param offset the offset
    * @param length the length
    * @return true if the current set was modified and false otherwise.
+   * @throws IndexOutOfBoundsException if the provided indexes are
+   *                                   out of bounds for the given array.
    */
-  public boolean addArray(K[] arr, int offset, int length)
-      throws
-      IndexOutOfBoundsException {
+  public boolean addArray(
+      final K[] arr,
+      final int offset,
+      final int length)
+      throws IndexOutOfBoundsException {
+    int off = offset;
+    int len = length;
     ArraySupport
         .validateArrayOffsetLength(arr.length, offset, length);
     boolean changed = false;
-    while (length-- > 0) {
-      changed = changed | add(arr[offset++]);
+    while (len-- > 0) {
+      changed = changed || add(arr[off++]);
     }
     return changed;
   }
@@ -176,7 +181,7 @@ public final class BigCounterSet<K>
    * @param arr the array
    * @return true if the current set was modified and false otherwise.
    */
-  public boolean addArray(K[] arr) {
+  public boolean addArray(final K[] arr) {
     boolean changed = false;
     for (K k : arr) {
       changed = changed | add(k);
@@ -190,7 +195,7 @@ public final class BigCounterSet<K>
    * @param o the element to remove
    * @return true if the set was modified and false otherwise.
    */
-  public boolean remove(Object o) {
+  public boolean remove(final Object o) {
     BigCounter c = map.get(o);
     if (c == null) {
       return false;
@@ -209,7 +214,7 @@ public final class BigCounterSet<K>
    * @param o the instance to be removed once
    * @return true if the set was modified and false otherwise.
    */
-  public boolean removeOne(Object o) {
+  public boolean removeOne(final Object o) {
     BigCounter c = map.get(o);
     if (c == null) {
       return false;
@@ -229,7 +234,7 @@ public final class BigCounterSet<K>
    * @return true if this set contains all the elements from the given
    *     collection, and false otherwise.
    */
-  public boolean containsAll(Collection<?> c) {
+  public boolean containsAll(final Collection<?> c) {
     return map.keySet().containsAll(c);
   }
 
@@ -239,7 +244,7 @@ public final class BigCounterSet<K>
    * @param c the collection
    * @return true if the set was modified and false otherwise.
    */
-  public boolean addAll(Collection<? extends K> c) {
+  public boolean addAll(final Collection<? extends K> c) {
     boolean result = false;
     for (K k : c) {
       result = result | add(k);
@@ -263,7 +268,8 @@ public final class BigCounterSet<K>
    * @param comparator the comparator
    * @return a sorted map
    */
-  public SortedMap<K, BigCounter> sortedMap(Comparator<K> comparator) {
+  public SortedMap<K, BigCounter> sortedMap(
+      final Comparator<K> comparator) {
     SortedMap<K, BigCounter> result = new TreeMap<>(comparator);
     map.forEach((key, value) -> result.put(key, new BigCounter(value)));
     return result;
@@ -289,17 +295,17 @@ public final class BigCounterSet<K>
    * @param comparator the comparator
    * @return a new iterator
    */
-  public Iterator<K> sortedIterator(Comparator<K> comparator) {
+  public Iterator<K> sortedIterator(final Comparator<K> comparator) {
     return new Iterator<K>() {
 
-      final Iterator<Map.Entry<K, BigCounter>> it =
+      private final Iterator<Map.Entry<K, BigCounter>> it =
           sortedMap(comparator).entrySet().iterator();
 
       private K currentValue = null;
 
       private BigCounter currentCounter = null;
 
-      private boolean ensure_has_next_() {
+      private boolean ensureHasNext() {
         if (currentCounter == null || currentCounter.isZero()) {
           if (!it.hasNext()) {
             return false;
@@ -313,12 +319,12 @@ public final class BigCounterSet<K>
 
       @Override
       public boolean hasNext() {
-        return ensure_has_next_();
+        return ensureHasNext();
       }
 
       @Override
       public K next() {
-        if (!ensure_has_next_()) {
+        if (!ensureHasNext()) {
           throw new NoSuchElementException();
         }
         currentCounter.decrement();
@@ -336,14 +342,14 @@ public final class BigCounterSet<K>
   public Iterator<K> sortedIterator() {
     return new Iterator<K>() {
 
-      final Iterator<Map.Entry<K, BigCounter>> it =
+      private final Iterator<Map.Entry<K, BigCounter>> it =
           sortedMap().entrySet().iterator();
 
       private K currentValue = null;
 
       private BigCounter currentCounter = null;
 
-      private boolean ensure_has_next_() {
+      private boolean ensureHasNext() {
         if (currentCounter == null || currentCounter.isZero()) {
           if (!it.hasNext()) {
             return false;
@@ -357,12 +363,12 @@ public final class BigCounterSet<K>
 
       @Override
       public boolean hasNext() {
-        return ensure_has_next_();
+        return ensureHasNext();
       }
 
       @Override
       public K next() {
-        if (!ensure_has_next_()) {
+        if (!ensureHasNext()) {
           throw new NoSuchElementException();
         }
         currentCounter.decrement();
@@ -378,7 +384,7 @@ public final class BigCounterSet<K>
    * @param comparator the comparator
    * @return a new sorted stream
    */
-  public Stream<K> sortedStream(Comparator<K> comparator) {
+  public Stream<K> sortedStream(final Comparator<K> comparator) {
     return StreamSupport.stream(Spliterators.spliteratorUnknownSize(
         sortedIterator(comparator), Spliterator.SORTED), false);
   }
@@ -406,7 +412,7 @@ public final class BigCounterSet<K>
    * @return a new sorted stream
    */
   public static <T> Stream<T> sortedStream(
-      Stream<T> stream, Comparator<T> comparator) {
+      final Stream<T> stream, final Comparator<T> comparator) {
     return stream.collect(BigCounterSet<T>::new, BigCounterSet::add,
         BigCounterSet::addAll)
         .sortedStream(comparator);
@@ -422,7 +428,7 @@ public final class BigCounterSet<K>
    * @param <T>    the type of elements in the stream
    * @return a new sorted stream
    */
-  public static <T> Stream<T> sortedStream(Stream<T> stream) {
+  public static <T> Stream<T> sortedStream(final Stream<T> stream) {
     return stream.collect(BigCounterSet<T>::new, BigCounterSet::add,
         BigCounterSet::addAll).sortedStream();
   }
