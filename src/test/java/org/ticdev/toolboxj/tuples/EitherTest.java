@@ -3,7 +3,6 @@ package org.ticdev.toolboxj.tuples;
 import org.junit.Assert;
 import org.junit.Test;
 import org.ticdev.toolboxj.functions.UnaryFunction;
-import org.ticdev.toolboxj.functions.UnaryFunctionWithThrowable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +24,6 @@ public class EitherTest {
 
   final Either<String, String> eLeft = Either.left(leftValueString);
   final Either<String, String> eRight = Either.right(rightValueString);
-
 
   @Test
   public void testConstruction() {
@@ -84,7 +82,7 @@ public class EitherTest {
   @Test
   public void spread() {
     Assert.assertTrue(eLeft.spread(e -> true, e -> false));
-    Assert.assertTrue(eRight.fold(e -> false, e -> true));
+    Assert.assertTrue(eRight.spread(e -> false, e -> true));
   }
 
   @Test
@@ -221,93 +219,19 @@ public class EitherTest {
     Assert.assertTrue(eRight.mapLeft(String::length).isRight());
   }
 
-  interface ArithEx<A, R> extends UnaryFunctionWithThrowable<A, R> {
-    R apply(A arg) throws ArithmeticException;
-  }
-
   @Test
-  public void mapLeftThrowing() {
-    Either<Integer, String> eResult = eLeft.mapLeftThrowing(
-        String::length,
-        (f, a) -> {
-          try {
-            return Either.left(f.apply(a));
-          } catch (Throwable th) {
-            return Either.right(th.toString());
-          }
-        }
-    );
-    Assert.assertEquals(
-        leftValueString.length(),
-        eResult.optionalLeft().orElse(-1).intValue());
-    Either<Integer, String> eResultRight = eRight.mapLeftThrowing(
-        String::length,
-        (f, a) -> {
-          try {
-            return Either.left(f.apply(a));
-          } catch (Throwable th) {
-            return Either.right(th.toString());
-          }
-        }
-    );
-    Assert.assertTrue(eResultRight.isRight());
-    final int zero = 0;
-    Either<Integer, ArithmeticException> exRight =
-        eLeft.mapRight(ArithmeticException::new)
-            .mapLeftThrowing(
-                (ArithEx<String, Integer>) s -> s.length() / zero,
-                (f, a) -> {
-                  try {
-                    return Either.left(f.apply(a));
-                  } catch (ArithmeticException ex) {
-                    return Either.right(ex);
-                  }
-                }
-            );
-    Assert.assertTrue(exRight.isRight());
-  }
+  public void swap() {
+    Either<String, Long> inputLeft = Either.left("100");
+    Either<String, Long> inputRight = Either.right(100L);
 
-  @Test
-  public void mapRightThrowing() {
-    Either<String, Integer> eResult = eRight.mapRightThrowing(
-        String::length,
-        (f, a) -> {
-          try {
-            return Either.right(f.apply(a));
-          } catch (Throwable th) {
-            return Either.left(th.toString());
-          }
-        }
-    );
-    Assert.assertEquals(
-        rightValueString.length(),
-        eResult.optionalRight().orElse(-1).intValue()
-    );
-    Either<String, Integer> eResultLeft = eLeft.mapRightThrowing(
-        String::length,
-        (f, a) -> {
-          try {
-            return Either.right(f.apply(a));
-          } catch (Throwable th) {
-            return Either.left(th.toString());
-          }
-        }
-    );
-    Assert.assertTrue(eResultLeft.isLeft());
-    final int zero = 0;
-    Either<ArithmeticException, Integer> exLeft =
-        eRight.mapLeft(ArithmeticException::new)
-        .mapRightThrowing(
-            (ArithEx<String, Integer>) s -> s.length() / zero,
-            (f, a) -> {
-              try {
-                return Either.right(f.apply(a));
-              } catch(ArithmeticException ex) {
-                return Either.left(ex);
-              }
-            }
-        );
-    Assert.assertTrue(exLeft.isLeft());
+    Either<Long, String> expectedLeft = Either.right("100");
+    Either<Long, String> expectedRight = Either.left(100L);
+
+    Either<Long, String> actualLeft = inputLeft.swap();
+    Either<Long, String> actualRight = inputRight.swap();
+
+    Assert.assertEquals(expectedLeft, actualLeft);
+    Assert.assertEquals(expectedRight, actualRight);
   }
 
 }

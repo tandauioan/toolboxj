@@ -27,7 +27,7 @@ public interface MutableSingle<T1>
    * @param source the single to copy from
    * @return this instance
    */
-  MutableSingle<T1> copyFrom(Single<T1> source);
+  MutableSingle<T1> copyFrom(SingleView<T1> source);
 
   /**
    * Creates a new instance of a mutable single with the given

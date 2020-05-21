@@ -1,7 +1,6 @@
 package org.ticdev.toolboxj.tuples.impl;
 
 import org.ticdev.toolboxj.tuples.MutableSingle;
-import org.ticdev.toolboxj.tuples.Single;
 import org.ticdev.toolboxj.tuples.SingleView;
 import org.ticdev.toolboxj.tuples.TupleSupport;
 
@@ -50,7 +49,7 @@ public final class MutableSingleImpl<T1>
 
   @Override
   public MutableSingle<T1> copyFrom(
-      final Single<T1> source) {
+      final SingleView<T1> source) {
     return this.item1(source.item1());
   }
 
