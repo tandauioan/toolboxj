@@ -20,16 +20,15 @@ public interface MapSupport {
   /**
    * Converts the elements of an iterator to a  dictionary
    * given key and value extractors from the an element.
-   *
    * <p>
    * The following rules apply:
-   *   <ul>
-   *     <li>If multiple elements resolve to the same key, only one will be retained. It is
-   *     not specified which.</li>
-   *     <li>Null keys are accepted and mapped.</li>
-   *     <li>Null values are accepted and mapped.</li>
-   *   </ul>
    * </p>
+   * <ul>
+   *   <li>If multiple elements resolve to the same key, only one will be retained. It is
+   *   not specified which.</li>
+   *   <li>Null keys are accepted and mapped.</li>
+   *   <li>Null values are accepted and mapped.</li>
+   * </ul>
    *
    * @param iterator       iterator over elements.
    * @param keyExtractor   the function returning the map key from the element.
