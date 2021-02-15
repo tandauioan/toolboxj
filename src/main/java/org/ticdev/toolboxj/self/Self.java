@@ -3,6 +3,7 @@ package org.ticdev.toolboxj.self;
 import org.ticdev.toolboxj.functions.UnaryConsumer;
 import org.ticdev.toolboxj.functions.UnaryFunction;
 
+import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Predicate;
 

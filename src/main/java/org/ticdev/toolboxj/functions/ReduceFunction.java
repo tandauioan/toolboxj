@@ -54,6 +54,7 @@ public interface ReduceFunction<TYPE> {
      * @param rest the rest of the arguments
      * @return the reduced value
      */
+    @SuppressWarnings("unchecked")
     default TYPE reduce(TYPE arg1, TYPE arg2, TYPE... rest) {
         TYPE res = reduce(arg1, arg2);
         for (TYPE r : rest) {
